@@ -8,7 +8,7 @@
  */
 
 $lang['menu_banner_change_password'] = '비밀번호 변경';
-$lang['menu_banner_welcome'] = 'Welcome';
+$lang['menu_banner_welcome'] = '환영합니다.';
 $lang['menu_banner_logout'] = '로그아웃';
 $lang['menu_banner_tip_myprofile'] = '내 개인 정보 조회';
 $lang['menu_banner_tip_reset'] = '비밀번호 초기화';

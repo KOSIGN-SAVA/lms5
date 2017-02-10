@@ -15,8 +15,8 @@ $lang['leaves_summary_thead_available'] = '사용가능한';
 $lang['leaves_summary_thead_taken'] = '사용한';
 $lang['leaves_summary_thead_entitled'] = '부여된';
 $lang['leaves_summary_thead_description'] = '설명';
-$lang['leaves_summary_tbody_empty'] = 'No entitled or taken days for this period. Please contact your HR Officer / Manager.';
-$lang['leaves_summary_flash_msg_error'] = 'It appears that you have no contract. Please contact your HR Officer / Manager.';
+$lang['leaves_summary_tbody_empty'] = '이 기간에 대한 부여된 휴가일 또는 사용일 수가 없습니다. HR 담당자 또는 매니저에게 문의하세요.';
+$lang['leaves_summary_flash_msg_error'] = '당신은 어떤 계약이 없는 것으로 보입니다. HR 담당자 또는 매니저에게 문의하세요.';
 $lang['leaves_summary_date_field'] = '보고서 날짜';
 
 $lang['leaves_index_title'] = '내 휴가 목록';
@@ -40,8 +40,8 @@ $lang['leaves_index_popup_delete_question'] = '계속 하시겠습니까?';
 $lang['leaves_index_popup_delete_button_yes'] = '예';
 $lang['leaves_index_popup_delete_button_no'] = '아니오';
 
-$lang['leaves_history_thead_changed_date'] = 'Changed Date';
-$lang['leaves_history_thead_change_type'] = 'Change Type';
+$lang['leaves_history_thead_changed_date'] = '변경된 날짜';
+$lang['leaves_history_thead_change_type'] = '변경 유형';
 $lang['leaves_history_thead_changed_by'] = 'Changed By';
 $lang['leaves_history_thead_start_date'] = '시작일';
 $lang['leaves_history_thead_end_date'] = '종료일';
@@ -64,8 +64,8 @@ $lang['leaves_create_button_cancel'] = '취소';
 $lang['leaves_create_flash_msg_success'] = '휴가 유형이 성공적으로 등록되었습니다.';
 $lang['leaves_create_flash_msg_error'] = '휴가 유형이 성공적으로 등록되거나 수정되었습니다, 그러나 당신은 매니저가 없습니다.';
 
-$lang['leaves_flash_spn_list_days_off'] = '%s non-working days in the period';
-$lang['leaves_flash_msg_overlap_dayoff'] = 'Your leave request matches with a non-working day.';
+$lang['leaves_flash_spn_list_days_off'] = '기간 내 %s 비작업일';
+$lang['leaves_flash_msg_overlap_dayoff'] = '당신의 휴가 요청은 비근무일과 일치합니다.';
 
 $lang['leaves_edit_html_title'] = '휴가 요청 수정';
 $lang['leaves_edit_title'] = '휴가 요청 수정 #';
@@ -78,18 +78,18 @@ $lang['leaves_edit_field_cause'] = '사유 (선택)';
 $lang['leaves_edit_field_status'] = '상태';
 $lang['leaves_edit_button_update'] = '휴가 수정';
 $lang['leaves_edit_button_cancel'] = '취소';
-$lang['leaves_edit_flash_msg_error'] = 'You cannot edit a leave request already submitted';
+$lang['leaves_edit_flash_msg_error'] = '이미 제출한 휴가 요청은 수정할 수 없습니다';
 $lang['leaves_edit_flash_msg_success'] = '휴가 요청이 성공적으로 수정되었습니다.';
 
 $lang['leaves_validate_mandatory_js_msg'] = '"The field " + fieldname + " is mandatory."';
-$lang['leaves_validate_flash_msg_no_contract'] = 'It appears that you have no contract. Please contact your HR Officer / Manager.';
-$lang['leaves_validate_flash_msg_overlap_period'] = 'You can\'t create a leave request for two yearly leave periods. Please create two different leave requests.';
+$lang['leaves_validate_flash_msg_no_contract'] = '당신은 어떤 계약이 없는 것으로 보입니다. HR 담당자 또는 매니저에게 문의하세요.';
+$lang['leaves_validate_flash_msg_overlap_period'] = '서로 다른 년도의 휴가 요청을 만들 수 없습니다. 두 개의 서로 다른 휴가 요청을 만드십시오.';
 
-$lang['leaves_cancel_flash_msg_error'] = 'You can\'t cancel this leave request';
+$lang['leaves_cancel_flash_msg_error'] = '이 휴가 요청을 취소할 수 없습니다.';
 $lang['leaves_cancel_flash_msg_success'] = '휴가 요청이 성공적으로 취소되었습니다.';
-$lang['leaves_cancel_unauthorized_msg_error'] = 'You can\'t cancel a leave request starting in the past. Ask your manager for rejecting it.';
+$lang['leaves_cancel_unauthorized_msg_error'] = '이미 지난 휴가 요청을 취소할 수 없습니다. 매니저에게 문의하세요.';
 
-$lang['leaves_delete_flash_msg_error'] = 'You can\'t delete this leave request';
+$lang['leaves_delete_flash_msg_error'] = '이 휴가 요청을 삭제할 수 없습니다.';
 $lang['leaves_delete_flash_msg_success'] = '휴가 요청이 성공적으로 삭제되었습니다.';
 
 $lang['leaves_view_title'] = '휴가 요청 조회 #';

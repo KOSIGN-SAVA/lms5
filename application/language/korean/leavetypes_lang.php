@@ -16,9 +16,9 @@ $lang['leavetypes_type_thead_tip_delete'] = '삭제';
 $lang['leavetypes_type_thead_tip_edit'] = '수정';
 $lang['leavetypes_type_button_export'] = '이 목록 내보내기';
 $lang['leavetypes_type_button_create'] = '새로운 유형 만들기';
-$lang['leavetypes_type_not_found'] = 'No leave type found into the database.';
+$lang['leavetypes_type_not_found'] = '데이터베이스에 휴가 유형이 없습니다.';
 
-$lang['leavetypes_js_unique_error_msg'] = 'This leave type already exists.';
+$lang['leavetypes_js_unique_error_msg'] = '이 휴가 유형이 이미 존재합니다.';
 
 $lang['leavetypes_popup_create_title'] = '휴가 유형 등록';
 $lang['leavetypes_popup_create_button_cancel'] = '취소';

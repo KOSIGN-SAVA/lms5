@@ -13,8 +13,8 @@ $lang['calendar_year_button_export'] = '내보내기';
 $lang['calendar_individual_title'] = '내 달력';
 $lang['calendar_individual_description'] = '내 휴가 달력.';
 $lang['calendar_individual_popup_event_link_ical'] = 'iCal 파일 다운로드';
-$lang['calendar_individual_popup_event_link_ical_description'] = '(import the event into Outlook, Thunderbird, etc.)';
-$lang['calendar_individual_popup_event_title'] = 'Event details';
+$lang['calendar_individual_popup_event_link_ical_description'] = '(아웃룩, 썬더버드 등으로 이벤트를 가져오기)';
+$lang['calendar_individual_popup_event_title'] = '이벤트의 자세한 사항';
 $lang['calendar_individual_popup_event_button_close'] = '닫기';
 $lang['calendar_individual_day_offs'] = '휴가';
 
@@ -22,14 +22,14 @@ $lang['calendar_workmates_title'] = '내 직장동료 달력';
 $lang['calendar_workmates_description'] = 'Leaves of employees having the same line manager';
 
 $lang['calendar_collaborators_title'] = '내 부하직원 달력';
-$lang['calendar_collaborators_description'] = 'Leaves of my direct report subordinates (will be empty if I\'m not a manager).';
+$lang['calendar_collaborators_description'] = '내 직속 부하직원들의 휴가들. (당신이 매니저가 아니라면 내용이 비어있을 겁니다).';
 
 $lang['calendar_department_title'] = '내 조직 달력';
-$lang['calendar_department_description'] = 'Calendar of employees working in my department';
-$lang['calendar_department_msg_error'] = 'It appears that you don\'t belong to any department. Please contact your HR Officer / Manager.';
+$lang['calendar_department_description'] = '같은 조직내에서 근무하는 직원들의 달력';
+$lang['calendar_department_msg_error'] = '당신은 어떤 부서에서 속하지 않은 것 같습니다. HR담당자에게 연락하세요.';
 
 $lang['calendar_organization_title'] = '전체 직원 달력';
-$lang['calendar_organization_description'] = 'Global calendar with a filter on entity';
+$lang['calendar_organization_description'] = '조직으로 필터링된 직원 달력';
 $lang['calendar_organization_field_select_entity'] = '조직 선택';
 $lang['calendar_organization_button_select_entity'] = '선택';
 $lang['calendar_organization_check_include_subdept'] = '하위 조직 포함';

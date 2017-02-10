@@ -9,7 +9,7 @@
 
 $lang['overtime_index_title'] = '나에게 제출된 초과근무 요청';
 $lang['overtime_index_description'] = '이 화면은 당신에게 제출된 초과근무 요청을 나열합니다. 당신이 관리자가 아닌 경우,이 목록은 항상 비어 있습니다.';
-$lang['overtime_index_thead_tip_view'] = 'view';
+$lang['overtime_index_thead_tip_view'] = '조회';
 $lang['overtime_index_thead_tip_accept'] = '승인';
 $lang['overtime_index_thead_tip_reject'] = '반려';
 $lang['overtime_index_thead_id'] = 'ID';

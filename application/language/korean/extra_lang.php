@@ -18,7 +18,7 @@ $lang['extra_index_thead_duration'] = '기간';
 $lang['extra_index_thead_status'] = '상태';
 $lang['extra_index_button_export'] = '이 목록 내보내기';
 $lang['extra_index_button_create'] = '초과근무 등록';
-$lang['extra_index_popup_delete_title'] = 'Delete overtime request';
+$lang['extra_index_popup_delete_title'] = '초과근무 요청 삭제';
 $lang['extra_index_popup_delete_message'] = '초과근무 요청을 삭제하려고 합니다. 이 과정은 되돌릴 수 없습니다.';
 $lang['extra_index_popup_delete_question'] = '계속하시겠습니까?';
 $lang['extra_index_popup_delete_button_yes'] = '예';
@@ -45,11 +45,11 @@ $lang['extra_edit_field_cause'] = '사유';
 $lang['extra_edit_field_status'] = '상태';
 $lang['extra_edit_button_update'] = '초과근무 수정';
 $lang['extra_edit_button_cancel'] = '취소';
-$lang['extra_edit_msg_error'] = 'You cannot edit an overtime request already submitted';
-$lang['extra_edit_msg_success'] = 'The overtime request has been succesfully updated';
+$lang['extra_edit_msg_error'] = '이미 제출 된 초과근무 요청을 편집 할 수 없습니다.';
+$lang['extra_edit_msg_success'] = '초과근무 요청이 성공적으로 수정되었습니다.';
 
-$lang['extra_delete_msg_success'] = 'The overtime request has been succesfully deleted';
-$lang['extra_delete_msg_error'] = 'You can\'t delete this overtime request';
+$lang['extra_delete_msg_success'] = '초과근무 요청이 성공적으로 삭제되었습니다.';
+$lang['extra_delete_msg_error'] = '이 초과근무 요청을 삭제할 수 없습니다.';
 
 $lang['extra_view_title'] = '초과근무 요청 조회 #';
 $lang['extra_view_hmtl_title'] = '초과근무 요청 조회';
@@ -60,7 +60,7 @@ $lang['extra_view_field_status'] = '상태';
 $lang['extra_view_button_edit'] = '수정';
 $lang['extra_view_button_back_list'] = '목록으로 돌아가기';
 
-$lang['extra_export_title'] = 'List of overtime worked';
+$lang['extra_export_title'] = '초과근무 목록';
 $lang['extra_export_thead_id'] = 'ID';
 $lang['extra_export_thead_date'] = '날짜';
 $lang['extra_export_thead_duration'] = '기간';

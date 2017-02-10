@@ -22,8 +22,8 @@ $lang['datatable_sFirst'] = '처음';
 $lang['datatable_sLast'] = '마지막';
 $lang['datatable_sNext'] = '다음';
 $lang['datatable_sPrevious'] = '이전';
-$lang['datatable_sSortAscending'] = ': activate to sort column ascending';
-$lang['datatable_sSortDescending'] = ': activate to sort column descending';
+$lang['datatable_sSortAscending'] = ': 열 오름차순으로 정렬 활성화';
+$lang['datatable_sSortDescending'] = ': 열 내림차순으로 정렬 활성화';
 
 $lang['datatable_pagination'] = '페이지당 갯수';
 $lang['datatable_10_rows'] = '10 개';

@@ -7,10 +7,10 @@
  * @since         0.1.0
  */
 
-$lang['treeview_context_menu_create'] = 'Create';
-$lang['treeview_context_menu_rename'] = 'Rename';
-$lang['treeview_context_menu_remove'] = 'Remove';
+$lang['treeview_context_menu_create'] = '등록';
+$lang['treeview_context_menu_rename'] = '이름 변경';
+$lang['treeview_context_menu_remove'] = '삭제';
 $lang['treeview_context_menu_edit'] = '수정';
 $lang['treeview_context_menu_copy'] = '복사';
-$lang['treeview_context_menu_cut'] = 'Cut';
-$lang['treeview_context_menu_paste'] = 'Paste';
+$lang['treeview_context_menu_cut'] = '자르기';
+$lang['treeview_context_menu_paste'] = '붙여넣기';

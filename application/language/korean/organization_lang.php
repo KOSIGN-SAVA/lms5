@@ -38,13 +38,13 @@ $lang['organization_index_popup_add_title'] = '직원 할당';
 $lang['organization_index_popup_add_button_ok'] = '확인';
 $lang['organization_index_popup_add_button_cancel'] = '취소';
 
-$lang['organization_index_popup_error_title'] = 'An error occured';
+$lang['organization_index_popup_error_title'] = '오류가 발생했습니다';
 $lang['organization_index_popup_error_button_ok'] = '확인';
 
-$lang['organization_index_prompt_entity_name'] = 'Name of the entity';
-$lang['organization_index_error_msg_select_entity'] = 'Please select one entity in the organization (treeview on the right).';
-$lang['organization_index_error_msg_select_employee'] = 'Please select one employee in the table of users belonging to the selected entity.';
-$lang['organization_index_error_msg_delete_root'] = 'You cannot delete the root entity.';
+$lang['organization_index_prompt_entity_name'] = '조직 이름';
+$lang['organization_index_error_msg_select_entity'] = '하나의 조직을 선택하세요. (오른쪽 트리뷰)';
+$lang['organization_index_error_msg_select_employee'] = '선택된 조직에 속한 사용자의 테이블에 있는 한 직원을 선택하세요.';
+$lang['organization_index_error_msg_delete_root'] = '최상위 조직은 삭제할 수 없습니다.';
 
 $lang['organization_select_field_search_placeholder'] = '조직 검색';
 $lang['organization_select_button_search'] = '검색';

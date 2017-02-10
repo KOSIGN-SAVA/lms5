@@ -81,22 +81,22 @@ $lang['datehired'] = '입사일';
 $lang['department'] = '조직';
 $lang['position'] = '직책';
 $lang['contract'] = '계약형태';
-$lang['day off'] = 'day off';
-$lang['leave'] = 'leave';
+$lang['day off'] = '비작업일';
+$lang['leave'] = '휴가';
 
-$lang['All'] = 'All';
+$lang['All'] = '전체';
 $lang['OK'] = '확인';
 $lang['Cancel'] = '취소';
-$lang['copied'] = 'copied';
+$lang['copied'] = '복사된';
 
-$lang['global_ajax_timeout'] = 'Your session has expired please login again';
+$lang['global_ajax_timeout'] = '세션이 종료되었습니다. 다시 로그인하세요.';
 $lang['global_ajax_error'] = 'Unexpected Ajax Error';
 
 $lang['global_join'] = 'Join';
 $lang['global_join_us'] = 'Join Us';
 $lang['global_join_member'] = 'Join Member';
 
-$lang['global_join_msg_no_authentication'] = 'Authentication is denied. Please contect administration.';
+$lang['global_join_msg_no_authentication'] = '인증이 거부되었습니다. 관리자에게 연락하세요.';
 
 $lang['global_gender'] = '성별';
 $lang['global_gender_f'] = '여성';
