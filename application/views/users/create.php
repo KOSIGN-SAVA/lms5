@@ -218,6 +218,16 @@ if ($language_code != 'en') { ?>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/selectize.bootstrap2.css" />
 <script type="text/javascript">
 
+<style>
+    #password
+    {
+        margin-right: 5px;
+    }
+    #password, #cmdGeneratePassword {
+        border-radius: 4px;
+    }
+</style>
+
     //Popup select postion: on click OK, find the user id for the selected line
     function select_manager() {
         var employees = $('#employees').DataTable();
@@ -261,9 +271,10 @@ if ($language_code != 'en') { ?>
         if ($('#email').val() == "") fieldname = "email";
         if ($('#txtManager').val() == "") fieldname = "manager";
         if ($('#contract').val() == "") fieldname = "contract";
+        if ($('#email').val() == "") fieldname = "email";
+        if ($('#txtManager').val() == "") fieldname = "manager";
         if ($('#password').val() == "") fieldname = "password";
-        if ($('#entity').val() == "") fieldname = "organization";
-        if ($('#position').val() == "") fieldname = "position";
+        
         if (fieldname == "") {
             return true;
         } else {
