@@ -7,8 +7,8 @@
  * @since         0.1.0
  */
 
-$lang['reports_index_title'] = 'List of reports';
-$lang['reports_index_thead_report'] = 'Report';
+$lang['reports_index_title'] = '보고서 목록';
+$lang['reports_index_thead_report'] = '보고서';
 $lang['reports_index_thead_description'] = '설명';
 
 $lang['reports_execute_title'] = 'Report';
@@ -19,27 +19,27 @@ $lang['reports_native_title'] = 'List of Report';
 $lang['reports_balance_title'] = 'Balance of leaves';
 $lang['reports_balance_date_field'] = 'Date of report';
 $lang['reports_balance_field_entity'] = '조직 선택';
-$lang['reports_balance_button_entity'] = 'Select';
-$lang['reports_balance_field_subdepts'] = 'Include sub-departments';
-$lang['reports_balance_button_launch'] = 'Launch';
-$lang['reports_balance_button_export'] = 'Export';
-$lang['reports_balance_popup_entity_title'] = 'Select an entity';
-$lang['reports_balance_popup_entity_button_ok'] = 'OK';
-$lang['reports_balance_popup_entity_button_cancel'] = 'Cancel';
+$lang['reports_balance_button_entity'] = '선택';
+$lang['reports_balance_field_subdepts'] = '하위 조직 포함';
+$lang['reports_balance_button_launch'] = '실행';
+$lang['reports_balance_button_export'] = '내보내기';
+$lang['reports_balance_popup_entity_title'] = '조직 선택';
+$lang['reports_balance_popup_entity_button_ok'] = '확인';
+$lang['reports_balance_popup_entity_button_cancel'] = '취소';
 
 $lang['reports_export_balance_title'] = 'Balance of leaves';
 
-$lang['reports_leaves_title'] = 'Leave requests';
-$lang['reports_leaves_month_field'] = 'Month';
-$lang['reports_leaves_year_field'] = 'Year';
+$lang['reports_leaves_title'] = '휴가 요청목록';
+$lang['reports_leaves_month_field'] = '월';
+$lang['reports_leaves_year_field'] = '년';
 $lang['reports_leaves_field_entity'] = '조직 선택';
-$lang['reports_leaves_button_entity'] = 'Select';
-$lang['reports_leaves_field_subdepts'] = 'Include sub-departments';
-$lang['reports_leaves_field_leave_requests'] = 'Leave requests';
-$lang['reports_leaves_button_launch'] = 'Launch';
-$lang['reports_leaves_button_export'] = 'Export';
-$lang['reports_leaves_popup_entity_title'] = 'Select an entity';
-$lang['reports_leaves_popup_entity_button_ok'] = 'OK';
-$lang['reports_leaves_popup_entity_button_cancel'] = 'Cancel';
+$lang['reports_leaves_button_entity'] = '선택';
+$lang['reports_leaves_field_subdepts'] = '하위 조직 포함';
+$lang['reports_leaves_field_leave_requests'] = '휴가 요청목록';
+$lang['reports_leaves_button_launch'] = '실행';
+$lang['reports_leaves_button_export'] = '내보내기';
+$lang['reports_leaves_popup_entity_title'] = '조직 선택';
+$lang['reports_leaves_popup_entity_button_ok'] = '확인';
+$lang['reports_leaves_popup_entity_button_cancel'] = '취소';
 
-$lang['reports_export_leaves_title'] = 'Leave requests';
+$lang['reports_export_leaves_title'] = '휴가 요청목록';

@@ -7,13 +7,13 @@
  * @since         0.1.0
  */
 
-$lang['menu_banner_change_password'] = 'Change password';
+$lang['menu_banner_change_password'] = '비밀번호 변경';
 $lang['menu_banner_welcome'] = 'Welcome';
-$lang['menu_banner_logout'] = 'Logout';
-$lang['menu_banner_tip_myprofile'] = 'View my personal information';
-$lang['menu_banner_tip_reset'] = 'reset password';
-$lang['menu_password_popup_title'] = 'Change password';
-$lang['menu_password_popup_button_cancel'] = 'Cancel';
+$lang['menu_banner_logout'] = '로그아웃';
+$lang['menu_banner_tip_myprofile'] = '내 개인 정보 조회';
+$lang['menu_banner_tip_reset'] = '비밀번호 초기화';
+$lang['menu_password_popup_title'] = '비밀번호 변경';
+$lang['menu_password_popup_button_cancel'] = '취소';
 
 $lang['menu_admin_title'] = '관리 메뉴';
 $lang['menu_admin_list_users'] = '사용자 목록';
@@ -30,32 +30,32 @@ $lang['menu_hr_contracts_divider'] = 'Contracts';
 $lang['menu_hr_list_contracts'] = '계약 목록';
 $lang['menu_hr_list_positions'] = '직책 목록';
 $lang['menu_hr_leaves_type_divider'] = 'Leaves';
-$lang['menu_hr_list_leaves_type'] = '연차 유형';
-$lang['menu_hr_reports_divider'] = '보고서';
-$lang['menu_hr_report_leave_balance'] = 'Leave balance';
-$lang['menu_hr_report_leaves'] = 'Leave requests';
+$lang['menu_hr_list_leaves_type'] = '휴가 유형';
+$lang['menu_hr_reports_divider'] = 'Reports';
+$lang['menu_hr_report_leave_balance'] = '부하직원 휴가 현황';
+$lang['menu_hr_report_leaves'] = '휴가 요청목록';
 
-$lang['menu_validation_title'] = 'Approval';
-$lang['menu_validation_delegations'] = 'Delegations';
-$lang['menu_validation_collaborators'] = 'My subordinates';
-$lang['menu_validation_leaves'] = 'Leaves';
-$lang['menu_validation_overtime'] = 'Overtime';
+$lang['menu_validation_title'] = '결재';
+$lang['menu_validation_delegations'] = '위임';
+$lang['menu_validation_collaborators'] = '부하직원 목록';
+$lang['menu_validation_leaves'] = '휴가';
+$lang['menu_validation_overtime'] = '초과근무';
 
-$lang['menu_requests_title'] = 'Requests';
-$lang['menu_requests_leaves'] = 'Leaves';
-$lang['menu_requests_overtime'] = 'Overtime';
-$lang['menu_requests_list_extras'] = 'List of OT Worked';
-$lang['menu_requests_request_extra'] = 'Submit an OT Request';
+$lang['menu_requests_title'] = '내 요청';
+$lang['menu_requests_leaves'] = '휴가';
+$lang['menu_requests_overtime'] = '초과근무';
+$lang['menu_requests_list_extras'] = '내 초과근무 목록';
+$lang['menu_requests_request_extra'] = '내 초과근무 요청';
 
-$lang['menu_leaves_counters'] = 'Counters';
-$lang['menu_leaves_list_requests'] = 'List of leave requests';
-$lang['menu_leaves_create_request'] = 'Request a leave';
+$lang['menu_leaves_counters'] = '내 요약';
+$lang['menu_leaves_list_requests'] = '내 휴가 목록';
+$lang['menu_leaves_create_request'] = '내 휴가 요청';
 
-$lang['menu_calendar_title'] = 'Calendars';
-$lang['menu_calendar_year'] = 'Yearly calendar';
-$lang['menu_calendar_individual'] = 'My calendar';
-$lang['menu_calendar_workmates'] = 'My workmates';
-$lang['menu_calendar_collaborators'] = 'My subordinates';
-$lang['menu_calendar_department'] = 'Department';
-$lang['menu_calendar_organization'] = 'Global';
-$lang['menu_calendar_tabular'] = 'Tabular';
+$lang['menu_calendar_title'] = '달력';
+$lang['menu_calendar_year'] = '연간 달력';
+$lang['menu_calendar_individual'] = '내 달력';
+$lang['menu_calendar_workmates'] = '내 직장동료 달력';
+$lang['menu_calendar_collaborators'] = '내 부하직원 달력';
+$lang['menu_calendar_department'] = '내 조직 달력';
+$lang['menu_calendar_organization'] = '전체 직원 달력';
+$lang['menu_calendar_tabular'] = '표 형태 달력';

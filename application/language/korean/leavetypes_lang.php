@@ -7,40 +7,40 @@
  * @since         0.1.0
  */
 
-$lang['leavetypes_type_title'] = 'Leave types';
-$lang['leavetypes_type_description'] = 'Leave type #0 is a system type reserved for overtime management. You should not use it for other requests.';
-$lang['leavetypes_type_confirm_rename'] = 'Leave type #0 is a system type reserved for overtime management. Are you sure that you want to rename it?';
+$lang['leavetypes_type_title'] = '휴가 유형';
+$lang['leavetypes_type_description'] = '휴가 유형 # 0 초과 근무 관리를 위해 예약 된 시스템 유형입니다. 당신은 다른 요청을 위해 사용해서는 안됩니다.';
+$lang['leavetypes_type_confirm_rename'] = '휴가 유형 # 0 초과 근무 관리를 위해 예약 된 시스템 유형입니다. 당신은 당신이 이름을 변경 하시겠습니까?';
 $lang['leavetypes_type_thead_id'] = 'ID';
 $lang['leavetypes_type_thead_name'] = '명칭';
-$lang['leavetypes_type_thead_tip_delete'] = 'delete';
-$lang['leavetypes_type_thead_tip_edit'] = 'edit';
+$lang['leavetypes_type_thead_tip_delete'] = '삭제';
+$lang['leavetypes_type_thead_tip_edit'] = '수정';
 $lang['leavetypes_type_button_export'] = '이 목록 내보내기';
-$lang['leavetypes_type_button_create'] = 'Create a new type';
+$lang['leavetypes_type_button_create'] = '새로운 유형 만들기';
 $lang['leavetypes_type_not_found'] = 'No leave type found into the database.';
 
 $lang['leavetypes_js_unique_error_msg'] = 'This leave type already exists.';
 
-$lang['leavetypes_popup_create_title'] = 'Add a leave type';
-$lang['leavetypes_popup_create_button_cancel'] = 'Cancel';
-$lang['leavetypes_popup_create_button_create'] = 'Create';
+$lang['leavetypes_popup_create_title'] = '휴가 유형 등록';
+$lang['leavetypes_popup_create_button_cancel'] = '취소';
+$lang['leavetypes_popup_create_button_create'] = '등록';
 $lang['leavetypes_popup_create_field_name'] = '명칭';
-$lang['leavetypes_popup_create_flash_msg'] = 'The leave type has been succesfully created.';
+$lang['leavetypes_popup_create_flash_msg'] = '휴가 유형이 성공적으로 등록되었습니다.';
 
-$lang['leavetypes_popup_update_title'] = 'Edit a Leave type';
-$lang['leavetypes_popup_update_button_cancel'] = 'Cancel';
-$lang['leavetypes_popup_update_button_update'] = 'Update';
+$lang['leavetypes_popup_update_title'] = '휴가 유형 수정';
+$lang['leavetypes_popup_update_button_cancel'] = '취소';
+$lang['leavetypes_popup_update_button_update'] = '수정';
 $lang['leavetypes_popup_update_field_name'] = '명칭';
-$lang['leavetypes_popup_update_flash_msg'] = 'The leave type has been succesfully updated.';
+$lang['leavetypes_popup_update_flash_msg'] = '휴가 유형이 성공적으로 수정되었습니다.';
 
-$lang['leavetypes_popup_delete_title'] = 'Delete Leave Type';
-$lang['leavetypes_popup_delete_description'] = 'You are about to delete one leave type, this procedure is irreversible.';
-$lang['leavetypes_popup_delete_confirm'] = 'Do you want to proceed?';
-$lang['leavetypes_popup_delete_button_yes'] = 'Yes';
-$lang['leavetypes_popup_delete_button_no'] = 'No';
-$lang['leavetypes_popup_delete_flash_msg'] = 'The leave type has been succesfully deleted.';
-$lang['leavetypes_popup_delete_flash_error'] = 'You cannot delete a system leave type.';
-$lang['leavetypes_popup_delete_flash_forbidden'] = 'You cannot delete a leave type that is used.';
+$lang['leavetypes_popup_delete_title'] = '휴가 유형 삭제';
+$lang['leavetypes_popup_delete_description'] = '휴가 유형을 삭제하려고 합니다. 이 과정은 되돌릴 수 없습니다.';
+$lang['leavetypes_popup_delete_confirm'] = '계속하시겠습니까?';
+$lang['leavetypes_popup_delete_button_yes'] = '예';
+$lang['leavetypes_popup_delete_button_no'] = '아니오';
+$lang['leavetypes_popup_delete_flash_msg'] = '휴가 유형이 성공적으로 삭제되었습니다.';
+$lang['leavetypes_popup_delete_flash_error'] = '시스템에서 정의한 휴가 유형이므로 삭제할 수 없습니다.';
+$lang['leavetypes_popup_delete_flash_forbidden'] = '사용중인 휴가 유형이므로 삭제할 수 없습니다.';
 
-$lang['leavetypes_type_export_title'] = 'Leave types';
+$lang['leavetypes_type_export_title'] = '휴가 유형';
 $lang['leavetypes_type_export_thead_id'] = 'ID';
 $lang['leavetypes_type_export_thead_name'] = '명칭';

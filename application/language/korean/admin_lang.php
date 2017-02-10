@@ -15,7 +15,7 @@ $lang['admin_diagnostic_requests_tab'] = '요청을 남겨주세요';
 $lang['admin_diagnostic_requests_description'] = '허용하지만 중복 휴가 요청';
 $lang['admin_diagnostic_requests_thead_id'] = 'ID';
 $lang['admin_diagnostic_requests_thead_employee'] = '직원';
-$lang['admin_diagnostic_requests_thead_start_date'] = '시작 날짜';
+$lang['admin_diagnostic_requests_thead_start_date'] = '시작 일자';
 $lang['admin_diagnostic_requests_thead_status'] = '상태';
 $lang['admin_diagnostic_requests_thead_type'] = '유형';
 
@@ -28,8 +28,8 @@ $lang['admin_diagnostic_datetype_thead_start_type'] = '시작';
 $lang['admin_diagnostic_datetype_thead_end_type'] = '종료';
 $lang['admin_diagnostic_datetype_thead_status'] = '상태';
 
-$lang['admin_diagnostic_entitlements_tab'] = '연차 부여일 수';
-$lang['admin_diagnostic_entitlements_description'] = '1년 이상 연차가 부여된 계약 또는 직원의 목록입니다.';
+$lang['admin_diagnostic_entitlements_tab'] = '휴가 부여일 수';
+$lang['admin_diagnostic_entitlements_description'] = '1년 이상 휴가가 부여된 계약 또는 직원의 목록입니다.';
 $lang['admin_diagnostic_entitlements_thead_id'] = 'ID';
 $lang['admin_diagnostic_entitlements_thead_type'] = '유형';
 $lang['admin_diagnostic_entitlements_thead_name'] = '이름';
@@ -39,7 +39,7 @@ $lang['admin_diagnostic_entitlements_type_contract'] = '계약';
 $lang['admin_diagnostic_entitlements_type_employee'] = '직원';
 $lang['admin_diagnostic_entitlements_deletion_problem'] = '데이터베이스에 불완전한 삭제.' ;
 
-$lang['admin_diagnostic_daysoff_tab'] = '비 작업 일';
+$lang['admin_diagnostic_daysoff_tab'] = '비작업일';
 $lang['admin_diagnostic_daysoff_description'] = '비 작동 기간이 정의되어있는 일 (계약 당)의 수.';
 $lang['admin_diagnostic_daysoff_thead_id'] = 'ID';
 $lang['admin_diagnostic_daysoff_thead_name'] = '이름';
@@ -61,7 +61,7 @@ $lang['admin_diagnostic_contract_thead_id'] = 'ID';
 $lang['admin_diagnostic_contract_thead_name'] = '이름';
 
 $lang['admin_diagnostic_balance_tab'] = 'Balance';
-$lang['admin_diagnostic_balance_description'] = '부여되지 않은 연차 요청.';
+$lang['admin_diagnostic_balance_description'] = '부여되지 않은 휴가 요청.';
 $lang['admin_diagnostic_balance_thead_id'] = 'ID';
 $lang['admin_diagnostic_balance_thead_employee'] = '직원';
 $lang['admin_diagnostic_balance_thead_contract'] = '계약';

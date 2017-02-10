@@ -7,82 +7,82 @@
  * @since         0.1.0
  */
 
-$lang['calendar_year_title'] = 'Yearly calendar';
-$lang['calendar_year_button_export'] = 'Export';
+$lang['calendar_year_title'] = '연간 달력';
+$lang['calendar_year_button_export'] = '내보내기';
 
-$lang['calendar_individual_title'] = 'My calendar';
-$lang['calendar_individual_description'] = 'Calendar of my leaves.';
-$lang['calendar_individual_popup_event_link_ical'] = 'Download an iCal file';
+$lang['calendar_individual_title'] = '내 달력';
+$lang['calendar_individual_description'] = '내 휴가 달력.';
+$lang['calendar_individual_popup_event_link_ical'] = 'iCal 파일 다운로드';
 $lang['calendar_individual_popup_event_link_ical_description'] = '(import the event into Outlook, Thunderbird, etc.)';
 $lang['calendar_individual_popup_event_title'] = 'Event details';
 $lang['calendar_individual_popup_event_button_close'] = '닫기';
-$lang['calendar_individual_day_offs'] = 'Days off';
+$lang['calendar_individual_day_offs'] = '휴가';
 
-$lang['calendar_workmates_title'] = 'Calendar of my workmates';
+$lang['calendar_workmates_title'] = '내 직장동료 달력';
 $lang['calendar_workmates_description'] = 'Leaves of employees having the same line manager';
 
-$lang['calendar_collaborators_title'] = 'Calendar of my subordinates';
+$lang['calendar_collaborators_title'] = '내 부하직원 달력';
 $lang['calendar_collaborators_description'] = 'Leaves of my direct report subordinates (will be empty if I\'m not a manager).';
 
-$lang['calendar_department_title'] = 'Calendar of my department';
+$lang['calendar_department_title'] = '내 조직 달력';
 $lang['calendar_department_description'] = 'Calendar of employees working in my department';
 $lang['calendar_department_msg_error'] = 'It appears that you don\'t belong to any department. Please contact your HR Officer / Manager.';
 
-$lang['calendar_organization_title'] = 'Calendar of the organization';
+$lang['calendar_organization_title'] = '전체 직원 달력';
 $lang['calendar_organization_description'] = 'Global calendar with a filter on entity';
 $lang['calendar_organization_field_select_entity'] = '조직 선택';
-$lang['calendar_organization_button_select_entity'] = 'Select';
-$lang['calendar_organization_check_include_subdept'] = 'Include sub-departments';
-$lang['calendar_organization_popup_entity_title'] = 'Select an entity';
-$lang['calendar_organization_popup_entity_button_ok'] = 'OK';
-$lang['calendar_organization_popup_entity_button_cancel'] = 'Cancel';
+$lang['calendar_organization_button_select_entity'] = '선택';
+$lang['calendar_organization_check_include_subdept'] = '하위 조직 포함';
+$lang['calendar_organization_popup_entity_title'] = '조직 선택';
+$lang['calendar_organization_popup_entity_button_ok'] = '확인';
+$lang['calendar_organization_popup_entity_button_cancel'] = '취소';
 
-$lang['calendar_tabular_title'] = 'Tabular Calendar';
+$lang['calendar_tabular_title'] = '표 달력';
 $lang['calendar_tabular_field_select_entity'] = '조직 선택';
-$lang['calendar_tabular_field_month'] = 'Month';
-$lang['calendar_tabular_field_year'] = 'Year';
-$lang['calendar_tabular_button_select_entity'] = 'Select';
-$lang['calendar_tabular_button_execute'] = 'Execute';
-$lang['calendar_tabular_button_export'] = 'Export';
-$lang['calendar_tabular_check_include_subdept'] = 'Include sub-departments';
-$lang['calendar_tabular_popup_entity_title'] = 'Select an entity';
-$lang['calendar_tabular_popup_entity_button_ok'] = 'OK';
-$lang['calendar_tabular_popup_entity_button_cancel'] = 'Cancel';
-$lang['calendar_tabular_thead_employee'] = 'Employee';
+$lang['calendar_tabular_field_month'] = '월';
+$lang['calendar_tabular_field_year'] = '년';
+$lang['calendar_tabular_button_select_entity'] = '선택';
+$lang['calendar_tabular_button_execute'] = '실행';
+$lang['calendar_tabular_button_export'] = '내보내기';
+$lang['calendar_tabular_check_include_subdept'] = '하위 조직 포함';
+$lang['calendar_tabular_popup_entity_title'] = '조직을 선택하세요.';
+$lang['calendar_tabular_popup_entity_button_ok'] = '확인';
+$lang['calendar_tabular_popup_entity_button_cancel'] = '취소';
+$lang['calendar_tabular_thead_employee'] = '직원';
 
-$lang['calendar_tabular_export_title'] = 'Calendar Tabular';
+$lang['calendar_tabular_export_title'] = '표 형태 달력';
 $lang['calendar_tabular_export_param_entity'] = '조직';
-$lang['calendar_tabular_export_param_month'] = 'Month';
-$lang['calendar_tabular_export_param_year'] = 'Year';
-$lang['calendar_tabular_export_param_children'] = 'Sub-entities';
-$lang['calendar_tabular_export_thead_employee'] = 'Employee';
+$lang['calendar_tabular_export_param_month'] = '월';
+$lang['calendar_tabular_export_param_year'] = '년';
+$lang['calendar_tabular_export_param_children'] = '하위 조직들';
+$lang['calendar_tabular_export_thead_employee'] = '직원';
 
-$lang['calendar_monday_short'] = 'Mo';
-$lang['calendar_tuesday_short'] = 'Tu';
-$lang['calendar_wednesday_short'] = 'We';
-$lang['calendar_thursday_short'] = 'Th';
-$lang['calendar_friday_short'] = 'Fr';
-$lang['calendar_saturday_short'] = 'Sa';
-$lang['calendar_sunday_short'] = 'Su';
+$lang['calendar_monday_short'] = '월';
+$lang['calendar_tuesday_short'] = '화';
+$lang['calendar_wednesday_short'] = '수';
+$lang['calendar_thursday_short'] = '목';
+$lang['calendar_friday_short'] = '금';
+$lang['calendar_saturday_short'] = '토';
+$lang['calendar_sunday_short'] = '일';
 
-$lang['Monday'] = 'Monday';
-$lang['Tuesday'] = 'Tuesday';
-$lang['Wednesday'] = 'Wednesday';
-$lang['Thursday'] = 'Thursday';
-$lang['Friday'] = 'Friday';
-$lang['Saturday'] = 'Saturday';
-$lang['Sunday'] = 'Sunday';
+$lang['Monday'] = '월요일';
+$lang['Tuesday'] = '화요일';
+$lang['Wednesday'] = '수요일';
+$lang['Thursday'] = '목요일';
+$lang['Friday'] = '금요일';
+$lang['Saturday'] = '토요일';
+$lang['Sunday'] = '일요일';
 $lang['All days'] = 'All days';
 
-$lang['January'] = 'January';
-$lang['February'] = 'February';
-$lang['March'] = 'March';
-$lang['April'] = 'April';
-$lang['May'] = 'May';
-$lang['June'] = 'June';
-$lang['July'] = 'July';
-$lang['August'] = 'August';
-$lang['September'] = 'September';
-$lang['October'] = 'October';
-$lang['November'] = 'November';
-$lang['December'] = 'December';
+$lang['January'] = '1월';
+$lang['February'] = '2월';
+$lang['March'] = '3월';
+$lang['April'] = '4월';
+$lang['May'] = '5월';
+$lang['June'] = '6월';
+$lang['July'] = '7월';
+$lang['August'] = '8월';
+$lang['September'] = '9월';
+$lang['October'] = '10월';
+$lang['November'] = '11월';
+$lang['December'] = '12월';

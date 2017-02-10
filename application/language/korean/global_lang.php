@@ -70,23 +70,23 @@ $lang['global_link_doc_page_presence_report'] = '';
 $lang['global_link_doc_page_leave_balance_report'] = 'http://jorani.org/page-leave-balance-report.html';
 $lang['global_link_doc_page_leaves_report'] = '';
 
-$lang['Morning'] = 'Morning';
-$lang['Afternoon'] = 'Afternoon';
-$lang['today'] = 'today';
+$lang['Morning'] = '오전';
+$lang['Afternoon'] = '오후';
+$lang['today'] = '오늘';
 
-$lang['identifier'] = 'identifier';
-$lang['firstname'] = 'firstname';
-$lang['lastname'] = 'lastname';
-$lang['datehired'] = 'date hired';
-$lang['department'] = 'department';
-$lang['position'] = 'position';
-$lang['contract'] = 'contract';
+$lang['identifier'] = '식별자';
+$lang['firstname'] = '이름';
+$lang['lastname'] = '성';
+$lang['datehired'] = '입사일';
+$lang['department'] = '조직';
+$lang['position'] = '직책';
+$lang['contract'] = '계약형태';
 $lang['day off'] = 'day off';
 $lang['leave'] = 'leave';
 
 $lang['All'] = 'All';
-$lang['OK'] = 'OK';
-$lang['Cancel'] = 'Cancel';
+$lang['OK'] = '확인';
+$lang['Cancel'] = '취소';
 $lang['copied'] = 'copied';
 
 $lang['global_ajax_timeout'] = 'Your session has expired please login again';
