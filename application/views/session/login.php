@@ -209,7 +209,7 @@ $languages = $this->polyglot->nativelanguages($this->config->item('languages'));
                 $.ajax({
                    type: "POST",
                    url: "<?php echo base_url(); ?>session/forgetpassword",
-                   data: { login: $('#login').val() }
+                   data: { login: $('#login').val(),domain: $("#domain").val }
                  })
                  .done(function(msg) {
                    console.log("msg",msg);
