@@ -44,6 +44,32 @@ class Users_model extends CI_Model {
     }
     
     /**
+     * Get the list of users or one user
+     * @param int $id optional id of one user
+     * @return array record of users
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function getUsersForExportExcel($id = 0) {
+    	 
+    	$this->db->select('	usr.id as id ,
+							usr.firstname as firstname,
+							usr.lastname as lastname,
+							usr.email as email,
+    						usr.login as login,
+							mg.firstname as manager_firstname,
+							mg.lastname as manager_lastname,
+							usr.manager');
+    	$this->db->from ('users usr');
+    	$this->db->join('users mg', 'mg.id = usr.manager');
+    	if ($id === 0) {
+    		$query = $this->db->get();
+    		return $query->result_array();
+    	}
+    	$query = $this->db->where('usr.id', $id);
+    	return $query->row_array();
+    }
+    
+    /**
      * Get the list of employees
      * @return array record of users
      * @author Benjamin BALET <benjamin.balet@gmail.com>
