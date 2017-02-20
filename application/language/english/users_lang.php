@@ -159,3 +159,4 @@ $lang['users_export_thead_firstname'] = 'Firstname';
 $lang['users_export_thead_lastname'] = 'Lastname';
 $lang['users_export_thead_email'] = 'E-mail';
 $lang['users_export_thead_manager'] = 'Manager';
+$lang['users_export_thead_login'] = 'Login';
