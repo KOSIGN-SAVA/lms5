@@ -158,3 +158,4 @@ $lang['users_export_thead_firstname'] = 'នាមត្រកូលអ្នក
 $lang['users_export_thead_lastname'] = 'ឈ្មោះអ្នកប្រើប្រាស់';
 $lang['users_export_thead_email'] = 'ម៉ែល';
 $lang['users_export_thead_manager'] = 'អ្នកគ្រប់គ្រង';
+$lang['users_export_thead_login'] = 'ចូលទៅក្នុងប្រពន្ធ័កម្មវិធី';
