@@ -104,7 +104,7 @@ $lang['global_gender'] = 'ភេទ';
 $lang['global_gender_f'] = 'ស្រី';
 $lang['global_gender_m'] = 'ប្រុស';
 
-$lang['global_education'] = 'ការអប់រំ';
+$lang['global_education'] = 'កំរិតវប្បធម៍';//#6048
 $lang['global_phone_number_1'] = 'លេខទូរស័ព្ទ១';
 $lang['global_phone_number_2'] = 'លេខទូរស័ព្ទ២';
 $lang['global_topik_lvl'] = 'កំរឹតTOPIK';
