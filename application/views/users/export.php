@@ -24,6 +24,12 @@ $users = $this->users_model->getUsersForExportExcel();
 //return;
 $line = 2;
 foreach ($users as $user) {
+	$style = array(
+			'alignment' => array(
+					'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+			)
+	);
+	$sheet->getStyle("D")->applyFromArray($style);
     $sheet->setCellValue('A' . $line, $user['id']);
     $sheet->setCellValue('B' . $line, $user['firstname']);
     $sheet->setCellValue('C' . $line, $user['lastname']);
