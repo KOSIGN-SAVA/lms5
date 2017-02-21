@@ -16,14 +16,14 @@ $lang['menu_banner_tip_reset'] = 'ផ្លាស់ប្តូរពាក្�
 $lang['menu_password_popup_title'] = 'ផ្លាស់ប្តូរពាក្យសម្ងាត់';
 $lang['menu_password_popup_button_cancel'] = 'បោះបង់';
 
-$lang['menu_admin_title'] = 'អ្នកគ្រប់គ្រង';
+$lang['menu_admin_title'] = 'មាតិកា'; //#6048
 $lang['menu_admin_list_users'] = 'បញ្ជីនៃអ្នកប្រើប្រាស់';
 $lang['menu_admin_add_user'] = 'បង្កើតឈ្មោះថ្មី';
 $lang['menu_admin_settings_divider'] = 'ការកំណត់';
 $lang['menu_admin_settings'] = 'ការកំណត់';
 $lang['menu_admin_diagnostic'] = 'Diagnostic';
 
-$lang['menu_hr_title'] = 'ធនធានមនុស្ស';
+$lang['menu_hr_title'] = 'ផ្នែករដ្ឋាបាល'; //#6048
 $lang['menu_hr_employees_divider'] = 'បុគ្គលិក';
 $lang['menu_hr_list_organization'] = 'អង្គការ';
 $lang['menu_hr_list_employees'] = 'បញ្ជីនៃបុគ្គលិក';
