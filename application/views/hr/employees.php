@@ -21,6 +21,7 @@
                  <label for="txtEntity"><?php echo lang('hr_employees_field_entity');?>
                     <div class="input-append">
                         <input type="text" id="txtEntity" name="txtEntity" readonly />
+                        <a id="cmdClearSearch" class="btn btn btn-danger"><i class="icon-remove icon-white"></i></a>
                         <a id="cmdSelectEntity" class="btn btn-primary"><?php echo lang('hr_employees_button_select');?></a>
                     </div>
                  </label>
@@ -345,7 +346,13 @@ var state2="lesser";
 //Handle choose of entity with the modal form "select an entity". Update cookie with selected values
 function select_entity() {
     entity = $('#organization').jstree('get_selected')[0];
-    entityName = $('#organization').jstree().get_text(entity);
+    if(entity){
+    	entityName = $('#organization').jstree().get_text(entity);
+    }else{
+    	entity = 0;
+    	entityName = '';
+    }
+    ///entityName = $('#organization').jstree().get_text(entity);
     $("#frmSelectEntity").modal('hide');
     if (contextSelectEntity == "select") {
         //"select": Filter the content of datatable for a given entity
@@ -737,6 +744,18 @@ $(function () {
                 sortDescending: "<?php echo lang('datatable_sSortDescending');?>"
             }
         },
+    });
+
+    //remove entity search
+    $("#cmdClearSearch").click(function(e){
+		try{
+			$('#organization').jstree("deselect_all");
+		}catch(e){
+		}
+		entity = 0
+		entityName = '';
+		select_entity();
+		
     });
     
     //Popup select entity
