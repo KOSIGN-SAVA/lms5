@@ -345,8 +345,13 @@ var state2="lesser";
 
 //Handle choose of entity with the modal form "select an entity". Update cookie with selected values
 function select_entity() {
-    entity = $('#organization').jstree('get_selected')[0];
-    if(entity){
+	try{
+		entity = $('#organization').jstree('get_selected')[0];
+	}catch(e){
+		entity = null;
+	}
+    
+    if(entity || entity == null){
     	entityName = $('#organization').jstree().get_text(entity);
     }else{
     	entity = 0;
