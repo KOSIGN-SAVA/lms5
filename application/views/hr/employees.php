@@ -348,10 +348,10 @@ function select_entity() {
 	try{
 		entity = $('#organization').jstree('get_selected')[0];
 	}catch(e){
-		entity = null;
+		entity = undefine;
 	}
     
-    if(entity || entity == null){
+    if(entity){
     	entityName = $('#organization').jstree().get_text(entity);
     }else{
     	entity = 0;
