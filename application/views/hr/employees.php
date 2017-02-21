@@ -348,7 +348,7 @@ function select_entity() {
 	try{
 		entity = $('#organization').jstree('get_selected')[0];
 	}catch(e){
-		entity = undefine;
+		entity = undefined;
 	}
     
     if(entity){
