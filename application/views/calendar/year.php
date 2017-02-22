@@ -46,6 +46,7 @@ $currentDay = (int)date('d');
         <tr>
             <td>&nbsp;</td>
             <?php for ($ii = 1; $ii <=31; $ii++) {
+            		//header of calender
                     echo '<td'.($ii === $currentDay ?' class="currentday-bg"':'').'>' . $ii . '</td>';
                 }?>
         </tr>
@@ -54,16 +55,34 @@ $currentDay = (int)date('d');
   <?php 
   
   $monthNumber = 0;  
-  foreach ($months as $month_name => $month) { 
+  foreach ($months as $month_name => $month) { //loop 12 time of month
     $monthNumber++;
     $isCurrentMonth = $currentMonth === $monthNumber;
-
+    
   ?>
     <tr>
       <td rowspan="2"<?php echo $isCurrentMonth ?' class="currentday-bg"':'';?>><?php echo $month_name; ?></td>
         <?php //Iterate so as to display all mornings
         $pad_day = 1;
         foreach ($month->days as $dayNumber => $day) {
+        	$myDate = DateTime::createFromFormat('j-m-Y',  $pad_day . '-' .  $monthNumber . '-'. $year);
+        	$timeStmp = $myDate->getTimestamp();
+        	$dateObj = date('Y-m-d',$timeStmp);
+        	$datew = date('w', $timeStmp);
+        	
+        	$weekendStyle = "";
+        	
+        	if($datew == 0) {
+        		$weekendStyle = '<div style="width: 108%; height: 5px; background: #bd362f; position: absolute;left: -1px; top: -1px;opacity:0.3;"></div>';
+        		//$display = 4;
+        	}else if($datew == 6){
+        		//#c7f90a
+        		$weekendStyle = '<div style="width: 108%; height: 5px; background: #c7f90a; position: absolute;left: -1px; top: -1px;opacity:0.3;"></div>';
+        	}else{
+        		$weekendStyle = '';
+        	}
+        	//echo "999=" . $datel  . ":". $tmpDay .":". $datew .":".$dateObj.",";
+        	
             $isCurrentDay = $isCurrentYear && $isCurrentMonth && $currentDay === $dayNumber;
             $class = '';
             if($isCurrentDay){
@@ -96,17 +115,18 @@ $currentDay = (int)date('d');
             //5 - Morning Day Off   |\
             //6 - Afternoon Day Off /|
             //9 - Error in start/end types
-            if ($display == 9) echo '<td'.($class?' class="'.$class.'"':'').'><img src="'.  base_url() .'assets/images/date_error.png"></td>';
-            if ($display == 0) echo '<td'.($class?' class="'.$class.'"':'').'>&nbsp;</td>';
-            if ($display == 3 || $display == 6) echo '<td'.($class?' '.$class:'').'>&nbsp;</td>';
-            if ($display == 4 || $display == 5) echo '<td title="' . $type .'" class="dayoff'.($class?' '.$class:'').'">&nbsp;</td>';
+            
+            if ($display == 9) echo '<td style="position: relative;"'.($class?' class="'.$class.'"':'').'>'.$weekendStyle.'<img src="'.  base_url() .'assets/images/date_error.png"></td>';
+            if ($display == 0) echo '<td style="position: relative;"'.($class?' class="'.$class.'"':'').'>'.$weekendStyle.'&nbsp;</td>';
+            if ($display == 3 || $display == 6) echo '<td style="position: relative;"'.($class?' '.$class:'').'>'.$weekendStyle.'&nbsp;</td>';
+            if ($display == 4 || $display == 5) echo '<td style="position: relative;" title="' . $type .'" class="dayoff'.($class?' '.$class:'').'">'.$weekendStyle.'&nbsp;</td>';
             if ($display == 1 || $display == 2) {
                 switch ($status)
                 {
-                  case 1: echo '<td title="' . $type .'" class="allplanned'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Planned
-                  case 2: echo '<td title="' . $type .'" class="allrequested'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Requested
-                  case 3: echo '<td title="' . $type .'" class="allaccepted'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Accepted
-                  case 4: echo '<td title="' . $type .'" class="allrejected'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Rejected
+                  case 1: echo '<td style="position: relative;" title="' . $type .'" class="allplanned'.($class?' '.$class:'').'">'.$weekendStyle.'&nbsp;</td>'; break;  // Planned
+                  case 2: echo '<td style="position: relative;" title="' . $type .'" class="allrequested'.($class?' '.$class:'').'">'.$weekendStyle.'&nbsp;</td>'; break;  // Requested
+                  case 3: echo '<td style="position: relative;" title="' . $type .'" class="allaccepted'.($class?' '.$class:'').'">'.$weekendStyle.'&nbsp;</td>'; break;  // Accepted
+                  case 4: echo '<td style="position: relative;" title="' . $type .'" class="allrejected'.($class?' '.$class:'').'">'.$weekendStyle.'&nbsp;</td>'; break;  // Rejected
                 }
             }
         $pad_day++;
@@ -118,7 +138,6 @@ $currentDay = (int)date('d');
     <tr>
         <?php //Iterate so as to display all afternoons
         foreach ($month->days as $dayNumber => $day) {
-          
             $isCurrentDay =  $isCurrentYear && $isCurrentMonth && $currentDay === $dayNumber;
             $class = '';
             if($isCurrentDay){
@@ -143,9 +162,9 @@ $currentDay = (int)date('d');
                 $status = $day->status;
                 $type = $day->type;
             }
-            if ($display == 9) echo '<td'.($class?' class="'.$class.'"':'').'><img src="'.  base_url() .'assets/images/date_error.png"></td>';
-            if ($display == 0) echo '<td'.($class?' class="'.$class.'"':'').'>&nbsp;</td>';
-            if ($display == 2 || $display == 5) echo '<td'.($class?' class="'.$class.'"':'').'>&nbsp;</td>';
+            if ($display == 9) echo '<td '.($class?' class="'.$class.'"':'').'><img src="'.  base_url() .'assets/images/date_error.png"></td>';
+            if ($display == 0) echo '<td '.($class?' class="'.$class.'"':'').'>&nbsp;</td>';
+            if ($display == 2 || $display == 5) echo '<td '.($class?' class="'.$class.'"':'').'>&nbsp;</td>';
             if ($display == 4 || $display == 6) echo '<td title="' . $type .'" class="dayoff'.($class?' '.$class:'').'">&nbsp;</td>';
             if ($display == 1 || $display == 3) {
                 switch ($status)
