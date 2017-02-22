@@ -52,13 +52,13 @@ $lang['leaves_history_thead_type'] = 'Type';
 $lang['leaves_history_thead_status'] = 'Status';
 
 $lang['leaves_create_title'] = 'ការស្នើរសុំឈប់សម្រាក';//#6048
-$lang['leaves_create_field_start'] = 'កាលបរិច្ឆេទដែលចាប់ផ្តើម';
-$lang['leaves_create_field_end'] = 'កាលបរិច្ឆេទដែលបញ្ចប់';
+$lang['leaves_create_field_start'] = 'ថ្ងៃចាប់ផ្តើម';//#6048
+$lang['leaves_create_field_end'] = 'ថ្ងៃបញ្ចប់';//#6048
 $lang['leaves_create_field_type'] = 'ប្រភេទនៃច្បាប់ឈប់សម្រាក';//#6048
-$lang['leaves_create_field_duration'] = 'រយៈពេល';
+$lang['leaves_create_field_duration'] = 'ចំនួនថ្ងៃឈប់សម្រាក';//#6048
 $lang['leaves_create_field_duration_message'] = 'លោកអ្នកប្រើប្រាស់ថ្ងៃឈប់សម្រាក លើចំនួនកំណត់ហើយ';
 $lang['leaves_create_field_overlapping_message'] = 'លោកអ្នកធ្វើការស្នើរសុំឈប់សម្រាកមួយផ្សេងទៀត ក្នុងថ្ងៃជាមួយគ្នា។';
-$lang['leaves_create_field_cause'] = 'មូលហេតុ(មានក៏បាន អត់ក៏បាន)';
+$lang['leaves_create_field_cause'] = 'មូលហេតុ(ត្រូវតែបំពេញ)';//#6048
 $lang['leaves_create_field_status'] = 'ស្ថានភាព';
 $lang['leaves_create_button_create'] = 'ស្នើរសុំការឈប់សម្រាក';
 $lang['leaves_create_button_cancel'] = 'បោះបង់';
