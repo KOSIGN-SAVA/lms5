@@ -35,6 +35,7 @@ $lang['hr_employees_thead_datehired'] = 'កាលបរិច្ឆេទជួ
 $lang['hr_employees_thead_dateleave'] = 'កាលបរិច្ឆេទចាកចេញ';
 $lang['hr_employees_thead_position'] = 'មុខតំណែង';
 $lang['hr_employees_button_create_user'] = 'បង្កើត';
+$lang['hr_employees_button_send_email'] = 'ផ្ញើEmail';
 $lang['hr_employees_button_export'] = 'បញ្ជីនាំចេញ';
 $lang['hr_employees_popup_entitlment_title'] = 'ថ្ងៃផ្ដល់សិទ្ធិឲ្យឈប់';
 $lang['hr_employees_popup_entitlment_button_cancel'] = 'បោះបង់';
