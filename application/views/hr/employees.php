@@ -88,6 +88,29 @@
                     </div>
                   &nbsp;<a href="#" id="cmdExportEmployees" class="btn btn-primary"><i class="fa fa-file-excel-o"></i>&nbsp;<?php echo lang('hr_employees_button_export');?></a>
                   &nbsp;<a href="<?php echo base_url();?>users/create" class="btn btn-primary"><i class="icon-plus-sign icon-white"></i>&nbsp;<?php echo lang('hr_employees_button_create_user');?></a>
+                   <!-- new button-->
+                    &nbsp;<a href="#" id="cmdSendEmail"  class="btn btn-primary"><i class="fa fa-file-excel-o"></i>&nbsp;<?php echo lang('hr_employees_button_send_email');?></a>
+                  <!-- end new button-->
+                  <script type="text/javascript">
+
+                      $("#cmdSendEmail").click(function(){
+                        var mydata = [];
+                        var selected = "tbody.context tr.selected";
+                        for (var i = 0; i < $(selected).length; i++) {
+                            mydata.push({id: $(selected).eq(i).children("td").eq(0).html(),
+                                firstname: $(selected).eq(i).children("td").eq(1).html(),
+                                lastname: $(selected).eq(i).children("td").eq(2).html(),
+                                email: $(selected).eq(i).children("td").eq(9).html()});
+                        }
+                        //console.log(data);
+                            $.ajax({
+                                type: "POST",
+                                url: "<?php echo base_url(); ?>hr/employees/sendemail",
+                                data: {mydata}
+                            }).done(function(){
+                                console.log("mydata");
+                            });
+                      });
               </div>
             </div>
         </div>
