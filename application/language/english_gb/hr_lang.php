@@ -28,6 +28,7 @@ $lang['hr_employees_thead_identifier'] = 'Identifier';
 $lang['hr_employees_thead_datehired'] = 'Date hired';
 $lang['hr_employees_thead_position'] = 'Position';
 $lang['hr_employees_button_create_user'] = 'Create';
+$lang['hr_employees_button_send_email'] = 'Send Email';
 $lang['hr_employees_button_export'] = 'Export this list';
 $lang['hr_employees_popup_entitlment_title'] = 'Entitled days';
 $lang['hr_employees_popup_entitlment_button_cancel'] = 'Cancel';
