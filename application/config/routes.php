@@ -79,9 +79,13 @@ $route['users/enable/(:num)'] = 'users/enable/$1';
 $route['users/disable/(:num)'] = 'users/disable/$1';
 $route['users'] = 'users';
 
+//Tesing testpivottable
+$route['users/testpivottable'] = 'users/testpivottable';
+
 //_______________________________________________
 //Human Resources Management
 $route['hr/employees'] = 'hr/employees';
+$route['hr/employees/sendemail'] = 'hr/sendemail';			// sending email
 $route['hr/employees/entity/(:num)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)'] = 'hr/employeesOfEntity/$1/$2/$3/$4/$5/$6/$7';
 $route['hr/employees/export/(:num)/(:any)/(:any)'] = 'hr/exportEmployees/$1/$2/$3';
 $route['hr/employees/edit/manager'] = 'hr/editManager';

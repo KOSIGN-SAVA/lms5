@@ -32,3 +32,7 @@ $lang['email_extra_request_validation_title'] = 'Overtime Request';
 
 $lang['email_password_forgotten_subject'] = 'Your password has been reset';
 $lang['email_password_forgotten_title'] = 'Your password has been reset';
+
+$lang['email_sending_to_employees_selected_subject'] = 'Changing Log ID';
+$lang['email_sending_to_employees_selected_title'] = 'Changing Log ID';
+$lang['email_sending_to_employees_selected_message'] = 'Please click the link below then input this password: ';

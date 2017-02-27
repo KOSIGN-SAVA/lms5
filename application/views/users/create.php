@@ -9,6 +9,15 @@
 ?>
 
 <h2><?php echo lang('users_create_title');?><?php echo $help;?></h2>
+<style>
+    #password
+    {
+        margin-right: 5px;
+    }
+    #password, #cmdGeneratePassword {
+        border-radius: 4px;
+    }
+</style>
 
 <?php echo validation_errors(); ?>
 
@@ -218,15 +227,6 @@ if ($language_code != 'en') { ?>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/selectize.bootstrap2.css" />
 <script type="text/javascript">
 
-<style>
-    #password
-    {
-        margin-right: 5px;
-    }
-    #password, #cmdGeneratePassword {
-        border-radius: 4px;
-    }
-</style>
 
     //Popup select postion: on click OK, find the user id for the selected line
     function select_manager() {
@@ -265,19 +265,32 @@ if ($language_code != 'en') { ?>
     function validate_form() {
         result = false;
         var fieldname = "";
-        if ($('#firstname').val() == "") fieldname = "firstname";
-        if ($('#lastname').val() == "") fieldname = "lastname";
-        if ($('#login').val() == "") fieldname = "login";
-        if ($('#email').val() == "") fieldname = "email";
-        if ($('#txtManager').val() == "") fieldname = "manager";
-        if ($('#contract').val() == "") fieldname = "contract";
-        if ($('#email').val() == "") fieldname = "email";
-        if ($('#txtManager').val() == "") fieldname = "manager";
         if ($('#password').val() == "") fieldname = "password";
+        if ($('#position').val() == "") fieldname = "position";
+        if ($('#entity').val() == "")  fieldname = "entity";
+        if ($('#contract').val() == "") fieldname = "contract";
+        if ($('#manager').val() == "") fieldname = "manager";
+        if ($('#email').val() == "") fieldname = "email";
+        if ($('#login').val() == "") fieldname = "login";
+        if ($('#lastname').val() == "") fieldname = "lastname";
+        if ($('#firstname').val() == "") fieldname = "firstname";
+
+        var objField = {
+        		password : "<?php echo lang('users_create_field_password');?>",
+        		position : "<?php echo lang('users_create_field_password');?>",
+        		entity : "<?php echo lang('users_create_field_password');?>",
+        		contract : "<?php echo lang('users_create_field_password');?>",
+        		manager : "<?php echo lang('users_create_field_password');?>",
+        		email : "<?php echo lang('users_create_field_password');?>",
+        		login : "<?php echo lang('users_create_field_password');?>",
+        		lastname : "<?php echo lang('users_create_field_password');?>",
+        		firstname : "<?php echo lang('users_create_field_password');?>"
+        };
         
         if (fieldname == "") {
             return true;
         } else {
+        	fieldname = objField[fieldname];
             bootbox.alert(<?php echo lang('users_create_mandatory_js_msg');?>);
             return false;
         }

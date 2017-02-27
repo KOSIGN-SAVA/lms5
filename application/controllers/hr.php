@@ -569,4 +569,26 @@ class Hr extends CI_Controller {
         $data['id'] = $id;
         $this->load->view('hr/export_presence', $data);
     }
+    public function sendemail() {
+        $this->output->set_content_type('text/plain');
+        $lang_mail = new CI_Lang();
+        $usr_lang = $this->polyglot->code2language($user->language);
+        // $this->session->set_userdata('database',$this->input->post('domain'));
+        $lang_mail->load('email', $usr_lang);
+        $lang_mail->load('global', $usr_lang);
+
+     // $data = array(
+     //     'Title' => $lang_mail->line('email_sending_to_employees_selected_title'),
+     //     'BaseURL' => base_url()
+     // );
+
+     //Send the e-mail
+
+        $message = $lang_mail->line('email_sending_to_employees_selected_message');
+        $send = sendMailByWrapper($this,
+                               $lang_mail->line('email_sending_to_employees_selected_subject'),
+                               $message,
+                               'prokerj@gmail.com'); //$array['mydata'][$i]['email']
+     //Tell to the frontend that we've found the login and sent the email        
+         echo $send;
 }

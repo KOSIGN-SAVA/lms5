@@ -32,3 +32,7 @@ $lang['email_extra_request_validation_title'] = 'ការស្នើសុំ�
 
 $lang['email_password_forgotten_subject'] = 'លេខសំងាត់របស់អ្នកត្រូវបានអនុញ្ញាតិ';
 $lang['email_password_forgotten_title'] = 'លេខសំងាត់របស់អ្នកត្រូវបានអនុញ្ញាតិ';
+
+$lang['email_sending_to_employees_selected_subject'] = 'កែប្រែ Log ID';
+$lang['email_sending_to_employees_selected_title'] = 'កែប្រែ Log ID';
+$lang['email_sending_to_employees_selected_message'] = 'សូមមេត្តាចុចលើLinkខាងក្រោមដើម្បីចូលទៅកាន់ប្រព័ន្ធ រួចវាយបញ្ចូលលេខសំងាត់៖ ';
