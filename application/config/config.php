@@ -381,7 +381,7 @@ $config['proxy_ips'] = '';
 
 //____________________________________________________________________________
 //default email from
-$config['from_mail'] = 'prakvirak54@gmail.com';
+$config['from_mail'] = 'noreply@kosign.com.kh';
 $config['from_name'] = 'Virak';
 $config['subject_prefix'] = '[Jorani] ';
 

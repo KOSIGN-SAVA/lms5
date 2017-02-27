@@ -68,7 +68,7 @@ echo form_open('leaves/create', $attributes) ?>
     </div>
     
     <label for="cause"><?php echo lang('leaves_create_field_cause');?></label>
-    <textarea name="cause"><?php echo set_value('cause'); ?></textarea>
+    <textarea name="cause" id="cause"><?php echo set_value('cause'); ?></textarea>
     
     <label for="status"><?php echo lang('leaves_create_field_status');?></label>
     <select name="status">
@@ -143,6 +143,7 @@ function validate_form() {
     if ($('#viz_startdate').val() == "") fieldname = "<?php echo lang('leaves_create_field_start');?>";
     if ($('#viz_enddate').val() == "") fieldname = "<?php echo lang('leaves_create_field_end');?>";
     if ($('#duration').val() == "" || $('#duration').val() == 0) fieldname = "<?php echo lang('leaves_create_field_duration');?>";
+    if ($('#cause').val() == "") fieldname = "<?php echo lang('leaves_create_field_cause');?>";
     if (fieldname == "") {
         return true;
     } else {

@@ -111,6 +111,10 @@ $languages = $this->polyglot->nativelanguages($this->config->item('languages'));
                         <div class="span12">
                             <span style="font-size: 250%; font-weight: bold; line-height: 100%;"><center><?php echo lang('Leave Management System');?></center></span>
                         </div>
+                         <div class="span12" style="padding-top: 20px;">
+                            <span style="font-size: 20px; font-weight: bold; line-height: 100%; color:#7b0909;"><center>(Beta)</center></span>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -209,10 +213,10 @@ $languages = $this->polyglot->nativelanguages($this->config->item('languages'));
                 $.ajax({
                    type: "POST",
                    url: "<?php echo base_url(); ?>session/forgetpassword",
-                   data: { login: $('#login').val(),domain: $("#domain").val }
+                   data: { login: $('#login').val(),domain: $("#domain").val() }
                  })
                  .done(function(msg) {
-                   console.log("msg",msg);
+                   //console.log("msg",msg);
                    switch(msg) {
                        case "OK":
                            bootbox.alert("<?php echo lang('session_login_msg_password_sent');?>");

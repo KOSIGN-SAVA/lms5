@@ -12,7 +12,7 @@ define('BASEPATH', '.'); //Make this script works with nginx
 //Configuration values are taken from application/config/email.php
 //-----------------------------------------------------------------
 //Please enter a valid target email address. A test email will be sent here
-define('EMAIL_ADDRESS', 'prakvirak54@gmail.com');
+define('EMAIL_ADDRESS', 'prakvirak99@gmail.com');
 
 //-----------------------------------------------------------------
 ?>

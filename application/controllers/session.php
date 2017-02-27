@@ -223,6 +223,9 @@ class Session extends CI_Controller {
     public function forgetpassword() {
         $this->output->set_content_type('text/plain');
         $login = $this->input->post('login');
+        //$domain = $this->input->post('domain');
+        //set domain for session
+        $this->session->set_userdata('database',$this->input->post('domain'));
         $this->load->model('users_model');
         $user = $this->users_model->getUserByLogin($login);
         if (is_null($user)) {
@@ -243,11 +246,12 @@ class Session extends CI_Controller {
                 'Firstname' => $user->firstname,
                 'Lastname' => $user->lastname,
                 'Login' => $user->login,
-                'Password' => $password
+                'Password' => $password,
+            	'To mail' => $user->email
             );
             
-             //echo json_encode($data);
-             //return;
+             echo json_encode($data);
+             return;
             $message = $this->parser->parse('emails/' . $user->language . '/password_forgotten', $data, TRUE);
             //Send the e-mail
             $send = sendMailByWrapper($this,

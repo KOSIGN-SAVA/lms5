@@ -16,11 +16,22 @@ class formapi extends CI_Controller{
 			$this->session->set_userdata('language_code', $languageCode);
 			$this->session->set_userdata('language', $this->polyglot->code2language($languageCode));
 		}
+		//load language file
 		$this->lang->load('users', $this->config->item('language'));
+		$this->lang->load('formapi', $this->config->item('language'));
 		
 	}
 	
 	public function index(){
-		echo "test";
+		
+		//$data = getUserContext($this);
+		$data['language_code'] = $this->session->userdata('language_code');
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		
+		
+		//load list of language
+		$this->load->library('polyglot');
+		$this->load->view('formapi/login_update', $data);
 	}
 }

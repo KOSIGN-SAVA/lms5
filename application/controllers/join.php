@@ -3,6 +3,7 @@ class join extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		//setUserContext($this);
+		//$this->session->set_userdata('database','default');
 		
 		if ($this->session->userdata('language') === FALSE) {
 			$availableLanguages = explode(",", $this->config->item('languages'));

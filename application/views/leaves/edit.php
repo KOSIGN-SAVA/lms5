@@ -72,7 +72,7 @@ if (isset($_GET['source'])) {
     </div>
     
     <label for="cause"><?php echo lang('leaves_edit_field_cause');?></label>
-    <textarea name="cause"><?php echo $leave['cause']; ?></textarea>
+    <textarea name="cause" id="cause"><?php echo $leave['cause']; ?></textarea>
     
     <label for="status"><?php echo lang('leaves_edit_field_status');?></label>
     <select name="status">
@@ -156,6 +156,7 @@ function validate_form() {
     if ($('#viz_startdate').val() == "") fieldname = "<?php echo lang('leaves_edit_field_start');?>";
     if ($('#viz_enddate').val() == "") fieldname = "<?php echo lang('leaves_edit_field_end');?>";
     if ($('#duration').val() == "" || $('#duration').val() == 0) fieldname = "<?php echo lang('leaves_edit_field_duration');?>";
+    if ($('#cause').val() == "") fieldname = "<?php echo lang('leaves_edit_field_cause');?>"; 
     if (fieldname == "") {
         return true;
     } else {
