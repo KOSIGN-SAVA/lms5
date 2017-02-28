@@ -277,14 +277,14 @@ if ($language_code != 'en') { ?>
 
         var objField = {
         		password : "<?php echo lang('users_create_field_password');?>",
-        		position : "<?php echo lang('users_create_field_password');?>",
-        		entity : "<?php echo lang('users_create_field_password');?>",
-        		contract : "<?php echo lang('users_create_field_password');?>",
-        		manager : "<?php echo lang('users_create_field_password');?>",
+        		position : "<?php echo lang('users_create_field_position');?>",
+        		entity : "<?php echo lang('users_create_field_entity');?>",
+        		contract : "<?php echo lang('users_create_field_contract');?>",
+        		manager : "<?php echo lang('users_create_field_email');?>",
         		email : "<?php echo lang('users_create_field_password');?>",
-        		login : "<?php echo lang('users_create_field_password');?>",
-        		lastname : "<?php echo lang('users_create_field_password');?>",
-        		firstname : "<?php echo lang('users_create_field_password');?>"
+        		login : "<?php echo lang('users_create_field_login');?>",
+        		lastname : "<?php echo lang('users_create_field_lastname');?>",
+        		firstname : "<?php echo lang('users_create_field_firstname');?>"
         };
         
         if (fieldname == "") {
