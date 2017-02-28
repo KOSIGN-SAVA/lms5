@@ -280,8 +280,8 @@ if ($language_code != 'en') { ?>
         		position : "<?php echo lang('users_create_field_position');?>",
         		entity : "<?php echo lang('users_create_field_entity');?>",
         		contract : "<?php echo lang('users_create_field_contract');?>",
-        		manager : "<?php echo lang('users_create_field_email');?>",
-        		email : "<?php echo lang('users_create_field_password');?>",
+        		manager : "<?php echo lang('users_create_field_manager');?>",
+        		email : "<?php echo lang('users_create_field_email');?>",
         		login : "<?php echo lang('users_create_field_login');?>",
         		lastname : "<?php echo lang('users_create_field_lastname');?>",
         		firstname : "<?php echo lang('users_create_field_firstname');?>"
