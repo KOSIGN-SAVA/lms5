@@ -24,8 +24,37 @@ if (isset($_GET['source'])) {
     <input type="text" name="viz_date" id="viz_date" value="<?php $date = new DateTime($extra['date']); echo $date->format(lang('global_date_format'));?>" required />
     <input type="hidden" name="date" id="date" value="<?php echo $extra['date']; ?>" />
     
+    <label required><?php echo lang('extra_create_field_time');?></label>
+    <span class="input-append date" id="stime">
+		<input data-format="hh:mm" style="width: 60px;" type="text" name="start_time" id="start_time" value="<?php
+			$stime = "";
+			if(isset($extra['start_time']) && !empty($extra['start_time'])){
+				$stime = $extra['start_time'];
+				$stime = substr($stime, 0, 2) . ":" . substr($stime, 2, 4);
+			}
+			echo $stime; ?>">
+		<span class="add-on">
+		  <i data-date-icon="icon-calendar" data-time-icon="icon-time" class="icon-calendar" id="btn_start_time">
+		  </i>
+		</span>
+	</span>
+	<strong> ~ </strong>
+	<span class="input-append date" id="etime">
+		<input data-format="hh:mm" style="width: 60px;" type="text" name="end_time" id="end_time" value="<?php
+			$etime = "";
+			if(isset($extra['end_time']) && !empty($extra['end_time'])){
+				$etime = $extra['end_time'];
+				$etime = substr($etime, 0, 2) . ":" . substr($etime, 2, 4);
+			}
+			echo $etime; ?>"> 
+		<span class="add-on">
+		  <i data-date-icon="icon-calendar" data-time-icon="icon-time" class="icon-calendar" id="btn_end_time">
+		  </i>
+		</span>
+	</span>
+    
     <label for="duration"><?php echo lang('extra_edit_field_duration');?></label>
-    <input type="text" name="duration" id="duration" value="<?php echo $extra['duration']; ?>" required />&nbsp;<span><?php echo lang('extra_edit_field_duration_description');?></span>
+    <input readonly type="text" name="duration" id="duration" value="<?php echo $extra['duration']; ?>" required />&nbsp;<span><?php echo lang('extra_edit_field_duration_description');?></span>
     
     <label for="cause"><?php echo lang('extra_edit_field_cause');?></label>
     <textarea name="cause" required><?php echo $extra['cause']; ?></textarea>
@@ -57,12 +86,15 @@ n>
 </div>
 
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/flick/jquery-ui.custom.min.css">
+<link rel="stylesheet" href="<?php echo base_url();?>assets/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
 <script src="<?php echo base_url();?>assets/js/jquery-ui.custom.min.js"></script>
 <?php //Prevent HTTP-404 when localization isn't needed
 if ($language_code != 'en') { ?>
 <script src="<?php echo base_url();?>assets/js/i18n/jquery.ui.datepicker-<?php echo $language_code;?>.js"></script>
 <?php } ?>
 <script src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/jquery-ui-timepicker-0.3.3/jquery.ui.timepicker.js?v=0.3.3"></script>
 
 <?php require_once dirname(BASEPATH) . "/local/triggers/extra_view.php"; ?>
 
@@ -86,8 +118,75 @@ if ($language_code != 'en') { ?>
             return false;
         }
     }
+
+    //calculate time
+    function calcTime(){
+			 
+		  var arrSTime = $("#start_time").val().split(":");
+		  var arrETime = $("#end_time").val().split(":");
+		  
+		  
+		  var sDate = new Date();
+		  sDate.setHours(arrSTime[0]);
+		  sDate.setMinutes(arrSTime[1]);
+
+		  var eDate = new Date();
+		  eDate.setHours(arrETime[0]);
+		  eDate.setMinutes(arrETime[1]);
+
+		  var diff = moment.duration(moment(eDate).diff(moment(sDate)));
+		  var hDiff = parseInt(diff.asHours());
+		  
+		  var mDiff = diff.asMinutes();// % hDiff;
+		  if(mDiff != 0 && hDiff != 0){
+			  mDiff = parseInt(mDiff) % hDiff;
+		  }
+		  $("#duration").val(diff.asHours().toFixed(2));
+
+		  //console.log("diff H = " + hDiff);
+		  //console.log("diff M = " + diff.asHours().toFixed(2)); 
+			 
+			  
+	}
+
+ // when start time change, update minimum for end timepicker
+    function tpStartSelect( time, endTimePickerInst ) {
+    	calcTime();
+       $('#end_time').timepicker('option', {
+           minTime: {
+               hour: endTimePickerInst.hours,
+               minute: endTimePickerInst.minutes
+           }
+       });
+    }
+
+    // when end time change, update maximum for start timepicker
+    function tpEndSelect( time, startTimePickerInst ) {
+    	calcTime();
+       $('#start_time').timepicker('option', {
+           maxTime: {
+               hour: startTimePickerInst.hours,
+               minute: startTimePickerInst.minutes
+           }
+       });
+    }
     
     $(function () {
+        $("#btn_start_time").click(function(){
+			$("#start_time").focus();
+        });
+        $("#btn_end_time").click(function(){
+			$("#end_time").focus();
+        });
+        
+    	$('#start_time').timepicker({
+    			showLeadingZero: false,
+    		    onSelect: tpStartSelect
+    	});
+    	$('#end_time').timepicker({
+    	      showLeadingZero: false,
+    	       onSelect: tpEndSelect
+    	  });
         $("#viz_date").datepicker({
             changeMonth: true,
             changeYear: true,
@@ -110,3 +209,5 @@ if ($language_code != 'en') { ?>
         });
     });
 </script>
+
+
