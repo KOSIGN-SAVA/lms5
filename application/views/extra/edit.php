@@ -24,7 +24,7 @@ if (isset($_GET['source'])) {
     <input type="text" name="viz_date" id="viz_date" value="<?php $date = new DateTime($extra['date']); echo $date->format(lang('global_date_format'));?>" required />
     <input type="hidden" name="date" id="date" value="<?php echo $extra['date']; ?>" />
     
-    <label required><?php echo lang('extra_create_field_time');?></label>
+    <label required><?php echo lang('extra_edit_field_time');?></label>
     <span class="input-append date" id="stime">
 		<input data-format="hh:mm" style="width: 60px;" type="text" name="start_time" id="start_time" value="<?php
 			$stime = "";
@@ -52,6 +52,21 @@ if (isset($_GET['source'])) {
 		  </i>
 		</span>
 	</span>
+	&nbsp;&nbsp;
+	<span class="date" id= "lb_dh"><?php 
+		if(empty($extra['time_cnt'])){
+			echo '0.00';
+		}else{
+			echo $extra['time_cnt'];
+		}
+		?></span>&nbsp;<span>hours</span>
+	<input  type= "hidden" value = "<?php 
+		if(empty($extra['time_cnt'])){
+			echo '0.00';
+		}else{
+			echo $extra['time_cnt'];
+		}
+		?>" name = "time_cnt" id="time_cnt">
     
     <label for="duration"><?php echo lang('extra_edit_field_duration');?></label>
     <input readonly type="text" name="duration" id="duration" value="<?php echo $extra['duration']; ?>" required />&nbsp;<span><?php echo lang('extra_edit_field_duration_description');?></span>
@@ -143,8 +158,12 @@ if ($language_code != 'en') { ?>
 		  }
 		  $("#duration").val(diff.asHours().toFixed(2));
 
-		  //console.log("diff H = " + hDiff);
-		  //console.log("diff M = " + diff.asHours().toFixed(2)); 
+		  var dh = diff.asHours().toFixed(2);
+		  var duration = (dh * 0.125).toFixed(2);
+		  $("#lb_dh").text(dh);
+		  $("#time_cnt").val(dh);
+		  $("#duration").val(duration); 
+		  
 			 
 			  
 	}
