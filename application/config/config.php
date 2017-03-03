@@ -497,7 +497,7 @@ $config['spreadsheet_format'] = 'xlsx';   //Supported formats: xlsx, ods
 
 //____________________________________________________________________________
 //Set this value to TRUE if you want to enable history of change (beware that it will impact the performance)
-$config['enable_history'] = FALSE;
+$config['enable_history'] = true;
 
 
 //____________________________________________________________________________
