@@ -41,6 +41,15 @@
 		  </i>
 		</span>
 	</span>
+	&nbsp;&nbsp;
+	<span class="date" id= "lb_dh"><?php 
+		if(empty($extra['time_cnt'])){
+			echo '0.00';
+		}else{
+			echo $extra['time_cnt'];
+		}
+		?></span>&nbsp;<span>hours</span>
+	
     
     <label for="duration" required><?php echo lang('extra_view_field_duration');?></label>
     <input type="text" name="duration"  value="<?php echo $extra['duration']; ?>" readonly />
