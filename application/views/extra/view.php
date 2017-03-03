@@ -13,6 +13,35 @@
     <label for="date" required><?php echo lang('extra_view_field_date');?></label>
     <input type="text" name="date"  value="<?php $date = new DateTime($extra['date']); echo $date->format(lang('global_date_format'));?>" readonly />
     
+    <label required><?php echo lang('extra_create_field_time');?></label>
+    <span class="input-append date" id="stime">
+		<input readonly data-format="hh:mm" style="width: 60px;" type="text" value="<?php
+			$stime = "";
+			if(isset($extra['start_time']) && !empty($extra['start_time'])){
+				$stime = $extra['start_time'];
+				$stime = substr($stime, 0, 2) . ":" . substr($stime, 2, 4);
+			}
+			echo $stime; ?>">
+		<span class="add-on">
+		  <i data-date-icon="icon-calendar" data-time-icon="icon-time" class="icon-calendar">
+		  </i>
+		</span>
+	</span>
+	<strong> ~ </strong>
+	<span class="input-append date" id="etime">
+		<input readonly data-format="hh:mm" style="width: 60px;" type="text" value="<?php
+			$etime = "";
+			if(isset($extra['end_time']) && !empty($extra['end_time'])){
+				$etime = $extra['end_time'];
+				$etime = substr($etime, 0, 2) . ":" . substr($etime, 2, 4);
+			}
+			echo $etime; ?>"> 
+		<span class="add-on">
+		  <i data-date-icon="icon-calendar" data-time-icon="icon-time" class="icon-calendar">
+		  </i>
+		</span>
+	</span>
+    
     <label for="duration" required><?php echo lang('extra_view_field_duration');?></label>
     <input type="text" name="duration"  value="<?php echo $extra['duration']; ?>" readonly />
     
