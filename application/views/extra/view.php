@@ -13,7 +13,7 @@
     <label for="date" required><?php echo lang('extra_view_field_date');?></label>
     <input type="text" name="date"  value="<?php $date = new DateTime($extra['date']); echo $date->format(lang('global_date_format'));?>" readonly />
     
-    <label required><?php echo lang('extra_create_field_time');?></label>
+    <label required><?php echo lang('extra_view_field_time');?></label>
     <span class="input-append date" id="stime">
 		<input readonly data-format="hh:mm" style="width: 60px;" type="text" value="<?php
 			$stime = "";
