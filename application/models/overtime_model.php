@@ -70,9 +70,12 @@ class Overtime_model extends CI_Model {
             'employee' => $this->session->userdata('id'),
             'duration' => $this->input->post('duration'),
             'cause' => $this->input->post('cause'),
-            'status' => $this->input->post('status')
+            'status' => $this->input->post('status'),
+        	'start_time' => str_replace(":","",$this->input->post('start_time')),
+        	'end_time' => str_replace(":","",$this->input->post('end_time'))
         );
         $this->db->insert('overtime', $data);
+        
         return $this->db->insert_id();
     }
 
@@ -86,7 +89,9 @@ class Overtime_model extends CI_Model {
             'date' => $this->input->post('date'),
             'duration' => $this->input->post('duration'),
             'cause' => $this->input->post('cause'),
-            'status' => $this->input->post('status')
+            'status' => $this->input->post('status'),
+        	'start_time' => str_replace(":","",$this->input->post('start_time')),
+        	'end_time' => str_replace(":","",$this->input->post('end_time'))
         );
         $this->db->where('id', $id);
         $this->db->update('overtime', $data);
