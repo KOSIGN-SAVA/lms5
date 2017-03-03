@@ -39,6 +39,10 @@ echo form_open('extra/create', $attributes) ?>
 		  </i>
 		</span>
 	</span>
+	&nbsp;&nbsp;
+	<span class="date" id= "lb_dh">0.00</span>&nbsp;<span>hours</span>
+	<input  type= "hidden" value = "0.00" name = "time_cnt" id="time_cnt">
+	
     
     <label for="duration" required><?php echo lang('extra_create_field_duration');?></label>
     <input readonly type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" />&nbsp;<span><?php echo lang('extra_create_field_duration_description');?></span>
@@ -71,7 +75,6 @@ echo form_open('extra/create', $attributes) ?>
 
 <script src="<?php echo base_url();?>assets/js/jquery-ui.custom.min.js"></script>
 
-<script src="<?php echo base_url();?>assets/bootstrap-datetimepicker-0.0.11/js/bootstrap-datetimepicker.min.js"></script>
 <?php //Prevent HTTP-404 when localization isn't needed
 if ($language_code != 'en') { ?>
 <script src="<?php echo base_url();?>assets/js/i18n/jquery.ui.datepicker-<?php echo $language_code;?>.js"></script>
@@ -144,7 +147,7 @@ if ($language_code != 'en') { ?>
         
         $("#viz_date").datepicker({
             changeMonth: true,
-           changeYear: true,
+           	changeYear: true,
             dateFormat: '<?php echo lang('global_date_js_format');?>',
             altFormat: "yy-mm-dd",
             altField: "#date"
@@ -162,6 +165,21 @@ if ($language_code != 'en') { ?>
                 $("#frmCreateExtra").submit();
             }
         });
+
+        //get default date
+        /* var nDate = new Date();
+        $("#viz_date").datepicker( "setDate" , nDate);
+        var day = nDate.getDay();
+        if(day > 0 && day <6){
+            $('#start_time').timepicker('option',{defaultTime: '18:30'});
+            $('#start_time').val("18:30");
+            $('#end_time').timepicker('option', {
+                minTime: {
+                    hour: 18,
+                    minute: 30
+                }
+            });
+        } */
     });
     
 </script>
@@ -198,11 +216,12 @@ if ($language_code != 'en') { ?>
 				  if(mDiff != 0 && hDiff != 0){
 					  mDiff = parseInt(mDiff) % hDiff;
 				  }
-				  $("#duration").val(diff.asHours().toFixed(2));
+				  var dh = diff.asHours().toFixed(2);
+				  var duration = (dh * 0.125).toFixed(2);
+				  $("#lb_dh").text(dh);
+				  $("#time_cnt").val(dh);
+				  $("#duration").val(duration);
 	
-				  //console.log("diff H = " + hDiff);
-				  //console.log("diff M = " + diff.asHours().toFixed(2)); 
-			 
 			  
 		  }
 		</script>
