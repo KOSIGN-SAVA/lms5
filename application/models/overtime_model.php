@@ -65,15 +65,24 @@ class Overtime_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function setExtra() {
+    	
+    	$sTime = explode(":", $this->input->post('start_time'));
+    	$eTime = explode(":", $this->input->post('end_time'));
+    	
+    	$sH = str_pad($sTime[0], 2, "0", STR_PAD_LEFT);
+    	$sM = str_pad($sTime[1], 2, "0", STR_PAD_LEFT);
+    	$eH = str_pad($eTime[0], 2, "0", STR_PAD_LEFT);
+    	$eM = str_pad($eTime[1], 2, "0", STR_PAD_LEFT);
+    	
         $data = array(
             'date' => $this->input->post('date'),
             'employee' => $this->session->userdata('id'),
             'duration' => $this->input->post('duration'),
             'cause' => $this->input->post('cause'),
             'status' => $this->input->post('status'),
-        	'start_time' => str_replace(":","",$this->input->post('start_time')),
-        	'end_time' => str_replace(":","",$this->input->post('end_time')),
-        	'time_cnt' => str_replace(":","",$this->input->post('time_cnt'))
+        	'start_time' => $sH.$sM,
+        	'end_time' => $eH.$eM,
+        	'time_cnt' => $this->input->post('time_cnt')
         );
         $this->db->insert('overtime', $data);
         
@@ -86,14 +95,22 @@ class Overtime_model extends CI_Model {
      * @return bool result of update in database
      */
     public function updateExtra($id) {
+    	$sTime = explode(":", $this->input->post('start_time'));
+    	$eTime = explode(":", $this->input->post('end_time'));
+    	 
+    	$sH = str_pad($sTime[0], 2, "0", STR_PAD_LEFT);
+    	$sM = str_pad($sTime[1], 2, "0", STR_PAD_LEFT);
+    	$eH = str_pad($eTime[0], 2, "0", STR_PAD_LEFT);
+    	$eM = str_pad($eTime[1], 2, "0", STR_PAD_LEFT);
+    	
         $data = array(
             'date' => $this->input->post('date'),
             'duration' => $this->input->post('duration'),
             'cause' => $this->input->post('cause'),
             'status' => $this->input->post('status'),
-        	'start_time' => str_replace(":","",$this->input->post('start_time')),
-        	'end_time' => str_replace(":","",$this->input->post('end_time')),
-        	'time_cnt' => str_replace(":","",$this->input->post('time_cnt'))
+        	'start_time' => $sH.$sM,
+        	'end_time' => $eH.$eM,
+        	'time_cnt' => $this->input->post('time_cnt')
         );
         $this->db->where('id', $id);
         $this->db->update('overtime', $data);
