@@ -63,6 +63,9 @@ $lang['extra_view_field_cause'] = 'មូលហេតុ';
 $lang['extra_view_field_status'] = 'ស្ថានភាព';
 $lang['extra_view_button_edit'] = 'កែសម្រួល';
 $lang['extra_view_button_back_list'] = 'ត្រឡប់ទៅបញ្ជីឈ្មោះ';
+$lang['extra_view_label_hours'] = 'ម៉ោង';
+$lang['extra_view_label_minute'] = 'នាទី';
+
 $lang['extra_export_title'] = 'បញ្ជីនៃសំណើសុំក្រៅម៉ោង';
 $lang['extra_export_thead_id'] = 'លេខអត្តសញ្ញាណ';
 $lang['extra_export_thead_date'] = 'កាលបរិច្ឆេទ';
