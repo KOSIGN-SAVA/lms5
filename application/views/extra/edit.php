@@ -53,13 +53,7 @@ if (isset($_GET['source'])) {
 		</span>
 	</span>
 	&nbsp;&nbsp;
-	<span class="date" id= "lb_dh"><?php 
-		if(empty($extra['time_cnt'])){
-			echo '0.00';
-		}else{
-			echo $extra['time_cnt'];
-		}
-		?></span>&nbsp;<span>hours</span>
+	<span class="date" id= "lb_dh">0h 0mn</span>
 	<input  type= "hidden" value = "<?php 
 		if(empty($extra['time_cnt'])){
 			echo '0.00';
@@ -125,6 +119,7 @@ if ($language_code != 'en') { ?>
         
         if ($('#viz_date').val() == "") fieldname = "<?php echo lang('extra_edit_field_date');?>";
         if ($('#duration').val() == "") fieldname = "<?php echo lang('extra_edit_field_duration');?>";
+        if (Number($('#duration').val()) == 0) fieldname = "<?php echo lang('extra_create_field_duration');?>";
         if ($('#cause').val() == "") fieldname = "<?php echo lang('extra_edit_field_cause');?>";
         if (fieldname == "") {
             return true;
@@ -160,7 +155,10 @@ if ($language_code != 'en') { ?>
 
 		  var dh = diff.asHours().toFixed(2);
 		  var duration = (dh * 0.125).toFixed(2);
-		  $("#lb_dh").text(dh);
+		  var nm = Math.round(dh * 60);
+		  var h = parseInt(nm / 60);
+		  var m = nm % 60;
+		  $("#lb_dh").text(h +"h "+ m + "mn");
 		  $("#time_cnt").val(dh);
 		  $("#duration").val(duration); 
 		  
@@ -191,11 +189,33 @@ if ($language_code != 'en') { ?>
     }
     
     $(function () {
+		var nm = 0;
+		var h = 0;
+		var m = 0;
+		var nm = Number($("#time_cnt").val());
+		console.log("mn",nm);
+		if(nm != 0){
+			nm = Math.round(nm * 60);
+			h = parseInt(nm / 60);
+			m = nm % 60;
+		}
+		
+		$("#lb_dh").text(h +"h "+ m + "mn");
+		
+        
         $("#btn_start_time").click(function(){
 			$("#start_time").focus();
         });
         $("#btn_end_time").click(function(){
 			$("#end_time").focus();
+        });
+
+        $('#start_time').blur(function(){
+       	 calcTime();
+        });
+
+        $('#end_time').blur(function(){
+       	 calcTime();
         });
         
     	$('#start_time').timepicker({
