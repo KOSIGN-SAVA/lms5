@@ -42,14 +42,15 @@
 		</span>
 	</span>
 	&nbsp;&nbsp;
-	<span class="date" id= "lb_dh"><?php 
+	<span class="date" id= "lb_dh"></span>
+	<input  type= "hidden" value = "<?php 
 		if(empty($extra['time_cnt'])){
 			echo '0.00';
 		}else{
 			echo $extra['time_cnt'];
 		}
-		?></span>&nbsp;<span>hours</span>
-	
+		?>" name = "time_cnt" id="time_cnt">
+
     
     <label for="duration" required><?php echo lang('extra_view_field_duration');?></label>
     <input type="text" name="duration"  value="<?php echo $extra['duration']; ?>" readonly />
@@ -68,3 +69,19 @@
     &nbsp;
     <?php } ?>
     <a href="<?php echo base_url() . $source; ?>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i>&nbsp;<?php echo lang('extra_view_button_back_list');?></a>
+    
+    <script>
+    $(function () {
+    	var nm = 0;
+    	var h = 0;
+    	var m = 0;
+    	var nm = Number($("#time_cnt").val());
+    	if(nm != 0){
+    		nm = Math.round(nm * 60);
+    		h = parseInt(nm / 60);
+    		m = nm % 60;
+    	}
+    	$("#lb_dh").text(h +"h "+ m + "mn");
+    });
+    
+    </script>
