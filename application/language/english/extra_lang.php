@@ -47,6 +47,8 @@ $lang['extra_edit_field_cause'] = 'Reason';
 $lang['extra_edit_field_status'] = 'Status';
 $lang['extra_edit_button_update'] = 'Update overtime';
 $lang['extra_edit_button_cancel'] = 'Cancel';
+$lang['extra_view_label_hours'] = 'hours';
+$lang['extra_view_label_minute'] = 'minute';
 $lang['extra_edit_msg_error'] = 'You cannot edit an overtime request already submitted';
 $lang['extra_edit_msg_success'] = 'The overtime request has been succesfully updated';
 
