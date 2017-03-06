@@ -108,6 +108,8 @@ if ($language_code != 'en') { ?>
 <?php require_once dirname(BASEPATH) . "/local/triggers/extra_view.php"; ?>
 
 <script type="text/javascript">
+	var wH = '<?php echo lang("extra_view_label_hours")?>';
+	var wM = '<?php echo lang("extra_view_label_minute")?>';
     
     function validate_form() {
         var fieldname = "";
@@ -158,7 +160,7 @@ if ($language_code != 'en') { ?>
 		  var nm = Math.round(dh * 60);
 		  var h = parseInt(nm / 60);
 		  var m = nm % 60;
-		  $("#lb_dh").text(h +"h "+ m + "mn");
+		  $("#lb_dh").text(h + wH +" "+ m + wM);
 		  $("#time_cnt").val(dh);
 		  $("#duration").val(duration); 
 		  
@@ -200,7 +202,7 @@ if ($language_code != 'en') { ?>
 			m = nm % 60;
 		}
 		
-		$("#lb_dh").text(h +"h "+ m + "mn");
+		$("#lb_dh").text(h + wH +" "+ m + wM);
 		
         
         $("#btn_start_time").click(function(){
