@@ -71,6 +71,8 @@
     <a href="<?php echo base_url() . $source; ?>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i>&nbsp;<?php echo lang('extra_view_button_back_list');?></a>
     
     <script>
+    var wH = '<?php echo lang("extra_view_label_hours")?>';
+    var wM = '<?php echo lang("extra_view_label_minute")?>';
     $(function () {
     	var nm = 0;
     	var h = 0;
@@ -81,7 +83,7 @@
     		h = parseInt(nm / 60);
     		m = nm % 60;
     	}
-    	$("#lb_dh").text(h +"h "+ m + "mn");
+    	$("#lb_dh").text(h + wH +" "+ m + wM);
     });
     
     </script>
