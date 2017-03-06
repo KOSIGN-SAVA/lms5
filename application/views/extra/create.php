@@ -40,7 +40,7 @@ echo form_open('extra/create', $attributes) ?>
 		</span>
 	</span>
 	&nbsp;&nbsp;
-	<span class="date" id= "lb_dh">0.00</span>&nbsp;<span>hours</span>
+	<span class="date" id= "lb_dh">0h 0mn</span>
 	<input  type= "hidden" value = "0.00" name = "time_cnt" id="time_cnt">
 	
     
@@ -135,6 +135,13 @@ if ($language_code != 'en') { ?>
          $("#btn_end_time").click(function(){
  			$("#end_time").focus();
          });
+         $('#start_time').blur(function(){
+        	 calcTime();
+         });
+
+         $('#end_time').blur(function(){
+        	 calcTime();
+         });
         
     	$('#start_time').timepicker({
 			showLeadingZero: false,
@@ -218,7 +225,10 @@ if ($language_code != 'en') { ?>
 				  }
 				  var dh = diff.asHours().toFixed(2);
 				  var duration = (dh * 0.125).toFixed(2);
-				  $("#lb_dh").text(dh);
+				  var nm = Math.round(dh * 60);
+				  var h = parseInt(nm / 60);
+				  var m = nm % 60;
+				  $("#lb_dh").text(h +"h "+ m + "mn");
 				  $("#time_cnt").val(dh);
 				  $("#duration").val(duration);
 	
