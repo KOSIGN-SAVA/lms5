@@ -45,6 +45,8 @@ $lang['extra_edit_field_cause'] = '사유';
 $lang['extra_edit_field_status'] = '상태';
 $lang['extra_edit_button_update'] = '초과근무 수정';
 $lang['extra_edit_button_cancel'] = '취소';
+$lang['extra_view_label_hours'] = '시간';
+$lang['extra_view_label_minute'] = '분';
 $lang['extra_edit_msg_error'] = '이미 제출 된 초과근무 요청을 편집 할 수 없습니다.';
 $lang['extra_edit_msg_success'] = '초과근무 요청이 성공적으로 수정되었습니다.';
 
