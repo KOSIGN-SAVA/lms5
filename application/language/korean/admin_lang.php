@@ -67,3 +67,8 @@ $lang['admin_diagnostic_balance_thead_employee'] = '직원';
 $lang['admin_diagnostic_balance_thead_contract'] = '계약';
 $lang['admin_diagnostic_balance_thead_start_date'] = '시작 일자';
 $lang['admin_diagnostic_balance_thead_status'] = '상태';
+
+$lang['admin_diagnostic_employee_no_entitlement_id'] = 'ID';
+$lang['admin_diagnostic_employee_no_entitlement_name'] = 'Name';
+$lang['admin_diagnostic_employee_no_entitlement_organization'] = 'Organization';
+$lang['admin_diagnostic_employee_no_entitlement_position'] = 'Position';
