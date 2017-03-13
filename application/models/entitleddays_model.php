@@ -239,4 +239,21 @@ class Entitleddays_model extends CI_Model {
         $this->db->order_by("users.id", "asc");
         return $this->db->get()->result_array();
     }
+    
+    /**
+     * List all employed who no entitle day setting.
+     * @return array List of possible duplicated leave requests
+     * @author Prak Virak <prakvirak54@gmail.com>
+     */
+    public function getListEmployeeNoEntitleDay() {
+    	$sql = "select users.*,organization.name as organization, positions.name as position from users
+					left join organization on users.organization = organization.id
+					left join positions on users.position = positions.id
+					where not exists (select 'X' from entitleddays where employee = users.id )
+					and active = 1";
+    	$this->db->query($sql);
+    	$query = $this->db->query($sql);
+    	
+    	return $query->result_array();
+    }
 }
