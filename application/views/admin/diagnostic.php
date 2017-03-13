@@ -182,6 +182,38 @@ $unusedContracts_count = ($unusedContracts_count == 0)?'':'<span class="badge ba
           </tbody>
         </table>
         <?php }?>
+        
+        <p>List of employees has no entitle days</p>
+        <?php if (count($emplNoEntitleDay)==0) {?>
+        <p><b><?php echo lang('admin_diagnostic_no_error');?></b></p>
+        <?php } else {?>
+        <table id="emplNoEntitlement" style="width:100%" class="table table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+                <th><?php echo lang('admin_diagnostic_employee_no_entitlement_id');?></th>
+                <th><?php echo lang('admin_diagnostic_employee_no_entitlement_name');?></th>
+                <th><?php echo lang('admin_diagnostic_employee_no_entitlement_organization');?></th>
+                <th><?php echo lang('admin_diagnostic_employee_no_entitlement_position');?></th>
+            </tr>
+          </thead>
+          <tbody>
+          	 <?php foreach ($emplNoEntitleDay as $empl) :
+          	 ?>
+          	  <tr>
+                <td><?php echo $empl["id"];?></td>
+                <td><?php echo $empl["lastname"] . " " . $empl["firstname"];?></td>
+                <td><?php echo $empl["organization"]; ?></td>
+                <td><?php echo $empl["position"]; ?></td>
+            </tr>
+          	 <?php 
+        	
+       	 endforeach
+        ?>
+          </tbody>
+        </table>
+        <?php }?>
+        
+        
   </div>
     
   <div class="tab-pane" id="overtime">
@@ -289,3 +321,38 @@ $unusedContracts_count = ($unusedContracts_count == 0)?'':'<span class="badge ba
 </div>
     </div>
 </div>
+
+<link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    //Transform the HTML table in a fancy datatable
+    $('#emplNoEntitlement').dataTable({
+        stateSave: true,
+        language: {
+            decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
+            processing:       "<?php echo lang('datatable_sProcessing');?>",
+            search:              "<?php echo lang('datatable_sSearch');?>",
+            lengthMenu:     "<?php echo lang('datatable_sLengthMenu');?>",
+            info:                   "<?php echo lang('datatable_sInfo');?>",
+            infoEmpty:          "<?php echo lang('datatable_sInfoEmpty');?>",
+            infoFiltered:       "<?php echo lang('datatable_sInfoFiltered');?>",
+            infoPostFix:        "<?php echo lang('datatable_sInfoPostFix');?>",
+            loadingRecords: "<?php echo lang('datatable_sLoadingRecords');?>",
+            zeroRecords:    "<?php echo lang('datatable_sZeroRecords');?>",
+            emptyTable:     "<?php echo lang('datatable_sEmptyTable');?>",
+            paginate: {
+                first:          "<?php echo lang('datatable_sFirst');?>",
+                previous:   "<?php echo lang('datatable_sPrevious');?>",
+                next:           "<?php echo lang('datatable_sNext');?>",
+                last:           "<?php echo lang('datatable_sLast');?>"
+            },
+            aria: {
+                sortAscending:  "<?php echo lang('datatable_sSortAscending');?>",
+                sortDescending: "<?php echo lang('datatable_sSortDescending');?>"
+            }
+        },
+    });
+ });
+
+</script>
