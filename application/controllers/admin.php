@@ -54,9 +54,14 @@ class Admin extends CI_Controller {
         $this->load->model('entitleddays_model');
         $this->load->model('dayoffs_model');
         $this->load->model('contracts_model');
+        $this->load->model('overtime_model');//#6409
+        
+        $this->lang->load('datatable', $this->language);
+        
         $data['duplicatedLeaves'] = $this->leaves_model->detectDuplicatedRequests();
         $data['wrongDateType'] = $this->leaves_model->detectWrongDateTypes();
         $data['entitlmentOverflow'] = $this->entitleddays_model->detectOverflow();
+        $data['emplNoEntitleDay'] = $this->entitleddays_model->getListEmployeeNoEntitleDay();
         $data['daysOffYears'] = $this->dayoffs_model->checkIfDefined(date("Y"));
         $data['negativeOvertime'] = $this->overtime_model->detectNegativeOvertime();
         $data['unusedContracts'] = $this->contracts_model->notUsedContracts();
