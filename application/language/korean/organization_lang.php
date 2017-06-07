@@ -15,6 +15,7 @@ $lang['organization_index_thead_id'] = 'ID';
 $lang['organization_index_thead_firstname'] = '이름';
 $lang['organization_index_thead_lastname'] = '성';
 $lang['organization_index_thead_email'] = '이메일';
+$lang['organization_index_thead_manager'] = '매니저';
 $lang['organization_index_button_add_employee'] = '직원 할당';
 $lang['organization_index_button_remove_employee'] = '직원 해제';
 $lang['organization_index_button_select_supervisor'] = '선택';

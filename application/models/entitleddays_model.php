@@ -250,7 +250,7 @@ class Entitleddays_model extends CI_Model {
 					left join organization on users.organization = organization.id
 					left join positions on users.position = positions.id
 					where not exists (select 'X' from entitleddays where employee = users.id )
-					and active = 1";
+					and active = 1 and contract = 1";
     	$this->db->query($sql);
     	$query = $this->db->query($sql);
     	

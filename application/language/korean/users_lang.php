@@ -33,6 +33,9 @@ $lang['users_index_popup_password_button_cancel'] = '취소';
 $lang['users_index_popup_import_title'] = '사용자 가져오기';
 $lang['users_index_popup_field_filename'] = '파일명';
 $lang['users_index_popup_import_button_cancel'] = '취소';
+$lang['users_index_index_button_all'] = 'All';
+$lang['users_index_button_active'] = 'Active';
+$lang['users_index_button_inactive'] = 'Inactive';
 
 $lang['employees_index_title'] = '직원 목록';
 
@@ -159,3 +162,4 @@ $lang['users_export_thead_firstname'] = '이름';
 $lang['users_export_thead_lastname'] = '성';
 $lang['users_export_thead_email'] = '이메일';
 $lang['users_export_thead_manager'] = '매니저';
+

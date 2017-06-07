@@ -398,7 +398,7 @@ $config['login_pattern'] = 'jdoe';            //(default) First letter of firstn
 
 //____________________________________________________________________________
 //Set this value to TRUE if you want to create leaves at status requested instead of planned
-$config['leave_status_requested'] = FALSE;
+$config['leave_status_requested'] = TRUE;
 $config['default_leave_type'] = 0;      //Set this value with the default leave type identifier (integer).
 
 //Create a leave request / Allow overwrite of the duration
@@ -414,7 +414,7 @@ $config['notify_cancelled_requests'] = TRUE;             //Switch to send email 
 
 //____________________________________________________________________________
 //Set this value to TRUE if you want to create extras at status requested instead of planned
-$config['extra_status_requested'] = FALSE;
+$config['extra_status_requested'] = TRUE;
 
 //____________________________________________________________________________
 //Set this value to TRUE if you want to allow employees to edit or delete rejected leave requests, 2 use cases :
@@ -425,7 +425,11 @@ $config['edit_rejected_requests'] = FALSE;
 
 //____________________________________________________________________________
 //Set this value to TRUE if you want to allow manager to create leave requests in behalf of their collaborators
-$config['requests_by_manager'] = FALSE;
+$config['requests_by_manager'] = true;
+
+//____________________________________________________________________________
+//Set this value to TRUE if you want to allow manager to create overtime requests in behalf of their collaborators
+$config['requests_overtime_by_manager'] = true;
 
 //____________________________________________________________________________
 //List of available languages. If you limit this list to one language, the list of available languages will be hidden from the login form
@@ -470,10 +474,10 @@ $config['ldap_basedn_db'] = FALSE;      //If TRUE, ldap path is taken from user 
 
 //____________________________________________________________________________
 //Oauth2 configuration
-$config['oauth2_enabled'] = FALSE;
+$config['oauth2_enabled'] = TRUE;
 $config['oauth2_provider'] = 'google';   //Supported providers: google
-$config['oauth2_client_id'] = '';
-$config['oauth2_client_secret'] = '';
+$config['oauth2_client_id'] = '717407829635-d42sbsgp8v2jlavkkheeth6c33mi8rlj.apps.googleusercontent.com';
+$config['oauth2_client_secret'] = 'j6UC6FpIU3P-kwEvdZxq2-hh';
 
 //____________________________________________________________________________
 //SAML configuration
@@ -497,7 +501,8 @@ $config['spreadsheet_format'] = 'xlsx';   //Supported formats: xlsx, ods
 
 //____________________________________________________________________________
 //Set this value to TRUE if you want to enable history of change (beware that it will impact the performance)
-$config['enable_history'] = true;
+$config['enable_history'] = TRUE;
+$config['enable_user_history'] = true;
 
 
 //____________________________________________________________________________
@@ -508,11 +513,17 @@ $config['API_KEY'] = "c40a650e-ce68-48ea-a96e-56c554d91165";
 // $config['_smtp_auth'] = FALSE;
 
 //____________________________________________________________________________
+//store fix value
+$config['annual_leave_code'] = "0";
+$config['special_leave_code'] = "4";
+
+//____________________________________________________________________________
 //store database name and code
 $config['database'] = array(
 		//'default'=>'Default',
 		'kosign'=>'KOSIGN'
 		
 );
+
 
 

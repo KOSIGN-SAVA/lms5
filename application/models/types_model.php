@@ -19,6 +19,7 @@ class Types_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function __construct() {
+    	if($this->session->userdata('database') != NULL)
     	$this->db = $this->load->database($this->session->userdata('database'), TRUE);
         
     }

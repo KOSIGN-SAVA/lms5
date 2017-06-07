@@ -338,6 +338,110 @@ class Leaves_model extends CI_Model {
     }
     
     /**
+     * Compute the KOSIGN leave balance of an employee (used by report and counters)
+     * @param int $id ID of the employee
+     * @param bool $sum_extra TRUE: sum compensate summary
+     * @param string $refDate tmp of the Date of reference (or current date if NULL)
+     * @return array computed aggregated taken/entitled leaves
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function getKoLeaveBalanceForEmployee($id, $sum_extra = FALSE, $refDate = NULL) {
+    	//Determine if we use current date or another date
+    	if ($refDate == NULL) {
+    		$refDate = date("Y-m-d");
+    	}
+    
+    	//Compute the current leave period and check if the user has a contract
+    	$this->load->model('contracts_model');
+    	$hasContract = $this->contracts_model->getBoundaries($id, $startentdate, $endentdate, $refDate);
+    	if ($hasContract) {
+    		$this->load->model('types_model');
+    		$this->load->model('users_model');
+    		//Fill a list of all existing leave types
+    		$summary = $this->types_model->allTypes($compensate_name);
+    		//Get the sum of entitled days
+    		$user = $this->users_model->getUsers($id);
+    		$entitlements = $this->getSumEntitledDays($id, $user['contract'], $refDate);
+    
+    		foreach ($entitlements as $entitlement) {
+    			//Get the total of taken leaves grouped by type
+    			$this->db->select('SUM(leaves.duration) as taken, types.name as type');
+    			$this->db->from('leaves');
+    			$this->db->join('types', 'types.id = leaves.type');
+    			$this->db->where('leaves.employee', $id);
+    			$this->db->where('leaves.status', 3);
+    			$this->db->where('leaves.startdate >= ', $entitlement['min_date']);
+    			$this->db->where('leaves.enddate <=', $entitlement['max_date']);
+    			$this->db->where('leaves.type', $entitlement['type_id']);
+    			$this->db->group_by("leaves.type");
+    			$taken_days = $this->db->get()->result_array();
+    			//Count the number of taken days
+    			foreach ($taken_days as $taken) {
+    				$summary[$taken['type']][0] = (float) $taken['taken']; //Taken
+    			}
+    			//Report the number of available days
+    			$summary[$entitlement['type_name']][1] = (float) $entitlement['entitled'];
+    			$summary[$entitlement['type_name']][2] = $entitlement['type_id'];
+    		}
+    
+    		$sum = 0;
+    		/*
+    		 //Add the validated catch up days
+    		 //Employee must catch up in the year
+    		 $this->db->select('duration, date, cause');
+    		 $this->db->from('overtime');
+    		 $this->db->where('employee', $id);
+    		 $this->db->where("date >= DATE_SUB(STR_TO_DATE('" . $refDate . "', '%Y-%m-%d'),INTERVAL 1 YEAR)");
+    		 $this->db->where('status = 3'); //Accepted
+    		 $overtime_days = $this->db->get()->result_array();
+    		 foreach ($overtime_days as $entitled) {
+    		 if ($sum_extra == FALSE) {
+    		 $summary['Catch up for ' . $entitled['date']][0] = '-'; //taken
+    		 $summary['Catch up for ' . $entitled['date']][1] = (float) $entitled['duration']; //entitled
+    		 $summary['Catch up for ' . $entitled['date']][2] = $entitled['cause']; //description
+    		 }
+    		 $sum += (float) $entitled['duration']; //entitled
+    		 }
+    		 */
+    
+    		// if annaul leave is not set
+    		if ($summary[$compensate_name][0] == 0 && $summary[$compensate_name][1] == 0) {
+    			$this->db->select('sum(leaves.duration) as taken');
+    			$this->db->from('leaves');
+    			$this->db->where('leaves.employee', $id);
+    			$this->db->where('leaves.status', 3);
+    			$this->db->where('leaves.type', 0);
+    
+    			$this->db->where("leaves.startdate >= DATE_SUB(STR_TO_DATE('" . $refDate . "', '%Y-%m-%d'),INTERVAL 1 YEAR)");
+    			//                $this->db->where("leaves.enddate < STR_TO_DATE('" . $refDate . "', '%Y-%m-%d')");
+    
+    			$this->db->group_by("leaves.type");
+    			$taken_days = $this->db->get()->result_array();
+    
+    			if (count($taken_days) > 0) {
+    				$summary[$compensate_name][0] = (float)$taken_days[0]['taken']; //taken
+    			} else {
+    				$summary[$compensate_name][0] = 0; //taken
+    			}
+    			//Add the sum of validated catch up for the employee
+    			if (array_key_exists($compensate_name, $summary)) {
+    				$summary[$compensate_name][1] = (float)$summary[$compensate_name][1] + $sum; //entitled
+    			}
+    		}
+    
+    		//Remove all lines having taken and entitled set to set to 0
+    		foreach ($summary as $key => $value) {
+    			if ($value[0]==0 && $value[1]==0) {
+    				unset($summary[$key]);
+    			}
+    		}
+    		return $summary;
+    	} else { //User attached to no contract
+    		return NULL;
+    	}
+    }
+    
+    /**
      * Get the number of days a user can take for a given leave type
      * @param int $id employee identifier
      * @param string $type leave type name

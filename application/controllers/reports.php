@@ -81,6 +81,26 @@ class Reports extends CI_Controller {
         $this->load->view('reports/balance/index', $data);
         $this->load->view('templates/footer');
     }
+    /**
+     * Landing page of the shipped-in balance report
+     * @param string $refTmp Optional Unix timestamp (set a date of reference for the report).
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function ko_balance($refTmp = NULL) {
+    	$this->auth->checkIfOperationIsAllowed('native_report_balance');
+    	$data = getUserContext($this);
+    	$refDate = date("Y-m-d");
+    	if ($refTmp != NULL) {
+    		$refDate = date("Y-m-d", $refTmp);
+    	}
+    	$data['refDate'] = $refDate;
+    	$data['title'] = lang('reports_balance_title');
+    	$data['help'] = $this->help->create_help_link('global_link_doc_page_leave_balance_report');
+    	$this->load->view('templates/header', $data);
+    	$this->load->view('menu/index', $data);
+    	$this->load->view('reports/ko_balance/index', $data);
+    	$this->load->view('templates/footer');
+    }
     
     /**
      * Ajax end-point : execute the balance report
@@ -112,19 +132,24 @@ class Reports extends CI_Controller {
             $result[$user->id]['contract'] = $user->contract;
             //Init type columns
             foreach ($types as $type) {
-                $result[$user->id][$type['name']] = '';
+                $result[$user->id][$type['name']. "_entitled"] = '';
+                $result[$user->id][$type['name']. "_taken"] = '';
+                $result[$user->id][$type['name']. "_balance"] = '';
             }
             
             $summary = $this->leaves_model->getLeaveBalanceForEmployee($user->id, TRUE, $refDate);
             if (count($summary) > 0 ) {
                 foreach ($summary as $key => $value) {
-                    $result[$user->id][$key] = round($value[1] - $value[0], 3, PHP_ROUND_HALF_DOWN);
+                	$result[$user->id][$key . "_entitled"] = $value[1];
+                	$result[$user->id][$key . "_taken"] = $value[0];
+                	$result[$user->id][$key . "_balance"] = round($value[1] - $value[0], 3, PHP_ROUND_HALF_DOWN);
                 }
             }
         }
         
         $table = '';
         $thead = '';
+        $thead2 = '';
         $tbody = '';
         $line = 2;
         $i18n = array("identifier", "firstname", "lastname", "datehired", "department", "position", "contract");
@@ -134,13 +159,17 @@ class Reports extends CI_Controller {
             foreach ($row as $key => $value) {
                 if ($line == 2) {
                     if (in_array($key, $i18n)) {
-                        $thead .= '<th>' . lang($key) . '</th>';
-                    } else {
-                        $thead .= '<th>' . $key . '</th>';
+                        $thead .= '<th rowspan="2" style = "vertical-align: middle;">' . lang($key) . '</th>';
                     }
                 }
                 $tbody .= '<td>' . $value . '</td>';
                 $index++;
+            }
+            if($line == 2){
+            	foreach ($types as $type) {
+            		$thead .= '<th colspan="3" style="text-align: center;">' . $type['name'] . '</th>';
+            		$thead2.= '<th>Entitled</th>' . '<th>Taken</th>' . '<th>Balance</th>';
+            	};
             }
             $tbody .= '</tr>';
             $line++;
@@ -150,6 +179,9 @@ class Reports extends CI_Controller {
                         '<tr>' .
                             $thead .
                         '</tr>' .
+                        '<tr>' .
+                        	$thead2 .
+                        '</tr>' .
                     '</thead>' .
                     '<tbody>' .
                         $tbody .
@@ -157,6 +189,151 @@ class Reports extends CI_Controller {
                 '</table>';
         
         echo $table;
+    }
+    
+    /**
+     * Ajax end-point : execute the balance report
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function koExecuteBalanceReport() {
+    	$this->auth->checkIfOperationIsAllowed('native_report_balance');
+    	$this->load->model('leaves_model');
+    	$this->load->model('types_model');
+    	$this->load->model('organization_model');
+    	$result = array();
+    	$types = $this->types_model->getTypes();
+    	$this->lang->load('global', $this->language);
+    	
+    	//leave code
+    	$annual_leave_code = $this->config->item('annual_leave_code');
+    	$specail_leave_code = $this->config->item('special_leave_code');
+    
+    	$refDate = date("Y-m-d");
+    	if (isset($_GET['refDate']) && $_GET['refDate'] != NULL) {
+    		$refDate = date("Y-m-d", $_GET['refDate']);
+    	}
+    	$include_children = filter_var($_GET['children'], FILTER_VALIDATE_BOOLEAN);
+    	$users = $this->organization_model->allEmployees($_GET['entity'], $include_children);
+    	foreach ($users as $user) {
+    		$result[$user->id]['identifier'] = $user->identifier;
+    		$result[$user->id]['firstname'] = $user->firstname;
+    		$result[$user->id]['lastname'] = $user->lastname;
+    		$date = new DateTime($user->datehired);
+    		$result[$user->id]['datehired'] = $date->format(lang('global_date_format'));
+    		$result[$user->id]['department'] = $user->department;
+    		$result[$user->id]['position'] = $user->position;
+    		$result[$user->id]['contract'] = $user->contract;
+    		//Init type columns
+    		foreach ($types as $type) {
+    			$result[$user->id][$type['name']. "_entitled"] = '';
+    			$result[$user->id][$type['name']. "_taken"] = '';
+    			$result[$user->id][$type['name']. "_balance"] = '';
+    		}
+    
+    		$summary = $this->leaves_model->getKoLeaveBalanceForEmployee($user->id, TRUE, $refDate);
+    		if (count($summary) > 0 ) {
+    			
+    			//calculate with taken of anual leave and special leave
+    			$taken_annual_leave_value = 0;
+    			$taken_special_leave_value = 0;
+    			
+    			$entitled_annual_leave_value = 0;
+    			$entitled_special_leave_value = 0;
+    			
+    			$annual_leave_key = "";
+    			$special_leave_key = "";
+    			
+    			foreach ($summary as $key => $value) {
+    				if($value[2] == $annual_leave_code){
+    					$taken_annual_leave_value = $value[0];
+    					$annual_leave_key = $key;
+    					$entitled_annual_leave_value = $value[1];
+    				}
+    				else if($value[2] == $specail_leave_code){
+    					$taken_special_leave_value = $value[0];
+    					$special_leave_key = $key;
+    					$entitled_special_leave_value = $value[1];
+    				}
+    				else{
+    					$result[$user->id][$key . "_taken"] = $value[0];
+    					$result[$user->id][$key . "_balance"] = round($value[1] - $value[0], 3, PHP_ROUND_HALF_DOWN);
+    				} 
+    				//$result[$user->id][$key . "_taken"] = $value[0];
+    				
+    				$result[$user->id][$key . "_entitled"] = $value[1];
+    				
+    				
+    			}
+    			
+    			//set taken of annual and special leave value
+    			$new_taken_annual_leave_value = $taken_annual_leave_value + $taken_special_leave_value;
+    			$new_balance_anual_leave_value = $entitled_annual_leave_value - $new_taken_annual_leave_value;
+    			$new_taken_special_leave_value = 0;
+    			$new_balance_special_leave_value = 0;
+    			
+    			if($new_balance_anual_leave_value < 0 ){
+    				$new_taken_special_leave_value = $taken_special_leave_value;
+    			}
+    			
+    			if($new_balance_anual_leave_value <= 0 ){
+    				$new_balance_anual_leave_value = 0;
+    			}
+    			
+    			$new_balance_special_leave_value = $entitled_special_leave_value - $new_taken_special_leave_value;
+    			
+    			if($annual_leave_key != ""){
+    				$result[$user->id][$annual_leave_key . "_taken"] = $new_taken_annual_leave_value;
+    				$result[$user->id][$annual_leave_key . "_balance"] = $new_balance_anual_leave_value;
+    			}
+    			if($special_leave_key != ""){
+    				$result[$user->id][$special_leave_key . "_taken"] = $new_taken_special_leave_value;
+    				$result[$user->id][$special_leave_key . "_balance"] = $new_balance_special_leave_value;
+    			}
+    		}
+    	}
+    
+    	$table = '';
+    	$thead = '';
+    	$thead2 = '';
+    	$tbody = '';
+    	$line = 2;
+    	$i18n = array("identifier", "firstname", "lastname", "datehired", "department", "position", "contract");
+    	foreach ($result as $row) {
+    		$index = 1;
+    		$tbody .= '<tr>';
+    		foreach ($row as $key => $value) {
+    			if ($line == 2) {
+    				if (in_array($key, $i18n)) {
+    					$thead .= '<th rowspan="2" style = "vertical-align: middle;">' . lang($key) . '</th>';
+    				}
+    			}
+    			$tbody .= '<td>' . $value . '</td>';
+    			$index++;
+    		}
+    		if($line == 2){
+    			foreach ($types as $type) {
+    				$thead .= '<th colspan="3" style="text-align: center;">' . $type['name'] . '</th>';
+    				$thead2.= '<th>Entitled</th>' . '<th>Taken</th>' . '<th>Balance</th>';
+    			};
+    		}
+    		$tbody .= '</tr>';
+    		$line++;
+    	}
+    	$table = '<table class="table table-bordered table-hover">' .
+    			'<thead>' .
+    			'<tr>' .
+    			$thead .
+    			'</tr>' .
+    			'<tr>' .
+    			$thead2 .
+    			'</tr>' .
+    			'</thead>' .
+    			'<tbody>' .
+    			$tbody .
+    			'</tbody>' .
+    			'</table>';
+    
+    	echo $table;
     }
     
     /**
@@ -175,6 +352,24 @@ class Reports extends CI_Controller {
         }
         $data['include_children'] = filter_var($_GET['children'], FILTER_VALIDATE_BOOLEAN);
         $this->load->view('reports/balance/export', $data);
+    }
+    
+    /**
+     * Export the balance report into Excel
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function koExportBalanceReport() {
+    	$this->auth->checkIfOperationIsAllowed('native_report_balance');
+    	$this->load->model('leaves_model');
+    	$this->load->model('types_model');
+    	$this->load->model('organization_model');
+    	$this->load->library('excel');
+    	$data['refDate'] = date("Y-m-d");
+    	if (isset($_GET['refDate']) && $_GET['refDate'] != NULL) {
+    		$data['refDate'] = date("Y-m-d", $_GET['refDate']);
+    	}
+    	$data['include_children'] = filter_var($_GET['children'], FILTER_VALIDATE_BOOLEAN);
+    	$this->load->view('reports/ko_balance/export', $data);
     }
     
     /**
@@ -377,5 +572,132 @@ class Reports extends CI_Controller {
         $data['include_children'] = filter_var($_GET['children'], FILTER_VALIDATE_BOOLEAN);
         $this->load->view('reports/leaves/export', $data);
     }
+    
+    /**
+     * List of report with which is confirmed.
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     * @since 0.4.3
+     */
+    public function overtimeReport($refTmp = NULL) {
+    	$this->auth->checkIfOperationIsAllowed('native_report_balance');
+    	$data = getUserContext($this);
+    	$refDate = date("Y-m-d");
+    	if ($refTmp != NULL) {
+    		$refDate = date("Y-m-d", $refTmp);
+    	}
+    	$data['refDate'] = $refDate;
+    	$data['title'] = lang('reports_balance_title');
+    	$data['help'] = $this->help->create_help_link('global_link_doc_page_leave_balance_report');
+    	$this->load->view('templates/header', $data);
+    	$this->load->view('menu/index', $data);
+    	$this->load->view('reports/overtime/index', $data);
+    	$this->load->view('templates/footer');
+    }
+    
+    /**
+     * Report leaves request for a month and an entity
+     * This report is inspired by the monthly presence report, but applicable to a set of employee.
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     * @since 0.4.3
+     */
+    public function executeOvertimeReport() {
+    	$this->auth->checkIfOperationIsAllowed('native_report_balance');
+        $this->load->model('leaves_model');
+        $this->load->model('types_model');
+        $this->load->model('organization_model');
+        $result = array();
+        $types = $this->types_model->getTypes();
+        $this->lang->load('global', $this->language);
+        
+        $startDate = date("Y-m-d");
+        $endDate = date("Y-m-d");
+        
+        if (isset($_GET['startDate']) &&  $_GET['startDate'] != NULL) {
+        	$startDate = date("Y-m-d", $_GET['startDate']);
+        }
+        
+        if (isset($_GET['endDate']) && $_GET['endDate'] != NULL) {
+        	$endDate = date("Y-m-d", $_GET['endDate']);
+        }
+        
+        echo $startDate . "====" . $endDate;
+        return;
+		
+        $refDate = date("Y-m-d");
+        if (isset($_GET['refDate']) && $_GET['refDate'] != NULL) {
+            $refDate = date("Y-m-d", $_GET['refDate']);
+        }
+        $include_children = filter_var($_GET['children'], FILTER_VALIDATE_BOOLEAN);
+        $users = $this->organization_model->allEmployees($_GET['entity'], $include_children);
+        foreach ($users as $user) {
+            $result[$user->id]['identifier'] = $user->identifier;
+            $result[$user->id]['firstname'] = $user->firstname;
+            $result[$user->id]['lastname'] = $user->lastname;
+            $date = new DateTime($user->datehired);
+            $result[$user->id]['datehired'] = $date->format(lang('global_date_format'));
+            $result[$user->id]['department'] = $user->department;
+            $result[$user->id]['position'] = $user->position;
+            $result[$user->id]['contract'] = $user->contract;
+            //Init type columns
+            foreach ($types as $type) {
+                $result[$user->id][$type['name']. "_entitled"] = '';
+                $result[$user->id][$type['name']. "_taken"] = '';
+                $result[$user->id][$type['name']. "_balance"] = '';
+            }
+            
+            $summary = $this->leaves_model->getLeaveBalanceForEmployee($user->id, TRUE, $refDate);
+            if (count($summary) > 0 ) {
+                foreach ($summary as $key => $value) {
+                	$result[$user->id][$key . "_entitled"] = $value[1];
+                	$result[$user->id][$key . "_taken"] = $value[0];
+                	$result[$user->id][$key . "_balance"] = round($value[1] - $value[0], 3, PHP_ROUND_HALF_DOWN);
+                }
+            }
+        }
+        
+        $table = '';
+        $thead = '';
+        $thead2 = '';
+        $tbody = '';
+        $line = 2;
+        $i18n = array("identifier", "firstname", "lastname", "datehired", "department", "position", "contract");
+        foreach ($result as $row) {
+            $index = 1;
+            $tbody .= '<tr>';
+            foreach ($row as $key => $value) {
+                if ($line == 2) {
+                    if (in_array($key, $i18n)) {
+                        $thead .= '<th rowspan="2" style = "vertical-align: middle;">' . lang($key) . '</th>';
+                    }
+                }
+                $tbody .= '<td>' . $value . '</td>';
+                $index++;
+            }
+            if($line == 2){
+            	foreach ($types as $type) {
+            		$thead .= '<th colspan="3" style="text-align: center;">' . $type['name'] . '</th>';
+            		$thead2.= '<th>Entitled</th>' . '<th>Taken</th>' . '<th>Balance</th>';
+            	};
+            }
+            $tbody .= '</tr>';
+            $line++;
+        }
+        $table = '<table class="table table-bordered table-hover">' .
+                    '<thead>' .
+                        '<tr>' .
+                            $thead .
+                        '</tr>' .
+                        '<tr>' .
+                        	$thead2 .
+                        '</tr>' .
+                    '</thead>' .
+                    '<tbody>' .
+                        $tbody .
+                    '</tbody>' .
+                '</table>';
+        
+        echo $table;
+    }
+    
     
 }

@@ -64,7 +64,7 @@ class Overtime_model extends CI_Model {
      * @return int id of the overtime request into the db
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function setExtra() {
+    public function setExtra($id = null) {
     	
     	$sTime = explode(":", $this->input->post('start_time'));
     	$eTime = explode(":", $this->input->post('end_time'));
@@ -76,7 +76,6 @@ class Overtime_model extends CI_Model {
     	
         $data = array(
             'date' => $this->input->post('date'),
-            'employee' => $this->session->userdata('id'),
             'duration' => $this->input->post('duration'),
             'cause' => $this->input->post('cause'),
             'status' => $this->input->post('status'),
@@ -84,9 +83,20 @@ class Overtime_model extends CI_Model {
         	'end_time' => $eH.$eM,
         	'time_cnt' => $this->input->post('time_cnt')
         );
+        if($id != null){
+        	$data['employee'] = $id;
+        }else{
+        	$data['employee'] = $this->session->userdata('id');
+        }
         $this->db->insert('overtime', $data);
         
-        return $this->db->insert_id();
+        $id =  $this->db->insert_id();
+        //Trace the modification if the feature is enabled
+        if ($this->config->item('enable_history') == TRUE) {
+        	$this->load->model('history_model');
+        	$this->history_model->setHistory(1, 'overtime', $id, $this->session->userdata('id'));
+        }
+        return $id;
     }
 
     /**
@@ -114,6 +124,12 @@ class Overtime_model extends CI_Model {
         );
         $this->db->where('id', $id);
         $this->db->update('overtime', $data);
+        
+        //Trace the modification if the feature is enabled
+        if ($this->config->item('enable_history') == TRUE) {
+        	$this->load->model('history_model');
+        	$this->history_model->setHistory(2, 'overtime', $id, $this->session->userdata('id'));
+        }
     }
     
     /**
@@ -126,7 +142,13 @@ class Overtime_model extends CI_Model {
             'status' => 3
         );
         $this->db->where('id', $id);
-        return $this->db->update('overtime', $data);
+        $query = $this->db->update('overtime', $data);
+        //Trace the modification if the feature is enabled
+        if ($this->config->item('enable_history') == TRUE) {
+        	$this->load->model('history_model');
+        	$this->history_model->setHistory(2, 'overtime', $id, $this->session->userdata('id'));
+        }
+        return $query;
     }
 
     /**
@@ -140,7 +162,13 @@ class Overtime_model extends CI_Model {
             'status' => 4
         );
         $this->db->where('id', $id);
-        return $this->db->update('overtime', $data);
+        $query = $this->db->update('overtime', $data);
+        //Trace the modification if the feature is enabled
+        if ($this->config->item('enable_history') == TRUE) {
+        	$this->load->model('history_model');
+        	$this->history_model->setHistory(2, 'overtime', $id, $this->session->userdata('id'));
+        }
+        return $query;
     }
     
     /**

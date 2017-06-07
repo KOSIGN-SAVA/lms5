@@ -243,6 +243,7 @@ class Requests extends CI_Controller {
             $data['credit'] = 0;
             $default_type = $this->config->item('default_leave_type');
             $default_type = $default_type == FALSE ? 0 : $default_type;
+            $data["defaultType"] = $default_type;
             if ($this->form_validation->run() === FALSE) {
                 $this->load->model('types_model');
                 $data['types'] = $this->types_model->getTypes();
@@ -252,6 +253,7 @@ class Requests extends CI_Controller {
                         break;
                     }
                 }
+                $data['types'] = $this->types_model->getTypesAsArray();
                 $this->load->model('users_model');
                 $data['name'] = $this->users_model->getName($id);
                 $this->load->view('templates/header', $data);
@@ -265,6 +267,63 @@ class Requests extends CI_Controller {
                 redirect('requests/collaborators');
             }
         }
+    }
+    
+    /**
+     * Create an overtime request
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function createovertime($id) {
+    	$this->auth->checkIfOperationIsAllowed('create_extra');
+    	$data = getUserContext($this);
+    	
+    	$this->lang->load('hr', $this->language);
+    	$this->load->model('users_model');
+    	$employee = $this->users_model->getUsers($id);
+    	
+    	if (($this->user_id != $employee['manager']) && ($this->is_hr === FALSE)) {
+    		log_message('error', 'User #' . $this->user_id . ' illegally tried to access to collaborators/leave/create  #' . $id);
+    		$this->session->set_flashdata('msg', lang('requests_summary_flash_msg_forbidden'));
+    		redirect('requests/collaborators');
+    	}else{
+    		
+    		$this->load->helper('form');
+    		$this->load->library('form_validation');
+    		$this->load->model('overtime_model');
+    		$this->lang->load('extra', $this->language);
+    		$data['form_action'] = 'requests/createovertime/' . $id;
+    		
+    		$this->form_validation->set_rules('date', lang('extra_create_field_date'), 'required|xss_clean|strip_tags');
+    		$this->form_validation->set_rules('duration', lang('extra_create_field_duration'), 'required|xss_clean|strip_tags');
+    		$this->form_validation->set_rules('cause', lang('extra_create_field_cause'), 'required|xss_clean|strip_tags');
+    		$this->form_validation->set_rules('status', lang('extra_create_field_status'), 'required|xss_clean|strip_tags');
+    		if ($this->form_validation->run() === FALSE) {
+    			$data['title'] = lang('extra_create_title');
+    			$data['help'] = $this->help->create_help_link('global_link_doc_page_create_overtime');
+    			$data['name'] = $this->users_model->getName($id);
+    			$this->load->view('templates/header', $data);
+    			$this->load->view('menu/index', $data);
+    			$this->load->view('hr/createovertime', $data);
+    			$this->load->view('templates/footer');
+    		} else {
+    			if (function_exists('triggerCreateExtraRequest')) {
+    				triggerCreateExtraRequest($this);
+    			}
+    			$extra_id = $this->overtime_model->setExtra($id);
+    			$this->session->set_flashdata('msg', lang('extra_create_msg_success'));
+    			//If the status is requested, send an email to the manager
+    			if ($this->input->post('status') == 2) {
+    				$this->sendMailOvertime($extra_id);
+    			}
+    			if (isset($_GET['source'])) {
+    				redirect($_GET['source']);
+    			} else {
+    				redirect('requests/collaborators');
+    			}
+    		}
+    		
+    	}
+    	
     }
     
     /**
@@ -318,6 +377,81 @@ class Requests extends CI_Controller {
             $subject = $lang_mail->line('email_leave_request_reject_subject');
         }
         sendMailByWrapper($this, $subject, $message, $employee['email'], is_null($supervisor)?NULL:$supervisor->email);
+    }
+    
+    /**
+     * Send a overtime request email to the manager of the connected employee
+     * @param int $id overtime request identifier
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    private function sendMailOvertime($id) {
+    	$this->load->model('users_model');
+    	$this->load->model('delegations_model');
+    	$extra = $this->overtime_model->getExtras($id);
+    	$user = $this->users_model->getUsers($extra['employee']);
+    	$manager = $this->users_model->getUsers($user['manager']);
+    	$sesInfor = $this->users_model->getUsers($this->session->userdata('id'));
+    
+    	//Test if the manager hasn't been deleted meanwhile
+    	if (empty($manager['email'])) {
+    		$this->session->set_flashdata('msg', lang('extra_create_msg_error'));
+    	} else {
+    		$acceptUrl = base_url() . 'overtime/accept/' . $id;
+    		$rejectUrl = base_url() . 'overtime/reject/' . $id;
+    
+    		//Send an e-mail to the manager
+    		$this->load->library('email');
+    		$this->load->library('polyglot');
+    		$usr_lang = $this->polyglot->code2language($manager['language']);
+    		//We need to instance an different object as the languages of connected user may differ from the UI lang
+    		$lang_mail = new CI_Lang();
+    		$lang_mail->load('email', $usr_lang);
+    		$lang_mail->load('global', $usr_lang);
+    
+    		$date = new DateTime($this->input->post('date'));
+    		$startdate = $date->format($lang_mail->line('global_date_format'));
+    		
+    		$strDurationSms = "";
+    		
+    		$sTime = explode(":", $this->input->post('start_time'));
+    		$eTime = explode(":", $this->input->post('end_time'));
+    		 
+    		$sH = str_pad($sTime[0], 2, "0", STR_PAD_LEFT);
+    		$sM = str_pad($sTime[1], 2, "0", STR_PAD_LEFT);
+    		$eH = str_pad($eTime[0], 2, "0", STR_PAD_LEFT);
+    		$eM = str_pad($eTime[1], 2, "0", STR_PAD_LEFT);
+    		
+    		$sMM = intval($sH) * 60 + intval($sM);
+    		$eMM = intval($eH) * 60 + intval($eM);
+    		
+    		$diffMM = $eMM - $sMM;
+    		$diffH = intval($diffMM / 60);
+    		$diffM = intval($diffMM % 60);
+    		
+    		$strDurationSms .= $this->input->post('duration')
+    		. " (" . $sH . ":" . $sM . " ~ " . $eH . ":" . $eM
+    		. ", " . $diffH . lang("extra_view_label_hours") . " " . $diffM. lang("extra_view_label_minute"). ")";
+    
+    		$this->load->library('parser');
+    		$data = array(
+    				'Title' => $lang_mail->line('email_extra_request_validation_title'),
+    				'Firstname' => $sesInfor['firstname'],
+    				'Lastname' =>  $sesInfor['lastname'],
+    				'ForFirstname' => $user['firstname'],
+    				'ForLastname' =>  $user['lastname'],
+    				'Date' => $startdate,
+    				'Duration' => $strDurationSms,
+    				'Cause' => $this->input->post('cause'),
+    				'UrlAccept' => $acceptUrl,
+    				'UrlReject' => $rejectUrl
+    		);
+    		$message = $this->parser->parse('emails/' . $manager['language'] . '/overtime_request', $data, TRUE);
+    		//Copy to the delegates, if any
+    		$delegates = $this->delegations_model->listMailsOfDelegates($manager['id']);
+    		$subject = $lang_mail->line('email_extra_request_reject_subject') . ' ' .
+    				$user['firstname'] . ' ' .$user['lastname'];
+    		sendMailByWrapper($this, $subject, $message, $manager['email'], $delegates);
+    	}
     }
     
     /**

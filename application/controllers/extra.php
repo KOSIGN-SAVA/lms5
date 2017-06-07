@@ -223,6 +223,26 @@ class Extra extends CI_Controller {
 
             $date = new DateTime($this->input->post('date'));
             $startdate = $date->format($lang_mail->line('global_date_format'));
+            $strDurationSms = "";
+            
+            $sTime = explode(":", $this->input->post('start_time'));
+            $eTime = explode(":", $this->input->post('end_time'));
+             
+            $sH = str_pad($sTime[0], 2, "0", STR_PAD_LEFT);
+            $sM = str_pad($sTime[1], 2, "0", STR_PAD_LEFT);
+            $eH = str_pad($eTime[0], 2, "0", STR_PAD_LEFT);
+            $eM = str_pad($eTime[1], 2, "0", STR_PAD_LEFT);
+            
+            $sMM = intval($sH) * 60 + intval($sM);
+            $eMM = intval($eH) * 60 + intval($eM);
+            
+            $diffMM = $eMM - $sMM;
+            $diffH = intval($diffMM / 60);
+            $diffM = intval($diffMM % 60);
+            
+            $strDurationSms .= $this->input->post('duration') 
+            			. " (" . $sH . ":" . $sM . " ~ " . $eH . ":" . $eM 
+            			. ", " . $diffH . lang("extra_view_label_hours") . " " . $diffM. lang("extra_view_label_minute"). ")";
 
             $this->load->library('parser');
             $data = array(
@@ -230,7 +250,7 @@ class Extra extends CI_Controller {
                 'Firstname' => $user['firstname'],
                 'Lastname' => $user['lastname'],
                 'Date' => $startdate,
-                'Duration' => $this->input->post('duration'),
+                'Duration' => $strDurationSms,
                 'Cause' => $this->input->post('cause'),
                 'UrlAccept' => $acceptUrl,
                 'UrlReject' => $rejectUrl
@@ -284,5 +304,20 @@ class Extra extends CI_Controller {
     public function export() {
         $this->load->library('excel');
         $this->load->view('extra/export');
+    }
+    
+    /**
+     * Display the history of changes of a leave request
+     * @param int $id Identifier of the leave request
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function history($id) {
+    	$this->auth->checkIfOperationIsAllowed('list_extra');
+    	$data = getUserContext($this);
+    	$this->lang->load('datatable', $this->language);
+    	$data['extra'] = $this->overtime_model->getExtras($id);
+    	$this->load->model('history_model');
+    	$data['events'] = $this->history_model->getOvertimeRequestsHistory($id);
+    	$this->load->view('extra/history', $data);
     }
 }

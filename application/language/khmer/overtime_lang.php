@@ -34,3 +34,8 @@ $lang['overtime_export_thead_date'] = 'កាលបរិច្ឆេទ';
 $lang['overtime_export_thead_duration'] = 'រយៈពេល';
 $lang['overtime_export_thead_cause'] = 'មូលហេតុ';
 $lang['overtime_export_thead_status'] = 'ស្ថានភាព';
+
+$lang['overtime_label_hours'] = 'ម៉ោង';
+$lang['overtime_label_minute'] = 'នាទី';
+
+

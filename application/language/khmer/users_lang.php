@@ -34,6 +34,9 @@ $lang['users_index_popup_password_button_cancel'] = 'បោះបង់';
 $lang['users_index_popup_import_title'] = 'បញ្ចូលឈ្មោះអ្នកប្រើប្រាស់';
 $lang['users_index_popup_field_filename'] = 'ឈ្មោះឯកសារ';
 $lang['users_index_popup_import_button_cancel'] = 'បោះបង់';
+$lang['users_index_index_button_all'] = 'All';
+$lang['users_index_button_active'] = 'Active';
+$lang['users_index_button_inactive'] = 'Inactive';
 
 $lang['employees_index_title'] = 'បញ្ជីនៃបុគ្គលិក';
 

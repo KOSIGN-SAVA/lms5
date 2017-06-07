@@ -7,11 +7,16 @@
  * @since         0.1.0
  */
 ?>
-
 <div class="row-fluid">
     <div class="span12">
         
 <h2><?php echo lang('users_index_title');?><?php echo $help;?></h2>
+        <div class="btn-group" data-toggle="buttons-radio">
+	        <a href="<?php echo base_url();?>users/entity/all" id="cmdAll" type="button" class="btn <?php if($active == "all") echo "active";?>"><?php echo lang('users_index_index_button_all');?></a>
+	        <a href="<?php echo base_url();?>users/entity/active" id="cmdActive" type="button" class="btn <?php if($active == "active") echo "active";?>"><?php echo lang('users_index_button_active');?></a>
+	        <a href="<?php echo base_url();?>users/entity/inactive" id="cmdInactive" type="button" class="btn <?php if($active == "inactive") echo "active";?>"><?php echo lang('users_index_button_inactive');?></a>
+        </div>
+        <br> <br>
 
 <?php echo $flash_partial_view;?>
 
@@ -126,7 +131,7 @@
 $(document).ready(function() {
     //Transform the HTML table in a fancy datatable
     $('#users').dataTable({
-        stateSave: true,
+    	stateSave: true,
         language: {
             decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
             processing:       "<?php echo lang('datatable_sProcessing');?>",

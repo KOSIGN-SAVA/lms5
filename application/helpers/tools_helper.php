@@ -65,6 +65,7 @@ function getUserContext(CI_Controller $controller)
             $data['requested_extra_count'] = 0;
         }
         $data['requests_count'] = $data['requested_leaves_count'] + $data['requested_extra_count'];
+        
     }
     return $data;
 }

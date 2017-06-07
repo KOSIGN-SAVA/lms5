@@ -39,12 +39,37 @@
                 &nbsp;
                 <a href="#" class="confirm-delete" data-id="<?php echo $extra_item['id'];?>" title="<?php echo lang('extra_index_thead_tip_delete');?>"><i class="icon-trash"></i></a>
                 <?php } ?>
+                <?php if ($this->config->item('enable_history') == TRUE) { ?>
+                &nbsp;
+                <a href="#" class="show-history" data-id="<?php echo $extra_item['id'];?>" title="<?php echo lang('extra_index_thead_tip_history');?>"><i class="icon-time"></i></a>
+                <?php } ?>
             </div>
         </td>
 <?php $date = new DateTime($extra_item['date']);
 $tmpDate = $date->getTimestamp();?>
         <td data-order="<?php echo $tmpDate; ?>"><?php echo $date->format(lang('global_date_format'));?></td>
-        <td><?php echo $extra_item['duration']; ?></td>
+        <?php 
+        $strDurationSms = $extra_item['duration'];
+        
+        if(strlen($extra_item["start_time"]) == 4 & strlen($extra_item["end_time"]) == 4){
+        
+        	$sH = substr($extra_item["start_time"], 0, 2);
+        	$sM = substr($extra_item["start_time"], 2, 4);
+        	$eH = substr($extra_item["end_time"], 0, 2);
+        	$eM = substr($extra_item["end_time"], 2, 4);
+        
+        	$sMM = intval($sH) * 60 + intval($sM);
+        	$eMM = intval($eH) * 60 + intval($eM);
+        
+        	$diffMM = $eMM - $sMM;
+        	$diffH = intval($diffMM / 60);
+        	$diffM = intval($diffMM % 60);
+        	$strDurationSms .= " (" . $sH . ":" . $sM . " ~ " . $eH . ":" . $eM
+        	. ", " . $diffH . lang("extra_label_hours") . " " . $diffM. lang("extra_label_minute"). ")";
+        
+        }
+        ?>
+        <td><?php echo $strDurationSms; ?></td>
         <td><?php echo $extra_item['cause']; ?></td>
         <td><?php echo lang($extra_item['status_name']); ?></td>
     </tr>
@@ -78,6 +103,16 @@ $tmpDate = $date->getTimestamp();?>
         <a href="#" onclick="$('#frmDeleteExtraRequest').modal('hide');" class="btn"><?php echo lang('extra_index_popup_delete_button_no');?></a>
     </div>
 </div>
+<!-- show history of overtime -->
+<div id="frmShowHistory" class="modal hide fade">
+    <div class="modal-body" id="frmShowHistoryBody">
+        <img src="<?php echo base_url();?>assets/images/loading.gif">
+    </div>
+    <div class="modal-footer">
+        <a href="#" onclick="$('#frmShowHistory').modal('hide');" class="btn"><?php echo lang('OK');?></a>
+    </div>
+</div>
+<!-- //show history of overtime -->
 
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
@@ -130,5 +165,17 @@ $(document).ready(function() {
     $('#frmDeleteExtraRequest').on('hidden', function() {
         $(this).removeData('modal');
     });
+
+    <?php if ($this->config->item('enable_history') == TRUE) { ?>
+    $('#frmShowHistory').on('hidden', function() {
+        $("#frmShowHistoryBody").html('<img src="<?php echo base_url();?>assets/images/loading.gif">');
+    });
+    
+    //Popup show history
+    $("#extras tbody").on('click', '.show-history',  function(){
+        $("#frmShowHistory").modal('show');
+        $("#frmShowHistoryBody").load('<?php echo base_url();?>extra/' + $(this).data('id') +'/history');
+    });
+    <?php } ?>
 });
 </script>

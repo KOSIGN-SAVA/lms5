@@ -28,6 +28,7 @@ $lang['requests_collaborators_thead_link_balance'] = '휴가 현황';
 $lang['requests_collaborators_thead_link_presence'] = '현재 보고서';
 $lang['requests_collaborators_thead_link_year'] = '연간 달력';
 $lang['requests_collaborators_thead_link_create_leave'] = '부하직원 대신 휴가 요청 생성';
+$lang['requests_collaborators_thead_link_create_overtime'] = '부하직원 대신 초과근무 요청 생성';
 $lang['requests_collaborators_thead_firstname'] = '이름';
 $lang['requests_collaborators_thead_lastname'] = '성';
 $lang['requests_collaborators_thead_email'] = '이메일';

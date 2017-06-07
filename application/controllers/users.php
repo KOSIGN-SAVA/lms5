@@ -31,11 +31,17 @@ class Users extends CI_Controller {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function index() {
+    	
         $this->auth->checkIfOperationIsAllowed('list_users');
         $data = getUserContext($this);
+        $this->session->set_userdata(array(
+        		'page_user_active'       => "all"
+        ));
+        
         $this->load->helper('form');
         $this->lang->load('datatable', $this->language);
         $data['users'] = $this->users_model->getUsers();
+        $data['active'] = "all";
         $data['title'] = lang('users_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_list_users');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
@@ -43,6 +49,31 @@ class Users extends CI_Controller {
         $this->load->view('menu/index', $data);
         $this->load->view('users/index', $data);
         $this->load->view('templates/footer');
+    }
+    
+    /**
+     * Display the list of users by option
+     */
+    public function userOfEntity($filterActive = "all"){
+    	$this->auth->checkIfOperationIsAllowed('list_users');
+    	$data = getUserContext($this);
+    	
+    	$this->session->set_userdata(array(
+    			'page_user_active'       => $filterActive
+    	));
+    	
+    	$this->load->helper('form');
+    	$this->lang->load('datatable', $this->language);
+    	$data['users'] = $this->users_model->getUserByFilterEntity($filterActive);
+    	$data['active'] = $filterActive;
+    	$data['title'] = lang('users_index_title');
+    	$data['help'] = $this->help->create_help_link('global_link_doc_page_list_users');
+    	$data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
+    	$this->load->view('templates/header', $data);
+    	$this->load->view('menu/index', $data);
+    	$this->load->view('users/index', $data);
+    	$this->load->view('templates/footer');
+    	
     }
     
     /**
@@ -55,7 +86,15 @@ class Users extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('list_users');
         $this->users_model->setActive($id, $active);
         $this->session->set_flashdata('msg', lang('users_edit_flash_msg_success'));
-        redirect('users');
+        $page =  $this->session->userdata('page_user_active');
+        if($page == "inactive"){
+        	redirect('users/entity/inactive');
+        }else if($page == "active"){
+        	redirect('users/entity/active');
+        }else{
+        	redirect('users');
+        }
+        
     }
     
     /**
@@ -293,9 +332,9 @@ class Users extends CI_Controller {
         if (!$this->config->item('ldap_enabled')) $this->form_validation->set_rules('CipheredValue', lang('users_create_field_password'), 'required');
         $this->form_validation->set_rules('role[]', lang('users_create_field_role'), 'required');
         $this->form_validation->set_rules('manager', lang('users_create_field_manager'), 'required|xss_clean|strip_tags');
-        $this->form_validation->set_rules('contract', lang('users_create_field_contract'), 'xss_clean|strip_tags');
-        $this->form_validation->set_rules('position', lang('users_create_field_position'), 'xss_clean|strip_tags');
-        $this->form_validation->set_rules('entity', lang('users_create_field_entity'), 'xss_clean|strip_tags');
+        $this->form_validation->set_rules('contract', lang('users_create_field_contract'), 'required|xss_clean|strip_tags');
+        $this->form_validation->set_rules('position', lang('users_create_field_position'), 'required|xss_clean|strip_tags');
+        $this->form_validation->set_rules('entity', lang('users_create_field_entity'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('datehired', lang('users_create_field_hired'), 'xss_clean|strip_tags');
         $this->form_validation->set_rules('identifier', lang('users_create_field_identifier'), 'xss_clean|strip_tags');
         $this->form_validation->set_rules('language', lang('users_create_field_language'), 'xss_clean|strip_tags');

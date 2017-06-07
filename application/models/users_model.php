@@ -31,7 +31,6 @@ class Users_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function getUsers($id = 0) {
-    	
         $this->db->select('users.*');
         $this->db->select('roles.name as role_name');
         $this->db->join('roles', 'roles.id = users.role');
@@ -41,6 +40,26 @@ class Users_model extends CI_Model {
         }
         $query = $this->db->get_where('users', array('users.id' => $id));
         return $query->row_array();
+    }
+    
+    /**
+     * Get the list of users 
+     * @param string $active optional active of one user
+     * @return array record of users
+     */
+    public function getUserByFilterEntity($active = "all") {
+    	$this->db->select('users.*');
+    	$this->db->select('roles.name as role_name');
+    	$this->db->join('roles', 'roles.id = users.role');
+    	$arrFilter = array();
+    	if ($active == "all"){
+    	}else if($active == "active"){
+    		$arrFilter["users.active"] = true;
+    	}else if ($active == "inactive"){
+    		$arrFilter["users.active"] = false;
+    	}
+    	$query = $this->db->get_where('users', $arrFilter);
+    	return $query->result_array();;
     }
     
     /**
@@ -255,6 +274,12 @@ class Users_model extends CI_Model {
             $this->db->where('id', $id);
             $this->db->update('users', $data);
         }
+        
+        if ($this->config->item('enable_user_history') == TRUE) {
+        	$this->load->model('history_model');
+        	$this->history_model->setHistory(1, 'users', $id, $this->session->userdata('id'));
+        }
+        
         return $password;
     }
     
@@ -478,6 +503,12 @@ class Users_model extends CI_Model {
 
         $this->db->where('id', $this->input->post('id'));
         $result = $this->db->update('users', $data);
+        
+        if ($this->config->item('enable_user_history') == TRUE) {
+        	$this->load->model('history_model');
+        	$this->history_model->setHistory(2, 'users', $this->input->post('id'), $this->session->userdata('id'));
+        }
+        
         return $result;
     }
 
@@ -836,7 +867,15 @@ class Users_model extends CI_Model {
     public function setActive($id, $active) {
         $this->db->set('active', $active);
         $this->db->where('id', $id);
-        return $this->db->update('users');
+        $query = $this->db->update('users');
+        
+        //set config to enable history feature
+    	if ($this->config->item('enable_user_history') == TRUE) {
+        	$this->load->model('history_model');
+        	$this->history_model->setHistory(1, 'users', $id, $this->session->userdata('id'));
+        }
+        
+        return $query;
     }
     
     /**

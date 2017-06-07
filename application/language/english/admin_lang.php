@@ -67,3 +67,9 @@ $lang['admin_diagnostic_balance_thead_employee'] = 'Employee';
 $lang['admin_diagnostic_balance_thead_contract'] = 'Contract';
 $lang['admin_diagnostic_balance_thead_start_date'] = 'Start Date';
 $lang['admin_diagnostic_balance_thead_status'] = 'Status';
+
+$lang['admin_diagnostic_employee_no_entitlement_id'] = 'ID';
+$lang['admin_diagnostic_employee_no_entitlement_name'] = 'Name';
+$lang['admin_diagnostic_employee_no_entitlement_organization'] = 'Organization';
+$lang['admin_diagnostic_employee_no_entitlement_position'] = 'Position';
+

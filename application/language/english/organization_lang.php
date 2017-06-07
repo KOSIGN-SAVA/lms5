@@ -15,6 +15,7 @@ $lang['organization_index_thead_id'] = 'ID';
 $lang['organization_index_thead_firstname'] = 'Firstname';
 $lang['organization_index_thead_lastname'] = 'Lastname';
 $lang['organization_index_thead_email'] = 'E-mail';
+$lang['organization_index_thead_manager'] = 'Manager';
 $lang['organization_index_button_add_employee'] = 'Attach an Employee';
 $lang['organization_index_button_remove_employee'] = 'Detach an Employee';
 $lang['organization_index_button_select_supervisor'] = 'Select';

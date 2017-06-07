@@ -33,6 +33,7 @@ $lang['menu_hr_leaves_type_divider'] = 'Leaves';
 $lang['menu_hr_list_leaves_type'] = '휴가 유형';
 $lang['menu_hr_reports_divider'] = 'Reports';
 $lang['menu_hr_report_leave_balance'] = '부하직원 휴가 현황';
+$lang['menu_hr_report_kosign_leave_balance'] = '부하직원 휴가 현황(KOSIGN)';
 $lang['menu_hr_report_leaves'] = '휴가 요청목록';
 
 $lang['menu_validation_title'] = '결재';

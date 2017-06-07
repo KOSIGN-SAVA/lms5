@@ -226,7 +226,11 @@
                 if ($overlapping) {
                     echo '<td title="' . $day->type . '" class="' . $class . '"><img src="' . base_url() . 'assets/images/date_error.png"></td>';
                 } else {
-                    echo '<td title="' . $day->type . '" class="' . $class . '">&nbsp;</td>';
+                	if($day->status == 3){
+                    	echo '<td title="' . $day->type . '" class="' . $class . '"><a href = "'. base_url() .'leaves/requests/'.'1089'.'" style="display:block;">&nbsp;</a></td>';
+                	}else{
+                		echo '<td title="' . $day->type . '" class="' . $class . '">&nbsp;</td>';
+                	}
                 }
             }
             ?>

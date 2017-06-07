@@ -200,15 +200,15 @@ $unusedContracts_count = ($unusedContracts_count == 0)?'':'<span class="badge ba
           	 <?php foreach ($emplNoEntitleDay as $empl) :
           	 ?>
           	  <tr>
-                <td><?php echo $empl["id"];?></td>
+          	  	<td><a target="_blank" href="<?php echo base_url();?>entitleddays/user/<?php echo $empl["id"];?>"><?php echo $empl["id"];?></a></td>
                 <td><?php echo $empl["lastname"] . " " . $empl["firstname"];?></td>
                 <td><?php echo $empl["organization"]; ?></td>
                 <td><?php echo $empl["position"]; ?></td>
             </tr>
           	 <?php 
         	
-       	 endforeach
-        ?>
+       	 		endforeach
+        	 ?>
           </tbody>
         </table>
         <?php }?>
@@ -328,7 +328,7 @@ $unusedContracts_count = ($unusedContracts_count == 0)?'':'<span class="badge ba
 $(document).ready(function() {
     //Transform the HTML table in a fancy datatable
     $('#emplNoEntitlement').dataTable({
-        stateSave: true,
+        stateSave: false,
         language: {
             decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
             processing:       "<?php echo lang('datatable_sProcessing');?>",
@@ -353,6 +353,7 @@ $(document).ready(function() {
             }
         },
     });
+    
  });
 
 </script>

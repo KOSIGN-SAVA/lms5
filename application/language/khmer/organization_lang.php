@@ -16,6 +16,7 @@ $lang['organization_index_thead_id'] = 'លេខអត្តសញ្ញាណ'
 $lang['organization_index_thead_firstname'] = 'នាមត្រកូលអ្នកប្រើប្រាស់';
 $lang['organization_index_thead_lastname'] = 'ឈ្មោះអ្នកប្រើប្រាស់';
 $lang['organization_index_thead_email'] = 'ម៉ែល';
+$lang['organization_index_thead_manager'] = 'អ្នកគ្រប់គ្រង';
 $lang['organization_index_button_add_employee'] = 'ភ្ជាប់ជាមួយបុគ្គលិក';
 $lang['organization_index_button_remove_employee'] = 'ផ្តាច់ចេញពីបុគ្គលិក';
 $lang['organization_index_button_select_supervisor'] = 'ជ្រើសរើស';

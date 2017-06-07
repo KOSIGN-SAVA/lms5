@@ -146,7 +146,8 @@ $languages = $this->polyglot->nativelanguages($this->config->item('languages'));
             url: '<?php echo base_url();?>session/oauth2',
             type: 'POST',
             data: { 
-                      auth_code: authResult.code
+                      auth_code: authResult.code,
+                      domain: $("#domain").val()
                       },
             success: function(result) {
                 if (result == "OK") {

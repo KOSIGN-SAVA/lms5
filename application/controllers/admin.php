@@ -70,7 +70,7 @@ class Admin extends CI_Controller {
         //Count the number of items (will be used for badges in tab 
         $data['duplicatedLeaves_count'] = count($data['duplicatedLeaves']);
         $data['wrongDateType_count'] = count($data['wrongDateType']);
-        $data['entitlmentOverflow_count'] = count($data['entitlmentOverflow']);
+        $data['entitlmentOverflow_count'] = count($data['entitlmentOverflow']) + count($data['emplNoEntitleDay']);
         $data['negativeOvertime_count'] = count($data['negativeOvertime']);
         $data['unusedContracts_count'] = count($data['unusedContracts']);
         //$data['leaveBalance_count'] = count($data['leaveBalance']);

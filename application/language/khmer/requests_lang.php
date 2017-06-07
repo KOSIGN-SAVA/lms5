@@ -28,6 +28,7 @@ $lang['requests_collaborators_thead_link_balance'] = 'តុល្យភាព�
 $lang['requests_collaborators_thead_link_presence'] = 'របាយការណ៍វត្តមាន';
 $lang['requests_collaborators_thead_link_year'] = 'ប្រតិទិនប្រចាំឆ្នាំ';
 $lang['requests_collaborators_thead_link_create_leave'] = 'បង្កើតការស្នើរសុំឈប់សម្រាក់ ក្នុងនាមជាអ្នកតំណាងរបស់អ្នករួមការងារ';
+$lang['requests_collaborators_thead_link_create_overtime'] = 'បង្កើតការស្នើរសុំបន្ថែមម៉ោង ក្នុងនាមជាអ្នកតំណាងរបស់អ្នករួមការងារ';
 $lang['requests_collaborators_thead_firstname'] = 'នាមត្រកូលអ្នកប្រើប្រាស់';
 $lang['requests_collaborators_thead_lastname'] = 'ឈ្មោះអ្នកប្រើប្រាស់';
 $lang['requests_collaborators_thead_email'] = 'ម៉ែល';

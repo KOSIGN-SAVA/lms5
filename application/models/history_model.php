@@ -52,6 +52,24 @@ class History_model extends CI_Model {
         return $results;
     }
     
+    /**
+     * Get the list of changes into the 'overtime' table
+     * @param int $overtimeId Identifier of the overtime request
+     * @return result rows as array of arrays
+     * @author Prak Virak <prakvirak54@gmail.com>
+     */
+    public function getOverTimeRequestsHistory($leaveId) {
+    	$this->db->select("CONCAT(users.firstname, ' ', users.lastname) as user_name", FALSE);
+    	$this->db->select("status.name as status_name, overtime_history.*");
+    	$this->db->join('users', 'overtime_history.changed_by = users.id');
+    	$this->db->join('status', 'overtime_history.status = status.id');
+    	$this->db->where('overtime_history.id', $leaveId);
+    	$this->db->order_by("change_id", "asc");
+    	$query = $this->db->get('overtime_history');
+    	$results = $query->result_array();
+    	return $results;
+    }
+    
     
     /**
      * Get the list of deleted leave requests

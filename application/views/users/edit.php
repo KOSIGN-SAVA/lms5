@@ -111,7 +111,7 @@ if(!empty($users_item['dob'])){
     <?php foreach ($contracts as $contract): ?>
         <option value="<?php echo $contract['id'] ?>" <?php if ($contract['id'] == $users_item['contract']) echo "selected"; ?>><?php echo $contract['name']; ?></option>
     <?php endforeach ?>
-        <option value="0" <?php if ($users_item['contract'] == 0 || is_null($users_item['contract'])) echo "selected"; ?>>&nbsp;</option>
+        <?php if ($users_item['contract'] == 0 || is_null($users_item['contract'])){?><option value="0" selected>&nbsp;</option><?php }?>
     </select>
     
     <input type="hidden" name="entity" id="entity" value="<?php echo $users_item['organization']; ?>" /><br />

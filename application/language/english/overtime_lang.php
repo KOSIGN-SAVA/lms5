@@ -34,3 +34,6 @@ $lang['overtime_export_thead_date'] = 'Date';
 $lang['overtime_export_thead_duration'] = 'Duration';
 $lang['overtime_export_thead_cause'] = 'Reason';
 $lang['overtime_export_thead_status'] = 'Status';
+
+$lang['overtime_label_hours'] = 'hours';
+$lang['overtime_label_minute'] = 'minute';

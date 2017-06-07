@@ -273,6 +273,7 @@ class Session extends CI_Controller {
         $oauth2Provider = $this->config->item('oauth2_provider');
         $oauth2ClientId = $this->config->item('oauth2_client_id');
         $oauth2ClientSecret = $this->config->item('oauth2_client_secret');
+        $this->session->set_userdata('database',$this->input->post('domain')); 
         if ($oauth2Enabled === FALSE) {
             echo 'ERROR: OAuth2 is disabled';
             return;

@@ -161,7 +161,8 @@ class Organization extends CI_Controller {
             $msg .= '["' . $employee->id . '",';
             $msg .= '"' . $employee->firstname . '",';
             $msg .= '"' . $employee->lastname . '",';
-            $msg .= '"' . $employee->email . '"';
+            $msg .= '"' . $employee->email . '",';
+            $msg .= '"' . $employee->manager . '"';
             $msg .= '],';
         }
         $msg = rtrim($msg, ",");
@@ -281,6 +282,119 @@ class Organization extends CI_Controller {
         $msg = rtrim($msg, ",");
         $msg .= ']';
         echo $msg;
+    }
+    
+    
+    /**
+     * Ajax endpoint: Returns a JSON string describing the organization with count employee structure.
+     * In a format expected by jsTree component.
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function root2() {
+    	header("Content-Type: application/json");
+    	if (($this->config->item('public_calendar') == TRUE) && (!$this->session->userdata('logged_in'))) {
+    		//nop
+    	} else {
+    		setUserContext($this);
+    		$this->auth->checkIfOperationIsAllowed('organization_select');
+    	}
+    	
+    	$id = $this->input->get('id', TRUE);
+    	if ($id == "#") {
+    		unset($id);
+    	}
+    	$this->load->model('organization_model');
+    	$entities = $this->organization_model->getAllEntities();
+    	$msg = '[';
+    	foreach ($entities->result() as $entity) {
+    		$emp_cnt = $entities = $this->organization_model->countAllEmployees($entity->id, true);
+    		$msg .= '{"id":"' . $entity->id . '",';
+    		if ($entity->parent_id == -1) {
+    			$msg .= '"parent":"#",';
+    		} else {
+    			$msg .= '"parent":"' . $entity->parent_id . '",';
+    		}
+    		$msg .= '"text":"<span id=\'dp_'. $entity->id .'\'>' . $entity->name . ' <b>(' . $emp_cnt . ')</b></span>",';
+    		$msg .= '"dept_name":"' . $entity->name . '"';
+    		$msg .= '},';
+    	}
+    	$msg = rtrim($msg, ",");
+    	$msg .= ']';
+    	echo $msg;
+    	
+    }
+    
+    /**
+    * Ajax endpoint: Returns a JSON string describing the organization structure.
+    * return formate as text 
+    */
+    public function info() {
+    	
+    	header("Content-Type: application/json");
+    	if (($this->config->item('public_calendar') == TRUE) && (!$this->session->userdata('logged_in'))) {
+    		//nop
+    	} else {
+    		setUserContext($this);
+    		$this->auth->checkIfOperationIsAllowed('organization_select');
+    	}
+    	
+    	$id = $this->input->get('id', TRUE);
+    	
+    	$this->load->model('organization_model');
+    	$entities = $this->organization_model->getName($id);
+    	$emp_cnt =  $this->organization_model->countAllEmployees($id, true);
+    	$msg = '{';
+    	
+    	$msg .= '"name":"'.$entities.'",';
+    	$msg .= '"employee_cnt":"'.$emp_cnt.'"';
+    	
+    	$msg .= '}';
+    	echo $msg; 
+    }
+    
+    /**
+     * Ajax endpoint: Returns a JSON string describing the organization structure.
+     * In a format expected by jsTree component.
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function getListInfo() {
+    	header("Content-Type: application/json");
+    	if (($this->config->item('public_calendar') == TRUE) && (!$this->session->userdata('logged_in'))) {
+    		//nop
+    	} else {
+    		setUserContext($this);
+    		$this->auth->checkIfOperationIsAllowed('organization_select');
+    	}
+    	$id = $this->input->get('id', TRUE);
+    	if ($id == "#") {
+    		unset($id);
+    	}
+    	$this->load->model('organization_model');
+    	if(isset($_GET["id"]) && $_GET["id"] != null){
+    		$entities = $this->organization_model->getAllEntities($_GET["id"], true);
+    	}else{
+    		$entities = $this->organization_model->getAllEntities();
+    	}
+    	//$entities = $this->organization_model->getAllEntities(8);
+    	
+    	$msg = '[';
+    	foreach ($entities->result() as $entity) {
+    		
+    		$emp_cnt =  $this->organization_model->countAllEmployees($entity->id, true);
+    		
+    		$msg .= '{"id":"' . $entity->id . '",';
+    		if ($entity->parent_id == -1) {
+    			$msg .= '"parent":"#",';
+    		} else {
+    			$msg .= '"parent":"' . $entity->parent_id . '",';
+    		}
+    		$msg .= '"name":"' . $entity->name . '",';
+    		$msg .= '"employee_cnt":"'.$emp_cnt.'"';
+    		$msg .= '},';
+    	}
+    	$msg = rtrim($msg, ",");
+    	$msg .= ']';
+    	echo $msg;
     }
     
     /**

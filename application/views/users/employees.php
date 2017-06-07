@@ -36,6 +36,12 @@
 
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="<?php echo base_url();?>assets/datatable/Select-1.1.2/css/select.dataTables.min.css" rel="stylesheet">
+<style>
+	#employees_length{
+		display: none;
+	}
+	
+</style>
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/Select-1.1.2/js/dataTables.select.min.js"></script>
 
@@ -70,6 +76,6 @@ $(document).ready(function() {
         }
     });
     //Hide pagination select box in order to save space
-    $('.dataTables_length').css("display", "none");
+    //$('.dataTables_length').css("display", "none"); //#6461
 });
 </script>

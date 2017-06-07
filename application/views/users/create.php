@@ -265,13 +265,13 @@ if ($language_code != 'en') { ?>
     function validate_form() {
         result = false;
         var fieldname = "";
-        if ($('#password').val() == "") fieldname = "password";
+        /* if ($('#password').val() == "") fieldname = "password";
         if ($('#position').val() == "") fieldname = "position";
         if ($('#entity').val() == "")  fieldname = "entity";
         if ($('#contract').val() == "") fieldname = "contract";
         if ($('#manager').val() == "") fieldname = "manager";
         if ($('#email').val() == "") fieldname = "email";
-        if ($('#login').val() == "") fieldname = "login";
+        if ($('#login').val() == "") fieldname = "login"; */
         if ($('#lastname').val() == "") fieldname = "lastname";
         if ($('#firstname').val() == "") fieldname = "firstname";
 

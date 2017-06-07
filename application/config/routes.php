@@ -77,7 +77,9 @@ $route['users/delete/(:num)'] = 'users/delete/$1';
 $route['users/check/login'] = 'users/checkLoginByAjax';
 $route['users/enable/(:num)'] = 'users/enable/$1';
 $route['users/disable/(:num)'] = 'users/disable/$1';
+$route['users/entity/(:any)'] = 'users/userOfEntity/$1';
 $route['users'] = 'users';
+
 
 //Tesing testpivottable
 $route['users/testpivottable'] = 'users/testpivottable';
@@ -101,6 +103,7 @@ $route['hr/counters/([^/]+)/(:num)/(:num)'] = 'hr/counters/$1/$2/$3';
 $route['hr/overtime/export/(:num)'] = 'hr/exportOvertime/$1';
 $route['hr/entitleddays/(:num)'] = 'hr/entitleddays/$1';
 $route['hr/leaves/create/(:num)'] = 'hr/createleave/$1';
+$route['hr/overtime/create/(:num)'] = 'hr/createovertime/$1';
 $route['hr/presence/([^/]+)/(:num)'] = 'hr/presence/$1/$2';
 $route['hr/presence/([^/]+)/(:num)/(:num)/(:num)'] = 'hr/presence/$1/$2/$3/$4';
 $route['hr/presence/export/([^/]+)/(:num)/(:num)/(:num)'] = 'hr/exportPresence/$1/$2/$3/$4';
@@ -150,6 +153,7 @@ $route['contracts'] = 'contracts';
 //HR Organization
 $route['organization/select'] = 'organization/select';
 $route['organization/root'] = 'organization/root';
+$route['organization/root/empcnt'] = 'organization/root2';
 $route['organization/delete'] = 'organization/delete';
 $route['organization/create'] = 'organization/create';
 $route['organization/rename'] = 'organization/rename';
@@ -158,6 +162,8 @@ $route['organization/copy'] = 'organization/copy';
 $route['organization/employees'] = 'organization/employees';
 $route['organization/employeesDateHired'] = 'organization/employeesDateHired';
 $route['organization/addemployee'] = 'organization/addemployee';
+$route['organization/info'] = 'organization/info';
+$route['organization/getlistinfo'] = 'organization/getListInfo';
 $route['organization/delemployee'] = 'organization/delemployee';
 $route['organization/getsupervisor'] = 'organization/getsupervisor';
 $route['organization/setsupervisor'] = 'organization/setsupervisor';
@@ -215,6 +221,7 @@ $route['requests/collaborators'] = 'requests/collaborators';
 $route['requests/balance'] = 'requests/balance';
 $route['requests/balance/(:num)'] = 'requests/balance/$1';
 $route['requests/createleave/(:num)'] = 'requests/createleave/$1';
+$route['requests/createovertime/(:num)'] = 'requests/createovertime/$1';
 $route['requests/counters/(:num)'] = 'requests/counters/$1';
 $route['requests/counters/(:num)/(:num)'] = 'requests/counters/$1/$2';
 $route['requests/export/(:any)'] = 'requests/export/$1';
@@ -234,6 +241,7 @@ $route['extra/create'] = 'extra/create';
 $route['extra/edit/(:num)'] = 'extra/edit/$1';
 $route['extra/delete/(:num)'] = 'extra/delete/$1';
 $route['extra/([^/]+)/(:num)'] = 'extra/view/$1/$2';
+$route['extra/(:num)/history'] = 'extra/history/$1';
 $route['extra'] = 'extra';
 
 //_______________________________________________
@@ -256,12 +264,17 @@ $route['entitleddays/ajax/update'] = 'entitleddays/ajax_update';
 
 //_______________________________________________
 //Reports
+$route['reports/ko_balance'] = 'reports/ko_balance';
+$route['reports/ko_balance/execute'] = 'reports/koExecuteBalanceReport';
 $route['reports/balance'] = 'reports/balance';
 $route['reports/balance/execute'] = 'reports/executeBalanceReport';
 $route['reports/balance/export'] = 'reports/exportBalanceReport';
+$route['reports/ko_balance/export'] = 'reports/koExportBalanceReport';
 $route['reports/leaves'] = 'reports/leaves';
 $route['reports/leaves/execute'] = 'reports/executeLeavesReport';
 $route['reports/leaves/export'] = 'reports/exportLeavesReport';
+$route['reports/overtime'] = 'reports/overtimeReport';
+$route['reports/overtime/execute'] = 'reports/executeOvertimeReport';
 $route['reports'] = 'reports';
 
 //_______________________________________________
@@ -325,3 +338,8 @@ $route['mobile/leaves/(:num)'] = 'mobile/leaves/$1';
 $route['default_controller'] = 'leaves';
 $route['notfound'] = 'pages/notfound';
 $route['(:any)'] = 'pages/view/$1';
+
+//_______________________________________________
+//Default controllers
+
+$route['session/fblogin'] = 'User_Authentication';

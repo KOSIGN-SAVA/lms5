@@ -142,6 +142,27 @@ class Overtime extends CI_Controller {
         
         $date = new DateTime($extra['date']);
         $startdate = $date->format($lang_mail->line('global_date_format'));
+        
+        $strDurationSms = $extra['duration'];
+        
+        if(strlen($extra["start_time"]) == 4 & strlen($extra["end_time"]) == 4){
+        	
+        	$sH = substr($extra["start_time"], 0, 2);
+        	$sM = substr($extra["start_time"], 2, 4);
+        	$eH = substr($extra["end_time"], 0, 2);
+        	$eM = substr($extra["end_time"], 2, 4);
+        	
+        	$sMM = intval($sH) * 60 + intval($sM);
+        	$eMM = intval($eH) * 60 + intval($eM);
+        	
+        	$diffMM = $eMM - $sMM;
+        	$diffH = intval($diffMM / 60);
+        	$diffM = intval($diffMM % 60);
+        	$strDurationSms .= " (" . $sH . ":" . $sM . " ~ " . $eH . ":" . $eM
+        					. ", " . $diffH . lang("overtime_label_hours") . " " . $diffM. lang("overtime_label_minute"). ")";
+        	
+        }
+        
 
         $this->load->library('parser');
         $data = array(
@@ -149,7 +170,7 @@ class Overtime extends CI_Controller {
             'Firstname' => $employee['firstname'],
             'Lastname' => $employee['lastname'],
             'Date' => $startdate,
-            'Duration' => $extra['duration'],
+            'Duration' => $strDurationSms,
             'Cause' => $extra['cause']
         );
         
@@ -172,6 +193,22 @@ class Overtime extends CI_Controller {
         $this->load->library('excel');
         $data['filter'] = $filter;
         $this->load->view('overtime/export', $data);
+    }
+    
+    /**
+     * Display the history of changes of a overtime request
+     * @param int $id Identifier of the overtime request
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    //TODO: overtime
+    public function history($id) {
+    	$this->auth->checkIfOperationIsAllowed('list_extra');
+    	$data = getUserContext($this);
+    	$this->lang->load('datatable', $this->language);
+    	$data['extra'] = $this->overtime_model->getExtras($id);
+    	$this->load->model('history_model');
+    	$data['events'] = $this->history_model->getOverTimeRequestsHistory($id);
+    	$this->load->view('extra/history', $data);
     }
     
 }

@@ -11,6 +11,7 @@ $lang['extra_index_title'] = '내 초과근무 목록';
 $lang['extra_index_thead_tip_view'] = 'view';
 $lang['extra_index_thead_tip_edit'] = '수정';
 $lang['extra_index_thead_tip_delete'] = '삭제';
+$lang['extra_index_thead_tip_history'] = '상세내역';
 $lang['extra_index_thead_id'] = 'ID';
 $lang['extra_index_thead_date'] = '날짜';
 $lang['extra_index_thead_cause'] = '사유';
@@ -68,3 +69,17 @@ $lang['extra_export_thead_date'] = '날짜';
 $lang['extra_export_thead_duration'] = '기간';
 $lang['extra_export_thead_cause'] = '사유';
 $lang['extra_export_thead_status'] = '상태';
+
+$lang['extra_history_thead_changed_date'] = 'Changed Date';
+$lang['extra_history_thead_change_type'] = 'Change Type';
+$lang['extra_history_thead_changed_by'] = 'Changed By';
+$lang['extra_history_thead_request_date'] = 'Request Date';
+$lang['extra_history_thead_start_time'] = 'Start Time';
+$lang['extra_history_thead_end_time'] = 'End Time';
+$lang['extra_history_thead_time_calc'] = 'Time Calculate';
+$lang['extra_history_thead_duration'] = 'Duration';
+$lang['extra_history_thead_cause'] = 'Reason';
+$lang['extra_history_thead_status'] = 'Status';
+
+$lang['extra_label_hours'] = '시간';
+$lang['extra_label_minute'] = '분';

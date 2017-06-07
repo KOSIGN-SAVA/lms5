@@ -43,7 +43,28 @@
 <?php $date = new DateTime($requests_item['date']);
 $tmpDate = $date->getTimestamp();?>
         <td data-order="<?php echo $tmpDate; ?>"><?php echo $date->format(lang('global_date_format'));?></td>
-        <td><?php echo $requests_item['duration']; ?></td>
+        <?php 
+        $strDurationSms = $requests_item['duration'];
+        
+        if(strlen($requests_item["start_time"]) == 4 & strlen($requests_item["end_time"]) == 4){
+        
+        	$sH = substr($requests_item["start_time"], 0, 2);
+        	$sM = substr($requests_item["start_time"], 2, 4);
+        	$eH = substr($requests_item["end_time"], 0, 2);
+        	$eM = substr($requests_item["end_time"], 2, 4);
+        
+        	$sMM = intval($sH) * 60 + intval($sM);
+        	$eMM = intval($eH) * 60 + intval($eM);
+        
+        	$diffMM = $eMM - $sMM;
+        	$diffH = intval($diffMM / 60);
+        	$diffM = intval($diffMM % 60);
+        	$strDurationSms .= " (" . $sH . ":" . $sM . " ~ " . $eH . ":" . $eM
+        	. ", " . $diffH . lang("overtime_label_hours") . " " . $diffM. lang("overtime_label_minute"). ")";
+        
+        }
+        ?>
+        <td><?php echo $strDurationSms; ?></td>
         <td><?php echo lang($requests_item['status_name']); ?></td>
         
     </tr>

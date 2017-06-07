@@ -34,8 +34,11 @@
             <td data-order="<?php echo $collaborator['id']; ?>">
                 <?php echo $collaborator['id']; ?>
                 <div class="pull-right">
+                	<?php if ($this->config->item('requests_overtime_by_manager') == TRUE) { ?>
+                		<a href="<?php echo base_url();?>requests/createovertime/<?php echo $collaborator['id'] ?>" title="<?php echo lang('requests_collaborators_thead_link_create_overtime');?>"><i class="icon-time"></i></a>
+                	<?php } ?>
                     <?php if ($this->config->item('requests_by_manager') == TRUE) { ?>
-                    <a href="<?php echo base_url();?>requests/createleave/<?php echo $collaborator['id'] ?>" title="<?php echo lang('requests_collaborators_thead_link_create_leave');?>"><i class="icon-plus"></i></a>
+                    	<a href="<?php echo base_url();?>requests/createleave/<?php echo $collaborator['id'] ?>" title="<?php echo lang('requests_collaborators_thead_link_create_leave');?>"><i class="icon-plus"></i></a>
                     <?php } ?>
                     <a href="<?php echo base_url();?>hr/counters/collaborators/<?php echo $collaborator['id'] ?>" title="<?php echo lang('requests_collaborators_thead_link_balance');?>"><i class="icon-info-sign"></i></a>
                     &nbsp;<a href="<?php echo base_url();?>hr/presence/collaborators/<?php echo $collaborator['id'] ?>" title="<?php echo lang('requests_collaborators_thead_link_presence');?>"><i class="fa fa-pie-chart" style="color:black;"></i></a>

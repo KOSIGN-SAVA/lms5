@@ -38,8 +38,8 @@
         <p><?php echo lang('hr_presence_working_days');?> : <i class="icon-warning-sign"></i><?php echo lang('hr_presence_no_contract');?></p>
         <p><?php echo lang('hr_presence_non_working_days');?> : <i class="icon-warning-sign"></i><?php echo lang('hr_presence_no_contract');?></p>
         <?php } ?>
-        <p><?php echo lang('hr_presence_work_duration');?> : <b><?php echo $work_duration;?></b>&nbsp;<i class="icon-hand-left"></i><?php echo lang('hr_presence_please_check');?></p>
-        <p><?php echo lang('hr_presence_leave_duration');?> : <b><?php echo $leave_duration;?></b>&nbsp;<i class="icon-hand-left"></i><?php echo lang('hr_presence_please_check');?></p>
+        <p><?php echo lang('hr_presence_work_duration');?> : <b><?php echo $work_duration;?></b>&nbsp;<i class="icon-hand-left"></i><span style="color:#9a1313;"><?php echo lang('hr_presence_please_check');?></span></p>
+        <p><?php echo lang('hr_presence_leave_duration');?> : <b><?php echo $leave_duration;?></b>&nbsp;<i class="icon-hand-left"></i><span style="color:#9a1313;"><?php echo lang('hr_presence_please_check');?></span></p>
         <?php if (count($leaves_detail) > 0) { ?>
         <ul>
             <?php foreach ($leaves_detail as $leaves_type_name => $leaves_type_sum) { ?>
@@ -455,7 +455,7 @@ date_sub($datePrev, date_interval_create_from_date_string('1 month'));?>
             document.location.href = url;
         });
         
-        refresh_calendar();
+        //refresh_calendar();
 });
 </script>
 

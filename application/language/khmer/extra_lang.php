@@ -12,6 +12,7 @@ $lang['extra_index_title'] = 'ការស្នើរសុំបន្ថែ�
 $lang['extra_index_thead_tip_view'] = 'បង្ហាញ';
 $lang['extra_index_thead_tip_edit'] = 'កែសម្រួល';
 $lang['extra_index_thead_tip_delete'] = 'លុប';
+$lang['extra_index_thead_tip_history'] = 'បង្ហាញប្រវត្តិហេតុ';
 $lang['extra_index_thead_id'] = 'លេខអត្តសញ្ញាណ';
 $lang['extra_index_thead_date'] = 'កាលបរិច្ឆេទ';
 $lang['extra_index_thead_cause'] = 'មូលហេតុ';
@@ -72,3 +73,17 @@ $lang['extra_export_thead_date'] = 'កាលបរិច្ឆេទ';
 $lang['extra_export_thead_duration'] = 'រយៈពេល';
 $lang['extra_export_thead_cause'] = 'មូលហេតុ';
 $lang['extra_export_thead_status'] = 'ស្ថានភាព';
+
+$lang['extra_history_thead_changed_date'] = 'Changed Date';
+$lang['extra_history_thead_change_type'] = 'Change Type';
+$lang['extra_history_thead_changed_by'] = 'Changed By';
+$lang['extra_history_thead_request_date'] = 'Request Date';
+$lang['extra_history_thead_start_time'] = 'Start Time';
+$lang['extra_history_thead_end_time'] = 'End Time';
+$lang['extra_history_thead_time_calc'] = 'Time Calculate';
+$lang['extra_history_thead_duration'] = 'Duration';
+$lang['extra_history_thead_cause'] = 'Reason';
+$lang['extra_history_thead_status'] = 'Status';
+
+$lang['extra_label_hours'] = 'ម៉ោង';
+$lang['extra_label_minute'] = 'នាទី';

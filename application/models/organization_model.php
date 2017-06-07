@@ -62,8 +62,31 @@ class Organization_model extends CI_Model {
      * @return array all entities of the organization sorted out by id and name
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getAllEntities() {
+    public function getAllEntities($id = null, $incudeSelf = FALSE) {
+    	$child_arr = array();
+    	if($id != null){
+    		$tmp_apps = $this->getAllChildren($id);
+	    	foreach ($tmp_apps as $tmp_app) {
+			    array_push($child_arr, $tmp_app['id']);
+			}
+			
+			if($incudeSelf){
+				array_push($child_arr,$id);
+			}
+    		
+    	}
+    	
+    	
         $this->db->from('organization');
+        if($id != null){
+        	
+        	$str = implode($child_arr, ',');
+        	$child_arr = explode(",", $str);
+        	$child_arr_int = array_map('intval', $child_arr);
+        	$this->db->where_in('id',$child_arr_int);
+        	
+        }
+        
         $this->db->order_by("parent_id", "desc"); 
         $this->db->order_by("name", "asc");
         return $this->db->get();
@@ -209,11 +232,12 @@ class Organization_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function employees($id) {
-        $this->db->select('id, firstname, lastname, email, datehired');
+        $this->db->select("users.id, users.firstname, users.lastname, users.email, users.datehired, concat(mg.firstname,' ' , mg.lastname ) manager", false);
         $this->db->from('users');
-        $this->db->where('organization', $id);
-        $this->db->order_by('lastname', 'asc'); 
-        $this->db->order_by('firstname', 'asc');
+        $this->db->join ('users mg','users.manager = mg.id');
+        $this->db->where('users.organization', $id);
+        $this->db->order_by('users.lastname', 'asc'); 
+        $this->db->order_by('users.firstname', 'asc');
         return $this->db->get();
     }
     
@@ -252,6 +276,37 @@ class Organization_model extends CI_Model {
         $this->db->order_by('firstname', 'asc');
         $employees = $this->db->get()->result();
         return $employees;
+    }
+    
+    /**
+     * Returns number count of employees attached to an entity
+     * @param int $id identifier of the entity
+     * @param bool $children Include sub department in the query
+     * @return  array Result of the query
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function countAllEmployees($id, $children = FALSE) {
+    	$this->db->select('count(*) as cnt', FALSE);
+    	$this->db->from('organization');
+    	$this->db->join('users', 'users.organization = organization.id');
+    	if ($children === TRUE) {
+    		$this->load->model('organization_model');
+    		$list = $this->organization_model->getAllChildren($id);
+    		$ids = array();
+    		if (count($list) > 0) {
+    			if ($list[0]['id'] != '') {
+    				$ids = explode(",", $list[0]['id']);
+    				array_push($ids, $id);
+    				$this->db->where_in('organization.id', $ids);
+    			} else {
+    				$this->db->where('organization.id', $id);
+    			}
+    		}
+    	} else {
+    		$this->db->where('organization.id', $id);
+    	}
+    	$cnt = $this->db->get()->row()->cnt;
+    	return $cnt;
     }
     
     /**

@@ -28,6 +28,7 @@
                     <th><?php echo lang('organization_index_thead_firstname');?></th>
                     <th><?php echo lang('organization_index_thead_lastname');?></th>
                     <th><?php echo lang('organization_index_thead_email');?></th>
+                    <th><?php echo lang('organization_index_thead_manager');?></th>
                 </tr>
             </thead>
             <tbody>
@@ -110,9 +111,21 @@
             <img src="<?php echo base_url();?>assets/images/loading.gif"  align="middle">
         </div>
  </div>
-
+<div id = "tmp" style="display: none;"></div>
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="<?php echo base_url();?>assets/datatable/Select-1.1.2/css/select.dataTables.min.css" rel="stylesheet">
+
+<style>
+	#employees_length{
+		display: none;
+	}
+	
+	.mylabel{
+		margin-left: 10px;
+    	background-color: #3097d1;
+	}
+</style>
+
 <link rel="stylesheet" href='<?php echo base_url(); ?>assets/jsTree/themes/default/style.css' type="text/css" media="screen, projection" />
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/jsTree/jstree.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
@@ -124,6 +137,7 @@
     var oTable;
     //Mutex to prevent rename the root node
     var createMtx = false;
+    var is_load = true;
     
     function add_employee() {
         var employees = $('#employees').DataTable();
@@ -137,6 +151,8 @@
           .done(function(msg) {
             //Update table of users
             $('#frmModalAjaxWait').modal('show');
+
+            getdepartmentLabel(entity);
             oTable.ajax.url("<?php echo base_url(); ?>organization/employees?id=" + entity)
             .load(function() {
                     $("#frmModalAjaxWait").modal('hide');
@@ -177,6 +193,50 @@
             $('#txtSupervisor').val("");
             $('#frmModalAjaxWait').modal('hide');
           });
+    }
+
+    function getdepartmentLabel(id){
+    	 $.ajax({
+    		 type: "GET",
+             url: "<?php echo base_url(); ?>organization/info",
+             data: { 'id': id}
+           })
+           .done(function(msg) {
+             $("#" + id + "_employee_cnt").html(msg.employee_cnt);
+            });
+    }
+
+    function loadDeptInfo(obj){
+    	//setTimeout(function(){ 
+			var id = '';
+			var param = "";
+			if(obj){
+				id = obj.node.id;
+				
+			}
+			if(id != ""){
+				param = "?id=" + id;
+			}
+    		$.ajax({
+                type: "GET",
+                url: "<?php echo base_url(); ?>organization/getlistinfo" + param
+                  })
+                .done(function(data) {
+                    is_load = false;
+                    	$.each(data,function(i,v){
+    						$("#"+v.id + "_anchor").append("<span id='"+ v.id +"_employee_cnt' class='badge mylabel'>"+ v.employee_cnt +"</span>");
+    						//$("#"+v.id + "_anchor").after('<label type="button" class="btn btn-danger"><span class="badge">' + v.employee_cnt +  '</span></label>');
+    	                 });
+                    //}
+
+                    
+                    
+              });
+
+
+        // },100);
+    	
+
     }
     
     $(function () {
@@ -240,6 +300,7 @@
                       .done(function( msg ) {
                         //Update table of users
                         $('#frmModalAjaxWait').modal('show');
+                        getdepartmentLabel(entity);
                         oTable.ajax.url("<?php echo base_url(); ?>organization/employees?id=" + entity)
                         .load(function() {
                                 $("#frmModalAjaxWait").modal('hide');
@@ -351,6 +412,7 @@
             plugins: ["contextmenu", "dnd", "search", "state", "sort", "unique"]
         })
         .on('delete_node.jstree', function (e, data) {
+            is_load = true;
             var id = data.node.id;
             if (id == 0) {
                 $("#lblError").text("<?php echo lang('organization_index_error_msg_delete_root');?>");
@@ -370,10 +432,12 @@
                 } else {
                     $.get('organization/create', { 'id' : data.node.parent, 'position' : data.position, 'text' : result })
                     .done(function (d) {
+                        is_load = true;
                         data.instance.set_id(data.node, d.id);
                         createMtx = false;
                     })
                     .fail(function() {
+                        is_load = true;
                         data.instance.refresh();
                         createMtx = false;
                     });
@@ -381,15 +445,24 @@
               });
         })
         .on('rename_node.jstree', function(e, data) {
+            $("#tmp").html(data.text);
+            data.text = $("#tmp").text();
             if (!createMtx) {
+                //$.get('organization/rename', {'id': data.node.id, 'text': data.text})
+                is_load = true;
                 $.get('organization/rename', {'id': data.node.id, 'text': data.text})
                     .fail(function() {
                         data.instance.refresh();
+                        //setTimeout(function(){ loadDeptInfo(); }, 10);
+                        //loadDeptInfo();
                     });
             }
+            
+            
         })
         .on('move_node.jstree', function(e, data) {
             e.preventDefault();
+            is_load = true;
             $.get('organization/move', {'id': data.node.id, 'parent': data.parent, 'position': data.position})
                 .fail(function() {
                     data.instance.refresh();
@@ -397,6 +470,7 @@
         })
         .on('copy_node.jstree', function(e, data) {
             e.preventDefault();
+            is_load = true;
             $.get('organization/copy', {'id': data.original.id, 'parent': data.parent, 'position': data.position})
                 .always(function() {
                     data.instance.refresh();
@@ -427,6 +501,26 @@
                         });
                   });
             }
+        })
+        .on('open_node.jstree', function(e, data){
+        	if(!is_load){
+        		setTimeout(function(){ 
+        			loadDeptInfo(data);
+        		},200);
+        	}
+        })
+        .on('refresh.jstree', function (e, data) {
+        	is_load = true;
+        	loadDeptInfo();
+        	// ();
         });
+
+          setTimeout(function(){ 
+        	loadDeptInfo();
+         },200); 
+
+       // 
+
     });
+    
 </script>

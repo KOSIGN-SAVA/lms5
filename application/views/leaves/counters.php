@@ -29,6 +29,7 @@
   <tbody>
   <?php if (count($summary) > 0) {
   foreach ($summary as $key => $value) {
+  		echo $value[2]. "kdkdkei";
       if ($value[2] == '') {?>
     <tr>
       <td><?php echo $key; ?></td>
