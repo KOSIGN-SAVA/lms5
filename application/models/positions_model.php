@@ -23,8 +23,8 @@ class Positions_model extends CI_Model {
      */
     public function __construct() {
     	//$this->db = $this->load->database($this->session->userdata('database'), TRUE);
-    	if($this->session->userdata('database') != NULL)
-    		$this->db = $this->load->database($this->session->userdata('database'), TRUE);
+    	//if($this->session->userdata('database') != NULL)
+    		//$this->db = $this->load->database($this->session->userdata('database'), TRUE);
         
     }
 

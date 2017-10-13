@@ -381,9 +381,9 @@ $config['proxy_ips'] = '';
 
 //____________________________________________________________________________
 //default email from
-$config['from_mail'] = 'noreply@kosign.com.kh';
+$config['from_mail'] = 'pktyt22@nate.com';
 $config['from_name'] = 'Virak';
-$config['subject_prefix'] = '[Jorani] ';
+$config['subject_prefix'] = '[TEST] ';
 
 //____________________________________________________________________________
 //User management
@@ -453,7 +453,7 @@ $config['fonts'] =
 //____________________________________________________________________________
 //Set this value to TRUE if you want to hide the menu entries related to overtime
 $config['disable_overtime'] = FALSE;
-
+$config['enable_mobile'] = TRUE;
 //____________________________________________________________________________
 //Google analytics tracking code (if empty, the Javascript tracking code will be desactivated).
 //An option allows you to send the identifier of the connected user (a special configuration must be set in GA first).
@@ -474,7 +474,7 @@ $config['ldap_basedn_db'] = FALSE;      //If TRUE, ldap path is taken from user 
 
 //____________________________________________________________________________
 //Oauth2 configuration
-$config['oauth2_enabled'] = TRUE;
+$config['oauth2_enabled'] = FALSE;
 $config['oauth2_provider'] = 'google';   //Supported providers: google
 $config['oauth2_client_id'] = '717407829635-d42sbsgp8v2jlavkkheeth6c33mi8rlj.apps.googleusercontent.com';
 $config['oauth2_client_secret'] = 'j6UC6FpIU3P-kwEvdZxq2-hh';

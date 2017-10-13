@@ -71,6 +71,8 @@ class Overtime extends CI_Controller {
         if (($this->user_id == $employee['manager']) || ($this->is_hr)  || ($is_delegate)) {
             $this->overtime_model->acceptExtra($id);
             $this->sendMail($id);
+            $this->load->library('../controllers/leaves');
+            $this->leaves->pushNotiFromWeb(4, $id);
             $this->session->set_flashdata('msg', lang('overtime_accept_flash_msg_success'));
             if (isset($_GET['source'])) {
                 redirect($_GET['source']);
@@ -102,6 +104,8 @@ class Overtime extends CI_Controller {
         if (($this->user_id == $employee['manager']) || ($this->is_hr)  || ($is_delegate)) {
             $this->overtime_model->rejectExtra($id);
             $this->sendMail($id);
+            $this->load->library('../controllers/leaves');
+            $this->leaves->pushNotiFromWeb(5, $id);
             $this->session->set_flashdata('msg', lang('overtime_reject_flash_msg_success'));
             if (isset($_GET['source'])) {
                 redirect($_GET['source']);

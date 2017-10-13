@@ -243,7 +243,7 @@ $config['encryption_key'] = 'YJ9FljXV4axG7QTzEzbRaUBFwi0FzIls';
 |
 */
 $config['sess_cookie_name']	= 'jorani_session';
-$config['sess_expiration']	= 7200;
+$config['sess_expiration']	= 86400; //7200;
 $config['sess_expire_on_close']	= FALSE;
 $config['sess_encrypt_cookie']	= TRUE;
 $config['sess_use_database']	= FALSE;

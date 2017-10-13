@@ -128,6 +128,8 @@ class Extra extends CI_Controller {
             //If the status is requested, send an email to the manager
             if ($this->input->post('status') == 2) {
                 $this->sendMail($extra_id);
+                $this->load->library('../controllers/leaves');
+                $this->leaves->pushNotiFromWeb(1, null, $this->input->post("cause"));
             }
             if (isset($_GET['source'])) {
                 redirect($_GET['source']);

@@ -18,7 +18,7 @@ class Leaves_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-    	$this->db = $this->load->database($this->session->userdata('database'), TRUE);
+    	//$this->db = $this->load->database($this->session->userdata('database'), TRUE);
     }
 
     /**
@@ -607,18 +607,21 @@ class Leaves_model extends CI_Model {
      */
     public function createLeaveByApi($startdate, $enddate, $status, $employee, $cause,
             $startdatetype, $enddatetype, $duration, $type) {
-        
+
+        date_default_timezone_set('Asia/Bangkok');
         $data = array(
-            'startdate' => $startdate,
-            'enddate' => $enddate,
+            'startdate' => str_replace('"', '', $startdate),
+            'enddate' => str_replace('"', '', $enddate),
             'status' => $status,
             'employee' => $employee,
-            'cause' => $cause,
-            'startdatetype' => $startdatetype,
-            'enddatetype' => $enddatetype,
+            'cause' => str_replace('"', '', $cause),
+            'startdatetype' => str_replace('"', '', $startdatetype),
+            'enddatetype' => str_replace('"', '', $enddatetype),
             'duration' => abs($duration),
-            'type' => $type
+            'type' => $type,
+            'create_date' => date('Y-m-d H:i:s')
         );
+
         $this->db->insert('leaves', $data);
         $newId = $this->db->insert_id();
         
@@ -1447,5 +1450,54 @@ class Leaves_model extends CI_Model {
         WHERE entitleddays.type IS NULL
         ORDER BY users.id ASC, leaves.startdate DESC', FALSE);
         return $query->result_array();  
+    }
+
+    /** -v1------------------------------new implementation---------------
+     * Register notification device
+     * @return new id of phone registered
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function registerDevice($employeeId, $playerId){
+        date_default_timezone_set('Asia/Bangkok');
+        $data = array(
+            "employee" => $employeeId,
+            "player_id" => $playerId
+        );
+        $this->db->insert('onesignal_playerid', $data);
+        $newId = $this->db->insert_id();
+        return $newId;
+    }
+
+    /** -v1
+     * Change planned to request type
+     * @param id of leave object
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function plannedtoRequestLeave($id) {
+        $data = array(
+            'status' => 2
+        );
+        $this->db->where('id', $id);
+        $affectedRows = $this->db->update('leaves', $data);
+
+        //Trace the modification if the feature is enabled
+        if ($this->config->item('enable_history') == TRUE) {
+            $this->load->model('history_model');
+            $this->history_model->setHistory(2, 'leaves', $id, $this->session->userdata('id'));
+        }
+
+        return $affectedRows;
+    }
+
+    /** -v1
+     * @return leave type by the id
+     * @param id of type object
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function getLeaveTypeById($id) {
+        $this->db->select('types.name');
+        $this->db->from('types');
+        $this->db->where('types.id', $id);
+        return $this->db->get()->row_array();
     }
 }

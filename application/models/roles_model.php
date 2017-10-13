@@ -20,7 +20,7 @@ class Roles_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-    	$this->db = $this->load->database($this->session->userdata('database'), TRUE);
+    	//$this->db = $this->load->database($this->session->userdata('database'), TRUE);
 
         /*
             00000001 1  Admin

@@ -292,8 +292,8 @@ $route['api/leaves/(:num)/(:num)'] = 'api/leaves/$1/$2';
 $route['api/leavetypes'] = 'api/leavetypes';
 $route['api/positions'] = 'api/positions';
 $route['api/userdepartment/(:num)'] = 'api/userdepartment/$1';
-$route['api/userextras/(:num)'] = 'api/userextras/$1';
-$route['api/userleaves/(:num)'] = 'api/userleaves/$1';
+$route['api/userextras/(:num)'] = 'api/userextras/$1'; //
+$route['api/userleaves/(:num)'] = 'api/userleaves/$1'; //
 $route['api/users/(:num)'] = 'api/users/$1';
 $route['api/users'] = 'api/users';
 //v0.4.0
@@ -302,12 +302,30 @@ $route['api/deleteuser/(:num)'] = 'api/deleteuser/$1';
 $route['api/updateuser/(:num)'] = 'api/updateuser/$1';
 $route['api/createuser/(:any)'] = 'api/createuser/$1';
 $route['api/createuser'] = 'api/createuser';
-$route['api/createleave'] = 'api/createleave';
+$route['api/createleave'] = 'api/createleave'; //
 //v0.4.3
 $route['api/getListOfEmployeesInEntity/(:num)/(:any)'] = 'api/getListOfEmployeesInEntity/$1/$2';
 //Next version 0.4.4?
 $route['api/acceptleaves/(:num)'] = 'api/acceptleaves/$1';
 $route['api/rejectleaves/(:num)'] = 'api/rejectleaves/$1';
+
+//----------------Mobile implementation---------VOS
+$route['api/userprofilelms/(:num)'] = 'api/userprofilelms/$1'; //
+$route['api/requestingleaves/(:num)'] = 'api/requestingleaves/$1'; //
+$route['api/requestingextras/(:num)'] = 'api/requestingextras/$1'; //
+$route['api/createextra'] = 'api/createextra'; //
+$route['api/deleteleave/(:num)'] = 'api/deleteleave/$1';//
+$route['api/plantorequestleave/(:num)'] = 'api/plantorequestleave/$1';//
+$route['api/acceptextras/(:num)'] = 'api/acceptextras/$1';
+$route['api/rejectextras/(:num)'] = 'api/rejectextras/$1';
+$route['api/deleteextra/(:num)'] = 'api/deleteextra/$1';//
+$route['api/plantorequestextra/(:num)'] = 'api/plantorequestextra/$1';//
+$route['api/checkoverlapleave'] = 'api/checkoverlapleave';
+$route['api/checkoverlapextra'] = 'api/checkoverlapextra';
+$route['api/registeronesignal'] = 'api/registeronesignal';
+$route['api/removeonesignal'] = 'api/removeonesignal';
+$route['api/mobile/autologin'] = 'mobile/autoLogin';
+$route['api/registernewoauthclient'] = 'api/registernewoauthclient';
 
 //_______________________________________________
 //ICS Feeds
@@ -328,8 +346,8 @@ $route['session/forgetpassword'] = 'session/forgetpassword';
 //_______________________________________________
 //Experimental mobile endpoint
 $route['mobile/getPublicKey'] = 'mobile/getPublicKey';
-$route['mobile/login'] = 'mobile/login';
-$route['mobile/logout'] = 'mobile/logout';
+$route['api/mobile/login'] = 'mobile/login'; //
+$route['api/mobile/logout'] = 'mobile/logout';
 $route['mobile/notifications'] = 'mobile/notifications';
 $route['mobile/leaves/(:num)'] = 'mobile/leaves/$1';
 

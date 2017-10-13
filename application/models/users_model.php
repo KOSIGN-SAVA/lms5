@@ -20,8 +20,7 @@ class Users_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-    	$this->db = $this->load->database($this->session->userdata('database'), TRUE);
-
+    	//$this->db = $this->load->database($this->session->userdata('database'), TRUE);
     }
 
     /**
@@ -1010,4 +1009,83 @@ class Users_model extends CI_Model {
         $result = $this->db->update('users', $data);
         return $result;
     }
+
+    /** -v1-------------------------new implementation--------------------
+     * Get object of each user information
+     * @param $id id of each user
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function getUserProfile($id) {
+        $sql = "SELECT us.id, us.firstname, us.lastname, po.name position, userm.firstname manager_firstname, userm.lastname manager_lastname, org.name team, us.datehired staff_since, osp.player_id device_player_id";
+        $sql .= " FROM users us";
+        $sql .= " LEFT JOIN users userm on userm.id=us.manager";
+        $sql .= " LEFT JOIN positions po on us.position = po.id";
+        $sql .= " LEFT JOIN lms_3_590.organization org on us.organization = org.id";
+        $sql .= " LEFT JOIN lms_3_590.onesignal_playerid osp on us.manager = osp.employee";
+        $sql .= " WHERE us.id = ".$id;
+        $sql .= " ORDER BY us.id";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    /** -v1
+     * Set auto login when session expire
+     * @param $sessionData is object information user
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function setAutoLogin($sessionData) {
+        $newdata = array(
+            'login' => $sessionData["login"],
+            'id' => $sessionData["id"],
+            'firstname' => $sessionData["firstname"],
+            'lastname' => $sessionData["lastname"],
+            'is_manager' => $sessionData["isManager"],
+            'is_admin' => $sessionData["isAdmin"],
+            'is_hr' => $sessionData["isHR"],
+            'manager' => $sessionData["managerId"],
+            'logged_in' => $sessionData["isLoggedIn"]
+        );
+        $this->session->set_userdata($newdata);
+    }
+
+    /** -v1
+     * check login with login field
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function checkCredentialsWithLogin($login, $password = NULL) {
+        $this->db->from('users');
+        $this->db->where('login', $login);
+        $this->db->where('active = TRUE');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            if (!is_null($password)) {
+                $hash = crypt($password, $row->password);
+                if ($hash == $row->password) {
+                    $this->loadProfile($row);
+                }
+            } else {
+                $this->loadProfile($row);
+            }
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /** -v1
+     * Register new OAuth client
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function registerNewAuthClient($clientId, $userId) {
+        $data = array(
+            "client_id" => $clientId,
+            "client_secret" => $clientId."pass",
+            "redirect_uri" => "url",
+            "grant_types" => "client_credentials",
+            "user_id" => $userId
+        );
+        return $this->db->insert('oauth_clients', $data);
+    }
+
 }

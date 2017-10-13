@@ -70,6 +70,9 @@ function getLeaveInfos(preventDefault) {
             if (typeof leaveInfo.length !== 'undefined') {
                 var duration = parseFloat(leaveInfo.length);
                 duration = Math.round(duration * 1000) / 1000;  //Round to 3 decimals only if necessary
+                if($("#enddatetype").val() =="Morning" && duration < 1){
+                    duration = Math.ceil(duration);
+                }
                 if (!preventDefault) {
                     if (start.isValid() && end.isValid()) {
                         $('#duration').val(duration);

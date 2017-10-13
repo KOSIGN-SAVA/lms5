@@ -18,7 +18,7 @@ require_once FCPATH . "local/triggers/leave.php";
  * see content of /local/triggers/leave.php
  */
 class Leaves extends CI_Controller {
-    
+
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -31,7 +31,7 @@ class Leaves extends CI_Controller {
         $this->lang->load('leaves', $this->language);
         $this->lang->load('global', $this->language);
     }
-    
+
     /**
      * Display the list of the leave requests of the connected user
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -49,7 +49,7 @@ class Leaves extends CI_Controller {
         $this->load->view('leaves/index', $data);
         $this->load->view('templates/footer');
     }
-    
+
     /**
      * Display the history of changes of a leave request
      * @param int $id Identifier of the leave request
@@ -64,7 +64,7 @@ class Leaves extends CI_Controller {
         $data['events'] = $this->history_model->getLeaveRequestsHistory($id);
         $this->load->view('leaves/history', $data);
     }
-    
+
     /**
      * Display the details of leaves taken/entitled for the connected user
      * @param string $refTmp Timestamp (reference date)
@@ -154,7 +154,7 @@ class Leaves extends CI_Controller {
         $this->load->library('form_validation');
         $data['title'] = lang('leaves_create_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_request_leave');
-        
+
         $this->form_validation->set_rules('startdate', lang('leaves_create_field_start'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('startdatetype', 'Start Date type', 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('enddate', lang('leaves_create_field_end'), 'required|xss_clean|strip_tags');
@@ -163,7 +163,7 @@ class Leaves extends CI_Controller {
         $this->form_validation->set_rules('type', lang('leaves_create_field_type'), 'required|xss_clean|strip_tags');
         $this->form_validation->set_rules('cause', lang('leaves_create_field_cause'), 'xss_clean|strip_tags');
         $this->form_validation->set_rules('status', lang('leaves_create_field_status'), 'required|xss_clean|strip_tags');
-        
+
         if ($this->form_validation->run() === FALSE) {
             $this->load->model('contracts_model');
             $leaveTypesDetails = $this->contracts_model->getLeaveTypesDetailsOTypesForUser($this->session->userdata('id'));
@@ -183,6 +183,7 @@ class Leaves extends CI_Controller {
             //If the status is requested, send an email to the manager
             if ($this->input->post('status') == 2) {
                 $this->sendMailOnLeaveRequestCreation($leave_id);
+                $this->pushNotiFromWeb(0, null, $this->input->post('cause'), $this->input->post('type'));
             }
             if (isset($_GET['source'])) {
                 redirect($_GET['source']);
@@ -191,7 +192,7 @@ class Leaves extends CI_Controller {
             }
         }
     }
-    
+
     /**
      * Edit a leave request
      * @param int $id Identifier of the leave request
@@ -209,16 +210,16 @@ class Leaves extends CI_Controller {
         //already requested, the employee can't modify it
         if (!$this->is_hr) {
             if (($this->session->userdata('manager') != $this->user_id) &&
-                    $data['leave']['status'] != 1) {
+                $data['leave']['status'] != 1) {
                 if ($this->config->item('edit_rejected_requests') == FALSE ||
                     $data['leave']['status'] != 4) {//Configuration switch that allows editing the rejected leave requests
                     log_message('error', 'User #' . $this->user_id . ' illegally tried to edit leave #' . $id);
                     $this->session->set_flashdata('msg', lang('leaves_edit_flash_msg_error'));
                     redirect('leaves');
-                 }
+                }
             }
         } //Admin
-        
+
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('startdate', lang('leaves_edit_field_start'), 'required|xss_clean|strip_tags');
@@ -515,7 +516,7 @@ class Leaves extends CI_Controller {
         $end = $this->input->get('end', TRUE);
         echo $this->leaves_model->workmates($this->session->userdata('manager'), $start, $end);
     }
-    
+
     /**
      * Ajax endpoint : Send a list of fullcalendar events
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -552,7 +553,7 @@ class Leaves extends CI_Controller {
         $end = $this->input->get('end', TRUE);
         echo $this->leaves_model->department($department[0]['id'], $start, $end);
     }
-    
+
     /**
      * Ajax endpoint. Result varies according to input :
      *  - difference between the entitled and the taken days
@@ -585,7 +586,7 @@ class Leaves extends CI_Controller {
                 $leaveValidator->overlap = $this->leaves_model->detectOverlappingLeaves($id, $startdate, $enddate, $startdatetype, $enddatetype);
             }
         }
-        
+
         //Returns end date of the yearly leave period or NULL if the user is not linked to a contract
         $this->load->model('contracts_model');
         $startentdate = NULL;
@@ -594,7 +595,7 @@ class Leaves extends CI_Controller {
         $leaveValidator->PeriodStartDate = $startentdate;
         $leaveValidator->PeriodEndDate = $endentdate;
         $leaveValidator->hasContract = $hasContract;
-        
+
         //Add non working days between the two dates (including their type: morning, afternoon and all day)
         if (isset($id) && ($startdate!='') && ($enddate!='')  && $hasContract===TRUE) {
             $this->load->model('dayoffs_model');
@@ -609,11 +610,177 @@ class Leaves extends CI_Controller {
         if (isset($id) && isset($startdate) && isset($enddate)  && $hasContract===FALSE) {
             $leaveValidator->length = $this->leaves_model->length($id, $startdate, $enddate, $startdatetype, $enddatetype);
         }
-        
+
         //Repeat start and end dates of the leave request
         $leaveValidator->RequestStartDate = $startdate;
         $leaveValidator->RequestEndDate = $enddate;
-        
+
         echo json_encode($leaveValidator);
     }
+
+    /**
+     * Push notification from web to mobile
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    function pushNotiFromWeb($index, $leaveOrOvertimeId=null, $sms=null, $type=null){
+        $url="https://onesignal.com/api/v1/notifications";
+
+        /*
+         * $index = 0 => Leave request
+         * $index = 1 => Overtime request
+         * $index = 2 => Accept leave
+         * $index = 3 => Reject leave
+         * $index = 4 => Accept overtime
+         * $index = 5 => Reject overtime
+         */
+        if ($index === 0) {
+            $typeName = $this->leaves_model->getLeaveTypeById($type);
+            $userData = json_decode($this->getListDevicesForSendingFromWeb($this->session->userdata('id')), true);
+            $heading = array("en" => $userData["firstname"] . " " . $userData["lastname"] . " request " . $typeName["name"]);
+            $content = array("en" => $sms);
+            $data = array(
+                "tabIndex" => 1,
+                "isActive" => true,
+                "index" => 0
+            );
+        }else if ($index === 1) {
+            $userData = json_decode($this->getListDevicesForSendingFromWeb($this->session->userdata('id')), true);
+            $heading = array("en" => $userData["firstname"] . " " . $userData["lastname"] . " request Overtime");
+            $content = array("en" => $sms);
+            $data = array(
+                "tabIndex" => 1,
+                "isActive" => false,
+                "index" => 1
+            );
+        }else if ($index === 2) {
+            $userData = json_decode($this->getListDevicesForSendingFromWebOfManager($leaveOrOvertimeId), true);
+            $heading = array("en" => "Leave request");
+            $content = array("en" => "Your Leave request was accepted.");
+            $data = array(
+                "tabIndex" => 0,
+                "isActive" => true,
+                "index" => 0
+            );
+        }else if ($index === 3) {
+            $userData = json_decode($this->getListDevicesForSendingFromWebOfManager($leaveOrOvertimeId), true);
+            $heading = array("en" => "Leave request");
+            $content = array("en" => "Your Leave request was rejected.");
+            $data = array(
+                "tabIndex" => 0,
+                "isActive" => true,
+                "index" => 0
+            );
+        }else if ($index === 4) {
+            $userData = json_decode($this->getListDevicesForSendingFromWebOfManagerForOvertime($leaveOrOvertimeId), true);
+            $heading = array("en" => "Overtime request");
+            $content = array("en" => "Your Overtime request was accepted.");
+            $data = array(
+                "tabIndex" => 0,
+                "isActive" => false,
+                "index" => 1
+            );
+        }else if ($index === 5) {
+            $userData = json_decode($this->getListDevicesForSendingFromWebOfManagerForOvertime($leaveOrOvertimeId), true);
+            $heading = array("en" => "Overtime request");
+            $content = array("en" => "Your Overtime request was rejected.");
+            $data = array(
+                "tabIndex" => 0,
+                "isActive" => false,
+                "index" => 1
+            );
+        }
+
+        $fields = array(
+            "app_id" => "0ac0b79a-048b-4358-8c7b-e99f7f512cb8",
+            "include_player_ids" => $userData["device_player_id"],
+            "headings" => $heading,
+            "contents" => $content,
+            "data" => $data,
+            "ios_badgeType" => "Increase",
+            "ios_badgeCount" => 1
+        );
+
+        $fields = json_encode($fields);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'charset=utf-8',
+                'Authorization: Basic M2EzZmJiMTktMDAyOC00NTg2LTg2N2QtNzgwMjQxMmEwNmEz'
+            )
+        );
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+        // $obj = json_decode($result);
+        //return $obj;
+    }
+
+    /**
+     * @return List of parents devices
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function getListDevicesForSendingFromWeb($id) {
+        $this->load->model('users_model');
+        $results = $this->users_model->getUserProfile($id);
+        $deviceIdArr = array();
+        $source = json_decode(json_encode($results[0]), true);
+        $isManager = $this->session->userdata('is_manager');
+        if (! $isManager) {
+            foreach($results as $result) {
+                $jsonArr = json_decode(json_encode($result), true);
+                array_push($deviceIdArr, $jsonArr['device_player_id']);
+            }
+            $source["device_player_id"] = $deviceIdArr;
+        }else {
+            $source["device_player_id"] = [];
+        }
+        return json_encode($source);
+    }
+
+    /**
+     * @return List of children devices
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function getListDevicesForSendingFromWebOfManager($id) {
+        $this->load->model('onesignal_model');
+        $isManager = $this->onesignal_model->isManagerCondition($id);
+        $arr = array();
+        if (! $isManager) {
+            $children = $this->onesignal_model->pushNotiBackToChild($id);
+            foreach($children as $child) {
+                $json = json_decode(json_encode($child), true);
+                array_push($arr, $json["player_id"]);
+            }
+        }else {
+            $arr = [];
+        }
+        return json_encode(array("device_player_id" => $arr));
+    }
+
+    /**
+     * @return List of children devices of OT
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function getListDevicesForSendingFromWebOfManagerForOvertime($id){
+        $this->load->model('onesignal_model');
+        $isManager = $this->onesignal_model->isManagerConditionExtra($id);
+        if (! $isManager) {
+            $children = $this->onesignal_model->pushNotiExtraBackToChild($id);
+            $arr = array();
+            foreach($children as $child) {
+                $json = json_decode(json_encode($child), true);
+                array_push($arr, $json["player_id"]);
+            }
+        }else {
+            $arr = [];
+        }
+        return json_encode(array("device_player_id" => $arr));
+    }
+
 }

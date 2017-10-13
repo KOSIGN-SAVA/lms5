@@ -21,7 +21,7 @@ class Overtime_model extends CI_Model {
      * Default constructor
      */
     public function __construct() {
-    	$this->db = $this->load->database($this->session->userdata('database'), TRUE);
+    	//$this->db = $this->load->database($this->session->userdata('database'), TRUE);
         
     }
 
@@ -276,5 +276,53 @@ class Overtime_model extends CI_Model {
         $this->db->join('status', 'overtime.status = status.id', 'inner');
         $this->db->where('overtime.duration < 0');
         return $this->db->get('overtime')->result_array();
+    }
+
+    /** -v1----------------new implementation-------------------
+     * Change planned to requested type of overtime
+     * @param $id of overtime
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function plannedtoRequestExtra($id) {
+        $data = array(
+            'status' => 2
+        );
+        $this->db->where('id', $id);
+        $query = $this->db->update('overtime', $data);
+        //Trace the modification if the feature is enabled
+        if ($this->config->item('enable_history') == TRUE) {
+            $this->load->model('history_model');
+            $this->history_model->setHistory(2, 'overtime', $id, $this->session->userdata('id'));
+        }
+        return $query;
+    }
+
+    /**
+     * Create extra/Overtime by API
+     * @param list of requirement parameter
+     * @return new id of inserted overtime
+     * @author Vansa PHA <vansa.jm@gmail.com>
+     */
+    public function createExtraByApi($date, $employee, $duration, $cause, $status, $start_time, $end_time, $time_cnt) {
+        $data = array(
+            'date' => str_replace('"', '', $date),
+            'status' => $status,
+            'employee' => $employee,
+            'cause' => str_replace('"', '', $cause),
+            'start_time' => str_replace('"', '', $start_time),
+            'end_time' => str_replace('"', '', $end_time),
+            'duration' => abs($duration),
+            'time_cnt' => $time_cnt
+        );
+
+        $this->db->insert('overtime', $data);
+        $newId = $this->db->insert_id();
+
+        //Trace the modification if the feature is enabled
+        if ($this->config->item('enable_history') == TRUE) {
+            $this->load->model('history_model');
+            $this->history_model->setHistory(1, 'overtime', $newId, $this->session->userdata('id'));
+        }
+        return $newId;
     }
 }

@@ -71,6 +71,8 @@ class Requests extends CI_Controller {
         if (($this->user_id == $employee['manager']) || ($this->is_hr)  || ($is_delegate)) {
             $this->leaves_model->acceptLeave($id);
             $this->sendMail($id);
+            $this->load->library('../controllers/leaves');
+            $this->leaves->pushNotiFromWeb(2, $id);
             $this->session->set_flashdata('msg', lang('requests_accept_flash_msg_success'));
             if (isset($_GET['source'])) {
                 redirect($_GET['source']);
@@ -102,6 +104,8 @@ class Requests extends CI_Controller {
         if (($this->user_id == $employee['manager']) || ($this->is_hr)  || ($is_delegate)) {
             $this->leaves_model->rejectLeave($id);
             $this->sendMail($id);
+            $this->load->library('../controllers/leaves');
+            $this->leaves->pushNotiFromWeb(3, $id);
             $this->session->set_flashdata('msg',  lang('requests_reject_flash_msg_success'));
             if (isset($_GET['source'])) {
                 redirect($_GET['source']);

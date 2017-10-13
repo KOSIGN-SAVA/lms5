@@ -162,7 +162,8 @@ class Api extends CI_Controller {
             }
             $result = $this->leaves_model->getLeaveBalanceForEmployee($id, FALSE, $refDate);
             if (empty($result)) {
-                $this->output->set_header("HTTP/1.1 422 Unprocessable entity");
+                //$this->output->set_header("HTTP/1.1 422 Unprocessable entity");
+                echo [];
             } else {
                 echo json_encode($result);
             }
@@ -207,14 +208,38 @@ class Api extends CI_Controller {
      * Accept a leave request
      * @param int $id identifier of leave request to accept
      * @author Guillaume BLAQUIERE <guillaume.blaquiere@gmail.com>
+     * @Implementation: Vansa, for mobile app requirement.
+
+//    public function acceptleaves($id = 0) {
+//        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+//            $this->server->getResponse()->send();
+//        } else {
+//            $this->load->model('leaves_model');
+//            $result = $this->leaves_model->acceptLeave($id);
+//            echo json_encode($result);
+//        }
+//    }
      */
-    public function acceptleaves($id = 0) {
+
+    public function acceptleaves($id) {
         if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
             $this->server->getResponse()->send();
         } else {
             $this->load->model('leaves_model');
+            $this->load->model('onesignal_model');
             $result = $this->leaves_model->acceptLeave($id);
-            echo json_encode($result);
+            $isManager = $this->onesignal_model->isManagerCondition($id);
+            $arr = array();
+            if (! $isManager) {
+                $children = $this->onesignal_model->pushNotiBackToChild($id);
+                foreach($children as $child) {
+                    $json = json_decode(json_encode($child), true);
+                    array_push($arr, $json["player_id"]);
+                }
+            }else {
+                $arr = [];
+            }
+            echo json_encode($arr);
         }
     }
 
@@ -222,7 +247,8 @@ class Api extends CI_Controller {
      * Reject a leave request
      * @param int $id identifier of leave request to reject
      * @author Guillaume BLAQUIERE <guillaume.blaquiere@gmail.com>
-     */
+     * @Implementation: Vansa, for mobile app requirement.
+
     public function rejectleaves($id = 0) {
         if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
             $this->server->getResponse()->send();
@@ -230,6 +256,29 @@ class Api extends CI_Controller {
             $this->load->model('leaves_model');
             $result = $this->leaves_model->rejectLeave($id);
             echo json_encode($result);
+        }
+    }
+     */
+
+    public function rejectleaves($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('leaves_model');
+            $this->load->model('onesignal_model');
+            $result = $this->leaves_model->rejectLeave($id);
+            $isManager = $this->onesignal_model->isManagerCondition($id);
+            if (! $isManager) {
+                $children = $this->onesignal_model->pushNotiBackToChild($id);
+                $arr = array();
+                foreach($children as $child) {
+                    $json = json_decode(json_encode($child), true);
+                    array_push($arr, $json["player_id"]);
+                }
+            }else {
+                $arr = [];
+            }
+            echo json_encode($arr);
         }
     }
     
@@ -526,21 +575,37 @@ class Api extends CI_Controller {
      * Returns the new inserted id.
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      * @since 0.4.0
+     * @Implementation Vansa, edit for form_data to json catch raw value
      */
     public function createleave() {
         if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
             $this->server->getResponse()->send();
         } else {
+            /* FormData: old
+                $this->load->model('leaves_model');
+                $startdate = $this->input->post('startdate');
+                $enddate = $this->input->post('enddate');
+                $status = $this->input->post('status');
+                $employee = $this->input->post('employee');
+                $cause = $this->input->post('cause');
+                $startdatetype = $this->input->post('startdatetype');
+                $enddatetype = $this->input->post('enddatetype');
+                $duration = $this->input->post('duration');
+                $type = $this->input->post('type');
+            */
+
+            //Update to json catch raw value.
+            $_POST = json_decode(file_get_contents('php://input'), true);
             $this->load->model('leaves_model');
-            $startdate = $this->input->post('startdate');
-            $enddate = $this->input->post('enddate');
-            $status = $this->input->post('status');
-            $employee = $this->input->post('employee');
-            $cause = $this->input->post('cause');
-            $startdatetype = $this->input->post('startdatetype');
-            $enddatetype = $this->input->post('enddatetype');
-            $duration = $this->input->post('duration');
-            $type = $this->input->post('type');
+            $startdate = json_encode($_POST["startdate"]);
+            $enddate = json_encode($_POST["enddate"]);
+            $status = json_encode($_POST["status"]);
+            $employee = json_encode($_POST["employee"]);
+            $cause = json_encode($_POST["cause"], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+            $startdatetype = json_encode($_POST["startdatetype"]);
+            $enddatetype = json_encode($_POST["enddatetype"]);
+            $duration = json_encode($_POST["duration"]);
+            $type = json_encode($_POST["type"]);
 
             //Prevent misinterpretation of content
             if ($cause == FALSE) {$cause = NULL;}
@@ -574,6 +639,314 @@ class Api extends CI_Controller {
             $result = $this->organization_model->allEmployees($id, $children);
             echo json_encode($result);
         }
-    }    
+    }
+
+    /** -v1--------------------------------||--------------------new implementation
+     * Accept extra/overtime from Manager
+     * @param int $id identifier of overtime id object
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function acceptextras($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('overtime_model');
+            $this->load->model('onesignal_model');
+            $result = $this->overtime_model->acceptExtra($id);
+            $isManager = $this->onesignal_model->isManagerConditionExtra($id);
+            if (! $isManager) {
+                $children = $this->onesignal_model->pushNotiExtraBackToChild($id);
+                $arr = array();
+                foreach($children as $child) {
+                    $json = json_decode(json_encode($child), true);
+                    array_push($arr, $json["player_id"]);
+                }
+            }else {
+                $arr = [];
+            }
+            echo json_encode($arr);
+        }
+    }
+
+    /** -v1
+     * Reject extra/overtime from Manager
+     * @param int $id identifier of overtime id object
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function rejectextras($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('overtime_model');
+            $this->load->model('onesignal_model');
+            $result = $this->overtime_model->rejectExtra($id);
+            $isManager = $this->onesignal_model->isManagerConditionExtra($id);
+            if (! $isManager) {
+                $children = $this->onesignal_model->pushNotiExtraBackToChild($id);
+                $arr = array();
+                foreach($children as $child) {
+                    $json = json_decode(json_encode($child), true);
+                    array_push($arr, $json["player_id"]);
+                }
+            }else {
+                $arr = [];
+            }
+            echo json_encode($arr);
+        }
+    }
+
+    /** -v1
+     * Delete leave from user, when the planed type
+     * @param int $id identifier of leave id object
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function deleteleave($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('leaves_model');
+            $result = $this->leaves_model->deleteLeave($id);
+            echo json_encode($result);
+        }
+    }
+
+    /** -v1
+     * Request leave from Planed to Requested type
+     * @param int $id identifier of leave id object
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function plantorequestleave($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('leaves_model');
+            $result = $this->leaves_model->plannedtoRequestLeave($id);
+            //$this->sendMailOnLeaveRequestCreation($id);
+            echo json_encode($result);
+        }
+    }
+
+    /** -v1
+     * Delete overtime, when user set it's planed type
+     * @param int $id identifier of overtime id object
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function deleteextra($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('overtime_model');
+            $result = $this->overtime_model->deleteExtra($id);
+            echo json_encode($result);
+        }
+    }
+
+    /** -v1
+     * Request Overtime from Planed to Requested type
+     * @param int $id identifier of overtime id object
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function plantorequestextra($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('overtime_model');
+            $result = $this->overtime_model->plannedtoRequestExtra($id);
+            echo json_encode($result);
+        }
+    }
+
+    /** -v1
+     * Checking leave is duplication date or not
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function checkoverlapleave() {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $_POST = json_decode(file_get_contents('php://input'), true);
+            $this->load->model('leaves_model');
+            $id = $this->session->userdata('id');
+            $start_date = str_replace('"', '', json_encode($_POST["start_date"]));
+            $end_date = str_replace('"', '', json_encode($_POST["end_date"]));
+            $start_date_type = str_replace('"', '', json_encode($_POST["start_date_type"]));
+            $end_date_type = str_replace('"', '', json_encode($_POST["end_date_type"]));
+            $result = $this->leaves_model->detectOverlappingLeaves($id, $start_date, $end_date, $start_date_type, $end_date_type);
+            $render = array("isduplicateleave" => $result);
+            echo json_encode($render);
+        }
+    }
+
+    /** -v1
+     * Checking Overtime is duplication date or not
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function checkoverlapextra() {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $_POST = json_decode(file_get_contents('php://input'), true);
+            $this->load->model('overtime_model');
+            $id = $this->session->userdata('id');
+            $date = str_replace('"', '', json_encode($_POST["date"]));
+            $start_time = str_replace('"', '', json_encode($_POST["start_time"]));
+            $end_time = str_replace('"', '', json_encode($_POST["end_time"]));
+            $result = $this->overtime_model->detectOverlappingExtra($id, $date, $start_time, $end_time);
+            $render = array("isduplicateextra" => $result);
+            echo json_encode($render);
+        }
+    }
+
+    /** -v1
+     * Register new device to OneSignal.com for notification
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public  function registeronesignal() {
+//        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+//            $this->server->getResponse()->send();
+//        } else {
+            $_POST = json_decode(file_get_contents('php://input'), true);
+            $this->load->model('onesignal_model');
+            $id = $this->session->userdata('id');
+            $player = str_replace('"', '', json_encode($_POST["player_id"]));
+            $isDuplication = $this->onesignal_model->checkDuplicationDeviceId($player);
+            if (!$isDuplication) {
+                $result = $this->onesignal_model->registerDevice($id, $player);
+                $render = array("new_device_id" => $result);
+                echo json_encode($render);
+            }else {
+                $result = $this->onesignal_model->updateDeviceId($id, $player);
+                $render = array("updated_id" => $result);
+                echo json_encode($render);
+            }
+//        }
+    }
+
+    /** -v1
+     * Remove device from OneSignal.com for notification
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function removeonesignal() {
+//        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+//            $this->server->getResponse()->send();
+//        } else {
+            $_POST = json_decode(file_get_contents('php://input'), true);
+            $this->load->model('onesignal_model');
+            $id = $this->session->userdata('id');
+            $playerId = str_replace('"', '', json_encode($_POST["player_id"]));
+            $remove = $this->onesignal_model->removeDeviceId($id, $playerId);
+            echo json_encode(array("isRemoveDeviceId" => $remove));
+//        }
+    }
+
+    /** -v1
+     * Return all needed of each user profile information by param id
+     * @param $id is identify of users information
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function userprofilelms($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('users_model');
+            $results = $this->users_model->getUserProfile($id);
+            if (count($results) > 0) {
+                $deviceIdArr = array();
+                $source = json_decode(json_encode($results[0]), true);
+                $isManager = $this->session->userdata('is_manager');
+                if (! $isManager) {
+                    foreach($results as $result) {
+                        $jsonArr = json_decode(json_encode($result), true);
+                        array_push($deviceIdArr, $jsonArr['device_player_id']);
+                    }
+                    $source["device_player_id"] = $deviceIdArr;
+                }else {
+                    $source["device_player_id"] = [];
+                }
+                echo json_encode($source);
+            }else {
+                http_response_code(404);
+                echo json_encode(array("error" => "not_found"));
+            }
+        }
+    }
+
+    /** -v1
+     * List of overtime requested for manager approval
+     * @param $id is identify Overtime
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function requestingextras($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('overtime_model');
+            //$result = $this->overtime_model->getExtrasOfEmployeeRequesting($id);
+            $result = $this->overtime_model->requests($id);
+            echo json_encode($result);
+        }
+    }
+
+    /** -v1
+     * List of Leave requested for manager approval
+     * @param $id is manager id
+     * @author Pha Vansa <vansa.jm@gmail.clom>
+     */
+    public function requestingleaves($id) {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $this->load->model('leaves_model');
+            //$result = $this->leaves_model->getLeavesOfEmployeeRequesting($id);
+            $result = $this->leaves_model->getLeavesRequestedToManager($id);
+            echo json_encode($result);
+        }
+    }
+
+    /** -v1
+     * Create OT request
+     * @author Pha Vansa <vansa.jm@gmail.com>
+     */
+    public function createextra() {
+        if (!$this->server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
+            $this->server->getResponse()->send();
+        } else {
+            $_POST = json_decode(file_get_contents('php://input'), true);
+            $this->load->model('overtime_model');
+            $date = json_encode($_POST["date"]);
+            $status = json_encode($_POST["status"]);
+            $employee = json_encode($_POST["employee"]);
+            $cause = json_encode($_POST["cause"], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+            $start_time = json_encode($_POST["start_time"]);
+            $end_time = json_encode($_POST["end_time"]);
+            $duration = json_encode($_POST["duration"]);
+            $time_cnt = json_encode($_POST["time_cnt"]);
+            //Prevent misinterpretation of content
+            if ($cause == FALSE) {$cause = NULL;}
+
+            //Check mandatory fields
+            if ($date == FALSE || $status === FALSE || $employee === FALSE
+                || $start_time == FALSE || $end_time == FALSE || $duration === FALSE || $time_cnt === FALSE) {
+                $this->output->set_header("HTTP/1.1 422 Unprocessable entity");
+                log_message('error', 'Mandatory fields are missing.');
+            } else {
+                $result = $this->overtime_model->createExtraByApi($date, $employee, $duration, $cause, $status, $start_time, $end_time, $time_cnt);
+                //$this->sendMail($result);
+                echo json_encode($result);
+            }
+        }
+    }
+
+    /** -v1
+     * register new oauth client
+     * @author Pha Vansa <vansa.jm@gmail.com>
+     */
+    public function registernewoauthclient() {
+        $clientId = $this->session->userdata('login');
+        $userId = $this->session->userdata('id');
+        $this->load->model('users_model');
+        $result = $this->users_model->registerNewAuthClient($clientId, $userId);
+        echo json_encode(array("new_oauth_registered" => $result));
+    }
 
 }

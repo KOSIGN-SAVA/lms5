@@ -39,29 +39,24 @@ class Mobile extends CI_Controller {
     }
     
     /**
-     * Try to login with the e-mail address and the password provided
-     * @param string $email Email of the user trying to connect
+     * Try to login with the login and the password provided
+     * @param string $login Login of the user trying to connect
      * @param string $password Ciphered value of the password
      * @author Benjamin BALET <benjamin.balet@gmail.com>
+     * @implementation Vansa, edit for mobile login(Kosign Jorani)
      */
     public function login() {
         if ($this->config->item('enable_mobile') != FALSE) {
-            header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+            //header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
             header('Access-Control-Allow-Credentials : true');
             header('Access-Control-Allow-Methods: GET');
             header('Content-Type:application/json');
-            //Decipher the password (mind to remove the salt) and attempt to login
-            $password = '';
-            $keyPEM = file_get_contents('./assets/keys/private.pem', TRUE);
-            $privateKey = openssl_pkey_get_private($keyPEM);
-            openssl_private_decrypt(base64_decode($this->input->get('password')), 
-                                    $password, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
-            $len_salt = strlen($this->session->userdata('salt')) * (-1);
-            $password = substr($password, 0, $len_salt);
+            $password = base64_decode($this->input->get('password'));
             $this->load->model('users_model');
-            $loggedin = $this->users_model->checkCredentialsEmail($this->input->get('email'), $password);
+            $loggedin = $this->users_model->checkCredentialsWithLogin($this->input->get('login'), $password);
             //Return user's details (some fields might be empty if not logged in)
             $userDetails = new stdClass;
+            $userDetails->login = $this->session->userdata('login');
             $userDetails->id = $this->session->userdata('id');
             $userDetails->firstname = $this->session->userdata('firstname');
             $userDetails->lastname = $this->session->userdata('lastname');
@@ -146,4 +141,39 @@ class Mobile extends CI_Controller {
         }
         return base64_encode($rnd);
     }
+
+    /** -v1----------------------new implementation-----------
+     * get new session after expire or auto login
+     * @return json of session value
+     * @author Vansa Pha <vansa.jm@gmail.com>
+     */
+    public function autoLogin() {
+        $_POST = json_decode(file_get_contents('php://input'), true);
+        $dataSession = array(
+            "login" => $_POST["login"],
+            "id" => $_POST["id"],
+            "firstname" => $_POST["firstname"],
+            "lastname" => $_POST["lastname"],
+            "isManager" => $_POST["isManager"],
+            "isAdmin" => $_POST["isAdmin"],
+            "isHR" => $_POST["isHR"],
+            "managerId" => $_POST["managerId"],
+            "isLoggedIn" => $_POST["isLoggedIn"],
+        );
+        $this->load->model('users_model');
+        $this->users_model->setAutoLogin($dataSession);
+
+        $userDetails = new stdClass;
+        $userDetails->login = $this->session->userdata('login');
+        $userDetails->id = $this->session->userdata('id');
+        $userDetails->firstname = $this->session->userdata('firstname');
+        $userDetails->lastname = $this->session->userdata('lastname');
+        $userDetails->isManager = $this->session->userdata('is_manager');
+        $userDetails->isAdmin = $this->session->userdata('is_admin');
+        $userDetails->isHR = $this->session->userdata('is_hr');
+        $userDetails->managerId = $this->session->userdata('manager');
+        $userDetails->isLoggedIn = $this->session->userdata('logged_in');
+        echo json_encode($userDetails);
+    }
+
 }

@@ -20,7 +20,7 @@ class Time_model extends CI_Model {
      */
     public function __construct() {
         //This class will be used in a coming version of Jorani.
-    	$this->db = $this->load->database($this->session->userdata('database'), TRUE);
+    	//$this->db = $this->load->database($this->session->userdata('database'), TRUE);
     }
 
     /**

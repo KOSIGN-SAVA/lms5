@@ -19,7 +19,7 @@ class Contracts_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function __construct() {
-    	$this->db = $this->load->database($this->session->userdata('database'), TRUE);
+    	//$this->db = $this->load->database($this->session->userdata('database'), TRUE);
     }
 
     /**
