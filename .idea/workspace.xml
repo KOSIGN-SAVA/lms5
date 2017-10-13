@@ -1,34 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="80a9760d-7df7-4804-a728-0e6630ae5c45" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/models/connection_model.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/models/onesignal_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/config/config-default.php" afterPath="$PROJECT_DIR$/application/config/config-default.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/config/config.php" afterPath="$PROJECT_DIR$/application/config/config.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/config/routes.php" afterPath="$PROJECT_DIR$/application/config/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/api.php" afterPath="$PROJECT_DIR$/application/controllers/api.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/extra.php" afterPath="$PROJECT_DIR$/application/controllers/extra.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/leaves.php" afterPath="$PROJECT_DIR$/application/controllers/leaves.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/mobile.php" afterPath="$PROJECT_DIR$/application/controllers/mobile.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/overtime.php" afterPath="$PROJECT_DIR$/application/controllers/overtime.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/requests.php" afterPath="$PROJECT_DIR$/application/controllers/requests.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/contracts_model.php" afterPath="$PROJECT_DIR$/application/models/contracts_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/dayoffs_model.php" afterPath="$PROJECT_DIR$/application/models/dayoffs_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/delegations_model.php" afterPath="$PROJECT_DIR$/application/models/delegations_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/entitleddays_model.php" afterPath="$PROJECT_DIR$/application/models/entitleddays_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/history_model.php" afterPath="$PROJECT_DIR$/application/models/history_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/leaves_model.php" afterPath="$PROJECT_DIR$/application/models/leaves_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/organization_model.php" afterPath="$PROJECT_DIR$/application/models/organization_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/overtime_model.php" afterPath="$PROJECT_DIR$/application/models/overtime_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/positions_model.php" afterPath="$PROJECT_DIR$/application/models/positions_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/roles_model.php" afterPath="$PROJECT_DIR$/application/models/roles_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/time_model.php" afterPath="$PROJECT_DIR$/application/models/time_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/types_model.php" afterPath="$PROJECT_DIR$/application/models/types_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/models/users_model.php" afterPath="$PROJECT_DIR$/application/models/users_model.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/third_party/OAuth2/Server.php" afterPath="$PROJECT_DIR$/application/third_party/OAuth2/Server.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/js/lms/leave.edit.js" afterPath="$PROJECT_DIR$/assets/js/lms/leave.edit.js" />
-    </list>
+    <list default="true" id="80a9760d-7df7-4804-a728-0e6630ae5c45" name="Default" comment="" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
